@@ -1,0 +1,746 @@
+{
+  "dataset": {
+    "rows": 5772,
+    "columns": 92,
+    "participants": 37,
+    "dictionary_columns": 83,
+    "undocumented_columns": [
+      "PID",
+      "date",
+      "host",
+      "pid",
+      "screen_time_so_far",
+      "session_id_combined",
+      "session_index",
+      "session_length_till_esm",
+      "temp_scaled"
+    ],
+    "duplicate_columns": {
+      "session_minutes x 60,000 = time_since_unlock (ms)": true,
+      "session_length_till_esm = time_since_unlock": true,
+      "screen_time_so_far / 60,000 = screen_time_minutes": true
+    },
+    "missing_pct": {
+      "app_at_prompt": 12.4,
+      "app_duration": 12.4,
+      "app_total_duration_session": 12.4,
+      "app_total_duration_today": 12.4,
+      "Category_L1": 12.4,
+      "package_name": 12.4,
+      "activity_name": 2.3,
+      "activity_type": 2.3
+    },
+    "missing_app_rows": 717,
+    "unique_sessions": 5549,
+    "sessions_with_multiple_checkins": 204
+  },
+  "target": {
+    "ibg_definition": "intention_behavior_gap = remaining_scaled - answer; remaining_scaled is log10(remaining minutes capped at ~128 + 1) rescaled linearly so its mean equals the mean answer and its maximum is 10",
+    "cap_minutes": 127.96108749999983,
+    "capped_pct": 1.0048510048510049,
+    "high_gap_n": 859,
+    "high_gap_pct": 14.882189882189884,
+    "stop_leaning_pct": 28.274428274428274,
+    "answer_10_pct": 29.365904365904367,
+    "answer_1_pct": 5.388080388080388,
+    "answer_mean": 7.1022176022176025,
+    "ibg_positive_pct": 41.63201663201663,
+    "remaining_minutes_median": 5.114341666666666,
+    "remaining_minutes_mean": 14.973124249249247,
+    "remaining_over_5min_pct": 51.42065142065142,
+    "remaining_over_60min_pct": 5.197505197505198,
+    "remaining_max_minutes": 646.5696833333334
+  },
+  "participants": {
+    "checkins_min": 72,
+    "checkins_median": 155.0,
+    "checkins_max": 294,
+    "active_days_median": 17.0,
+    "span_days_min": 13.218759386574074,
+    "span_days_median": 18.503261516203704,
+    "span_days_max": 30.91474042824074,
+    "window_start": "2025-07-02",
+    "window_end": "2025-10-06",
+    "timezones": {
+      "America/New_York": 3503,
+      "America/Chicago": 1798,
+      "America/Los_Angeles": 250,
+      "America/Denver": 127,
+      "America/Phoenix": 94
+    },
+    "age_mean": 42.08108108108108,
+    "age_sd": 13.348696104402395,
+    "age_min": 18.0,
+    "age_max": 64.0,
+    "gender_code_counts": {
+      "0": 22,
+      "1": 15
+    },
+    "employment": {
+      "Employment_full_time": 19,
+      "Employment_part_time": 9,
+      "Employment_student": 6,
+      "Employment_self_employed": 2,
+      "Employment_retired": 2,
+      "Employment_homemaker": 1,
+      "Employment_others": 2
+    },
+    "session_index_monotonic_participants": 35
+  },
+  "by_answer": {
+    "definition": "per stated intention: check-ins, share of all check-ins, % followed by more than 5 more minutes of use, median further minutes",
+    "rows": [
+      {
+        "answer": 1,
+        "n": 311,
+        "share_pct": 5.4,
+        "over5_pct": 26.7,
+        "median_min": 1.3
+      },
+      {
+        "answer": 2,
+        "n": 193,
+        "share_pct": 3.3,
+        "over5_pct": 50.3,
+        "median_min": 5.1
+      },
+      {
+        "answer": 3,
+        "n": 334,
+        "share_pct": 5.8,
+        "over5_pct": 64.1,
+        "median_min": 12.0
+      },
+      {
+        "answer": 4,
+        "n": 430,
+        "share_pct": 7.4,
+        "over5_pct": 61.9,
+        "median_min": 9.6
+      },
+      {
+        "answer": 5,
+        "n": 364,
+        "share_pct": 6.3,
+        "over5_pct": 54.7,
+        "median_min": 6.2
+      },
+      {
+        "answer": 6,
+        "n": 527,
+        "share_pct": 9.1,
+        "over5_pct": 46.9,
+        "median_min": 4.6
+      },
+      {
+        "answer": 7,
+        "n": 491,
+        "share_pct": 8.5,
+        "over5_pct": 45.0,
+        "median_min": 3.9
+      },
+      {
+        "answer": 8,
+        "n": 637,
+        "share_pct": 11.0,
+        "over5_pct": 47.3,
+        "median_min": 4.4
+      },
+      {
+        "answer": 9,
+        "n": 790,
+        "share_pct": 13.7,
+        "over5_pct": 50.6,
+        "median_min": 5.1
+      },
+      {
+        "answer": 10,
+        "n": 1695,
+        "share_pct": 29.4,
+        "over5_pct": 55.5,
+        "median_min": 5.9
+      }
+    ],
+    "stop_leaning_over5_pct": 52.63480392156863,
+    "continue_leaning_over5_pct": 50.94202898550725
+  },
+  "time": {
+    "by_hour": [
+      {
+        "esm_hour": 0,
+        "sum": 33,
+        "size": 112,
+        "pct": 29.46,
+        "ci_lo": 21.82,
+        "ci_hi": 38.48
+      },
+      {
+        "esm_hour": 1,
+        "sum": 18,
+        "size": 66,
+        "pct": 27.27,
+        "ci_lo": 18.0,
+        "ci_hi": 39.04
+      },
+      {
+        "esm_hour": 2,
+        "sum": 19,
+        "size": 47,
+        "pct": 40.43,
+        "ci_lo": 27.64,
+        "ci_hi": 54.66
+      },
+      {
+        "esm_hour": 3,
+        "sum": 22,
+        "size": 49,
+        "pct": 44.9,
+        "ci_lo": 31.85,
+        "ci_hi": 58.69
+      },
+      {
+        "esm_hour": 4,
+        "sum": 20,
+        "size": 58,
+        "pct": 34.48,
+        "ci_lo": 23.56,
+        "ci_hi": 47.33
+      },
+      {
+        "esm_hour": 5,
+        "sum": 21,
+        "size": 63,
+        "pct": 33.33,
+        "ci_lo": 22.95,
+        "ci_hi": 45.63
+      },
+      {
+        "esm_hour": 6,
+        "sum": 24,
+        "size": 122,
+        "pct": 19.67,
+        "ci_lo": 13.59,
+        "ci_hi": 27.6
+      },
+      {
+        "esm_hour": 7,
+        "sum": 43,
+        "size": 198,
+        "pct": 21.72,
+        "ci_lo": 16.54,
+        "ci_hi": 27.97
+      },
+      {
+        "esm_hour": 8,
+        "sum": 32,
+        "size": 315,
+        "pct": 10.16,
+        "ci_lo": 7.29,
+        "ci_hi": 13.99
+      },
+      {
+        "esm_hour": 9,
+        "sum": 56,
+        "size": 389,
+        "pct": 14.4,
+        "ci_lo": 11.26,
+        "ci_hi": 18.23
+      },
+      {
+        "esm_hour": 10,
+        "sum": 55,
+        "size": 440,
+        "pct": 12.5,
+        "ci_lo": 9.73,
+        "ci_hi": 15.92
+      },
+      {
+        "esm_hour": 11,
+        "sum": 42,
+        "size": 434,
+        "pct": 9.68,
+        "ci_lo": 7.24,
+        "ci_hi": 12.82
+      },
+      {
+        "esm_hour": 12,
+        "sum": 52,
+        "size": 456,
+        "pct": 11.4,
+        "ci_lo": 8.8,
+        "ci_hi": 14.65
+      },
+      {
+        "esm_hour": 13,
+        "sum": 47,
+        "size": 435,
+        "pct": 10.8,
+        "ci_lo": 8.22,
+        "ci_hi": 14.07
+      },
+      {
+        "esm_hour": 14,
+        "sum": 44,
+        "size": 375,
+        "pct": 11.73,
+        "ci_lo": 8.86,
+        "ci_hi": 15.39
+      },
+      {
+        "esm_hour": 15,
+        "sum": 54,
+        "size": 358,
+        "pct": 15.08,
+        "ci_lo": 11.75,
+        "ci_hi": 19.16
+      },
+      {
+        "esm_hour": 16,
+        "sum": 46,
+        "size": 320,
+        "pct": 14.37,
+        "ci_lo": 10.95,
+        "ci_hi": 18.64
+      },
+      {
+        "esm_hour": 17,
+        "sum": 46,
+        "size": 299,
+        "pct": 15.38,
+        "ci_lo": 11.74,
+        "ci_hi": 19.91
+      },
+      {
+        "esm_hour": 18,
+        "sum": 42,
+        "size": 275,
+        "pct": 15.27,
+        "ci_lo": 11.5,
+        "ci_hi": 20.0
+      },
+      {
+        "esm_hour": 19,
+        "sum": 39,
+        "size": 245,
+        "pct": 15.92,
+        "ci_lo": 11.87,
+        "ci_hi": 21.02
+      },
+      {
+        "esm_hour": 20,
+        "sum": 33,
+        "size": 240,
+        "pct": 13.75,
+        "ci_lo": 9.96,
+        "ci_hi": 18.68
+      },
+      {
+        "esm_hour": 21,
+        "sum": 31,
+        "size": 227,
+        "pct": 13.66,
+        "ci_lo": 9.79,
+        "ci_hi": 18.73
+      },
+      {
+        "esm_hour": 22,
+        "sum": 26,
+        "size": 154,
+        "pct": 16.88,
+        "ci_lo": 11.79,
+        "ci_hi": 23.59
+      },
+      {
+        "esm_hour": 23,
+        "sum": 14,
+        "size": 95,
+        "pct": 14.74,
+        "ci_lo": 8.99,
+        "ci_hi": 23.23
+      }
+    ],
+    "by_period": [
+      {
+        "esm_time_period": "afternoon",
+        "n": 2243,
+        "high_gap_pct": 12.88,
+        "mean_ibg": -0.29,
+        "mean_answer": 7.34
+      },
+      {
+        "esm_time_period": "evening",
+        "n": 987,
+        "high_gap_pct": 14.69,
+        "mean_ibg": -0.03,
+        "mean_answer": 7.25
+      },
+      {
+        "esm_time_period": "morning",
+        "n": 1898,
+        "high_gap_pct": 13.28,
+        "mean_ibg": 0.01,
+        "mean_answer": 7.01
+      },
+      {
+        "esm_time_period": "night",
+        "n": 644,
+        "high_gap_pct": 26.86,
+        "mean_ibg": 1.02,
+        "mean_answer": 6.34
+      }
+    ],
+    "by_weekend": [
+      {
+        "esm_is_weekend": 0,
+        "n": 4176,
+        "high_gap_pct": 14.7
+      },
+      {
+        "esm_is_weekend": 1,
+        "n": 1596,
+        "high_gap_pct": 15.35
+      }
+    ],
+    "peak_hour": 3,
+    "peak_pct": 44.89795918367347,
+    "peak_n": 49,
+    "hours_0_5_pct": 33.67088607594937,
+    "hours_0_5_n": 395,
+    "daytime_9_17_pct": 12.606959498003423,
+    "hour_n_min": 47,
+    "hour_n_max": 456
+  },
+  "app_category": [
+    {
+      "cat": "System tool",
+      "n": 137,
+      "k": 6,
+      "mean_ibg": -1.0,
+      "mean_answer": 7.97,
+      "pct": 4.38
+    },
+    {
+      "cat": "Message",
+      "n": 964,
+      "k": 102,
+      "mean_ibg": -0.05,
+      "mean_answer": 6.83,
+      "pct": 10.58
+    },
+    {
+      "cat": "Work & Study",
+      "n": 676,
+      "k": 77,
+      "mean_ibg": -0.48,
+      "mean_answer": 7.64,
+      "pct": 11.39
+    },
+    {
+      "cat": "Daily Life",
+      "n": 408,
+      "k": 56,
+      "mean_ibg": -0.18,
+      "mean_answer": 7.18,
+      "pct": 13.73
+    },
+    {
+      "cat": "To exclude",
+      "n": 1003,
+      "k": 139,
+      "mean_ibg": -0.12,
+      "mean_answer": 7.01,
+      "pct": 13.86
+    },
+    {
+      "cat": "Game",
+      "n": 93,
+      "k": 13,
+      "mean_ibg": -0.22,
+      "mean_answer": 7.82,
+      "pct": 13.98
+    },
+    {
+      "cat": "None",
+      "n": 717,
+      "k": 102,
+      "mean_ibg": -0.2,
+      "mean_answer": 7.31,
+      "pct": 14.23
+    },
+    {
+      "cat": "Browser",
+      "n": 470,
+      "k": 76,
+      "mean_ibg": -0.09,
+      "mean_answer": 7.34,
+      "pct": 16.17
+    },
+    {
+      "cat": "Media",
+      "n": 396,
+      "k": 73,
+      "mean_ibg": 0.32,
+      "mean_answer": 6.97,
+      "pct": 18.43
+    },
+    {
+      "cat": "Social",
+      "n": 908,
+      "k": 215,
+      "mean_ibg": 0.86,
+      "mean_answer": 6.62,
+      "pct": 23.68
+    }
+  ],
+  "screen_time": {
+    "participant_days": 645,
+    "median_hours_all": 3.711887222222222,
+    "median_hours_by_band": {
+      "18–29": 2.9947802777777777,
+      "30–44": 3.6043161111111113,
+      "45–64": 4.575012222222223
+    },
+    "people_per_band": {
+      "18–29": 8,
+      "30–44": 15,
+      "45–64": 14
+    },
+    "note": "lower bound: cumulative screen time at each day's last check-in (4 am day boundary)"
+  },
+  "elapsed": [
+    {
+      "elapsed_bin": "<0.5",
+      "sum": 311,
+      "size": 2316,
+      "pct": 13.43
+    },
+    {
+      "elapsed_bin": "0.5–1",
+      "sum": 80,
+      "size": 666,
+      "pct": 12.01
+    },
+    {
+      "elapsed_bin": "1–2",
+      "sum": 130,
+      "size": 927,
+      "pct": 14.02
+    },
+    {
+      "elapsed_bin": "2–5",
+      "sum": 131,
+      "size": 852,
+      "pct": 15.38
+    },
+    {
+      "elapsed_bin": "5–10",
+      "sum": 136,
+      "size": 683,
+      "pct": 19.91
+    },
+    {
+      "elapsed_bin": "10+",
+      "sum": 71,
+      "size": 328,
+      "pct": 21.65
+    }
+  ],
+  "breakdowns": {
+    "age": [
+      {
+        "age_band": "18–29",
+        "n": 1313,
+        "people": 8,
+        "high_gap_pct": 12.95,
+        "mean_ibg": 0.52,
+        "mean_answer": 6.24,
+        "median_remaining_min": 2.88
+      },
+      {
+        "age_band": "30–44",
+        "n": 2218,
+        "people": 15,
+        "high_gap_pct": 10.87,
+        "mean_ibg": -0.03,
+        "mean_answer": 6.95,
+        "median_remaining_min": 3.9
+      },
+      {
+        "age_band": "45–64",
+        "n": 2241,
+        "people": 14,
+        "high_gap_pct": 19.99,
+        "mean_ibg": -0.27,
+        "mean_answer": 7.76,
+        "median_remaining_min": 9.74
+      }
+    ],
+    "gender": [
+      {
+        "gender": "female (code 0)",
+        "n": 3394,
+        "people": 22,
+        "high_gap_pct": 19.65,
+        "mean_ibg": 0.56,
+        "mean_answer": 6.76,
+        "median_remaining_min": 7.54
+      },
+      {
+        "gender": "male (code 1)",
+        "n": 2378,
+        "people": 15,
+        "high_gap_pct": 8.07,
+        "mean_ibg": -0.79,
+        "mean_answer": 7.59,
+        "median_remaining_min": 3.35
+      }
+    ],
+    "activity": [
+      {
+        "activity": "in_vehicle",
+        "n": 27,
+        "people": 10,
+        "high_gap_pct": 0.0,
+        "mean_ibg": -1.66,
+        "mean_answer": 8.56,
+        "median_remaining_min": 2.79
+      },
+      {
+        "activity": "on_bicycle",
+        "n": 4,
+        "people": 3,
+        "high_gap_pct": 25.0,
+        "mean_ibg": -0.81,
+        "mean_answer": 7.25,
+        "median_remaining_min": 3.95
+      },
+      {
+        "activity": "running",
+        "n": 6,
+        "people": 3,
+        "high_gap_pct": 0.0,
+        "mean_ibg": -1.91,
+        "mean_answer": 9.5,
+        "median_remaining_min": 14.12
+      },
+      {
+        "activity": "still",
+        "n": 5157,
+        "people": 37,
+        "high_gap_pct": 15.38,
+        "mean_ibg": 0.03,
+        "mean_answer": 7.12,
+        "median_remaining_min": 5.39
+      },
+      {
+        "activity": "unknown",
+        "n": 131,
+        "people": 28,
+        "high_gap_pct": 25.95,
+        "mean_ibg": 1.1,
+        "mean_answer": 5.92,
+        "median_remaining_min": 4.41
+      },
+      {
+        "activity": "walking",
+        "n": 447,
+        "people": 33,
+        "high_gap_pct": 6.94,
+        "mean_ibg": -0.52,
+        "mean_answer": 7.16,
+        "median_remaining_min": 2.56
+      }
+    ]
+  },
+  "person": {
+    "icc": {
+      "ibg": 0.4359797239117535,
+      "intention": 0.44520317649208974,
+      "remaining_log": 0.2701024780926983,
+      "high_gap": 0.3817356436978419
+    },
+    "pp_high_gap_min": 0.0,
+    "pp_high_gap_q1": 1.6129032258064515,
+    "pp_high_gap_median": 7.000000000000001,
+    "pp_high_gap_q3": 16.097560975609756,
+    "pp_high_gap_max": 97.24137931034483,
+    "pp_zero_high_gap": 3,
+    "raters_mostly_10": 11,
+    "max_share_10": 0.8904761904761904
+  },
+  "leakage": {
+    "targets": [
+      "answer",
+      "remaining_scaled",
+      "intention_behavior_gap"
+    ],
+    "derived from the outcome / future": [
+      "remaining_time",
+      "remaining_minutes",
+      "remaining_capped",
+      "remaining_log",
+      "temp_scaled",
+      "lock_time"
+    ],
+    "identifiers (grouping only)": [
+      "pid",
+      "PID",
+      "host",
+      "esm_id_full",
+      "session_id_combined",
+      "app_at_prompt",
+      "package_name"
+    ],
+    "timestamps (ordering only)": [
+      "date",
+      "date_4am",
+      "unlock_time",
+      "esm_time",
+      "esm_local",
+      "unlock_local",
+      "timezone"
+    ],
+    "exact duplicates (keep one)": [
+      "session_length_till_esm",
+      "time_since_unlock (= session_minutes)",
+      "screen_time_so_far (= screen_time_minutes)"
+    ]
+  },
+  "quality_table": [
+    {
+      "issue": "App fields missing",
+      "evidence": "12.4% of check-ins (717)",
+      "handling": "Keep as an explicit 'app not recorded' category; add a missingness flag"
+    },
+    {
+      "issue": "Activity missing",
+      "evidence": "2.3%",
+      "handling": "'unknown' category"
+    },
+    {
+      "issue": "Class imbalance",
+      "evidence": "high-gap = 14.9% of check-ins",
+      "handling": "PR-AUC / F1, class weights; never accuracy"
+    },
+    {
+      "issue": "Self-report bias",
+      "evidence": "11 people answer '10' to >50% of prompts",
+      "handling": "Per-person standardisation; personal models"
+    },
+    {
+      "issue": "Skewed outcome",
+      "evidence": "remaining time median 5.1 min, max 647 min",
+      "handling": "Log transform + 128-min cap (as released)"
+    },
+    {
+      "issue": "Undocumented columns",
+      "evidence": "9 of 92",
+      "handling": "Audited; temp_scaled is outcome-derived (excluded)"
+    },
+    {
+      "issue": "Small, US-only sample",
+      "evidence": "37 adults, 5 US time zones",
+      "handling": "Participant-level splits; report CIs; state transfer limits"
+    }
+  ]
+}
