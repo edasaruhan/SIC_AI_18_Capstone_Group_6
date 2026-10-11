@@ -10,7 +10,7 @@ NudgeWell predicts the **intention–behavior gap** within a single phone sessio
 | # | Homework | Due | Start here | Also in the folder |
 |---|---|---|---|---|
 | 1 | **Idea Proposal** | 24 Sep 2026 | [1-page proposal (PDF)](deliverables/01_idea_proposal/NudgeWell_Group6_Idea_Proposal_1page.pdf) | Pitch deck in English and Turkish (PDF and PPTX), speaker notes, the proposal as a Word file |
-| 2 | **Literature, Data & Technology Review** | 12 Oct 2026 | [Report (PDF, 19 pages)](deliverables/02_literature_data_technology_review/NudgeWell_Group6_Literature_Data_Technology_Review.pdf) | [Interactive supplement](https://raw.githack.com/edasaruhan/SIC_AI_18_Capstone_Group_6/main/deliverables/02_literature_data_technology_review/NudgeWell_Group6_Literature_Data_Technology_Review_Supplement.html) (opens in the browser) and its [PDF copy](deliverables/02_literature_data_technology_review/NudgeWell_Group6_Literature_Data_Technology_Review_Supplement.pdf); figures; analysis notebook; build sources |
+| 2 | **Literature, Data & Technology Review** | 12 Oct 2026 | [Report (PDF, 19 pages)](deliverables/02_literature_data_technology_review/NudgeWell_Group6_Literature_Data_Technology_Review.pdf) | [Interactive supplement](https://htmlpreview.github.io/?https://github.com/edasaruhan/SIC_AI_18_Capstone_Group_6/blob/main/deliverables/02_literature_data_technology_review/NudgeWell_Group6_Literature_Data_Technology_Review_Supplement.html) (opens in the browser) and its [PDF copy](deliverables/02_literature_data_technology_review/NudgeWell_Group6_Literature_Data_Technology_Review_Supplement.pdf); figures; analysis notebook; build sources |
 
 Each homework folder has its own README that lists every file.
 
