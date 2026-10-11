@@ -1,0 +1,13 @@
+# AwareMind data have no licence: never commit raw or processed data (see data/README.md)
+data/raw/
+data/processed/
+
+# Office lock files and OS files
+~$*
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Python and Jupyter
+__pycache__/
+.ipynb_checkpoints/
