@@ -11,6 +11,7 @@ NudgeWell predicts the **intention–behavior gap** within a single phone sessio
 |---|---|---|---|---|
 | 1 | **Idea Proposal** | 24 Sep 2026 | [1-page proposal (PDF)](deliverables/01_idea_proposal/NudgeWell_Group6_Idea_Proposal_1page.pdf) | Pitch deck in English and Turkish (PDF and PPTX), speaker notes, the proposal as a Word file |
 | 2 | **Literature, Data & Technology Review** | 12 Oct 2026 | [Report (PDF, 19 pages)](deliverables/02_literature_data_technology_review/NudgeWell_Group6_Literature_Data_Technology_Review.pdf) | [Interactive supplement](https://htmlpreview.github.io/?https://github.com/edasaruhan/SIC_AI_18_Capstone_Group_6/blob/main/deliverables/02_literature_data_technology_review/NudgeWell_Group6_Literature_Data_Technology_Review_Supplement.html) (opens in the browser) and its [PDF copy](deliverables/02_literature_data_technology_review/NudgeWell_Group6_Literature_Data_Technology_Review_Supplement.pdf); figures; analysis notebook; build sources |
+| 3 | **Concept Note & Implementation Plan** | 20 Oct 2026 | [Concept note and plan (PDF, 17 pages)](deliverables/03_concept_note_implementation_plan/NudgeWell_Group6_Concept_Note_Implementation_Plan.pdf) | The document as a Word file; architecture diagram and Gantt chart; build sources |
 
 Each homework folder has its own README that lists every file.
 
@@ -29,9 +30,12 @@ Each homework folder has its own README that lists every file.
 ```
 deliverables/
 ├── 01_idea_proposal/                       Homework 1
-└── 02_literature_data_technology_review/   Homework 2
-    ├── figures/                            the five figures in Part 2 of the report
-    └── build/                              report text, build scripts, statistics, citation log
+├── 02_literature_data_technology_review/   Homework 2
+│   ├── figures/                            the five figures in Part 2 of the report
+│   └── build/                              report text, build scripts, statistics, citation log
+└── 03_concept_note_implementation_plan/    Homework 3
+    ├── figures/                            architecture diagram and Gantt chart
+    └── build/                              document text, build and figure scripts, fixed-rule check
 notebooks/
 └── 01_awaremind_eda.ipynb                  analysis behind every statistic in Homework 2
 data/

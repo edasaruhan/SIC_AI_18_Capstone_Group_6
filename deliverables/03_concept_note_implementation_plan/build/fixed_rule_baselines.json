@@ -1,0 +1,39 @@
+{
+  "checkins": 5772,
+  "high_gap": 859,
+  "base_rate_pct": 14.9,
+  "checkins_per_participant_day_mean": 8.9,
+  "rules": [
+    {
+      "rule": "it is night (midnight to 6 am)",
+      "flagged_pct": 6.8,
+      "precision_pct": 33.7,
+      "recall_pct": 15.5
+    },
+    {
+      "rule": "a social-media app is open",
+      "flagged_pct": 15.7,
+      "precision_pct": 23.7,
+      "recall_pct": 25.0
+    },
+    {
+      "rule": "the session has lasted more than 10 minutes",
+      "flagged_pct": 5.7,
+      "precision_pct": 21.6,
+      "recall_pct": 8.3
+    },
+    {
+      "rule": "more than 3 hours of screen time today",
+      "flagged_pct": 31.6,
+      "precision_pct": 22.7,
+      "recall_pct": 48.2
+    },
+    {
+      "rule": "any of the first three",
+      "flagged_pct": 24.9,
+      "precision_pct": 25.1,
+      "recall_pct": 41.9
+    }
+  ],
+  "note": "Rates are over check-in moments, which AwareMind sampled within sessions; not over every minute of use."
+}
