@@ -1,0 +1,348 @@
+{
+ "synthetic_default": {
+  "rows": 5772,
+  "high_gap_rate": 0.14986139986139987,
+  "draft": {
+   "LR | draft features (incl. demographics)": {
+    "roc_auc": [
+     0.626137121618069,
+     0.04688523696656862
+    ],
+    "pr_auc": [
+     0.23672847785198653,
+     0.08700180638183694
+    ]
+   },
+   "RF | draft features (incl. demographics)": {
+    "roc_auc": [
+     0.626442796666183,
+     0.062080425391272634
+    ],
+    "pr_auc": [
+     0.23456102352389774,
+     0.07571521493093555
+    ]
+   },
+   "XGB | draft features (incl. demographics)": {
+    "roc_auc": [
+     0.55067977646251,
+     0.06909745026789245
+    ],
+    "pr_auc": [
+     0.19241476933945328,
+     0.06945045855488269
+    ]
+   },
+   "LGBM | draft features (incl. demographics)": {
+    "roc_auc": [
+     0.5473136012781288,
+     0.06661836731752599
+    ],
+    "pr_auc": [
+     0.19679370903583834,
+     0.06493509243696304
+    ]
+   },
+   "LR | draft features minus demographics": {
+    "roc_auc": [
+     0.613430439595697,
+     0.02160668647452382
+    ],
+    "pr_auc": [
+     0.23579502231277583,
+     0.09054777725660446
+    ]
+   },
+   "RF | draft features minus demographics": {
+    "roc_auc": [
+     0.6032009996285469,
+     0.02611916345846162
+    ],
+    "pr_auc": [
+     0.21723687718159254,
+     0.07196265425142868
+    ]
+   },
+   "XGB | draft features minus demographics": {
+    "roc_auc": [
+     0.576905808116517,
+     0.013200283046059058
+    ],
+    "pr_auc": [
+     0.20421973959966605,
+     0.055978236032331104
+    ]
+   },
+   "LGBM | draft features minus demographics": {
+    "roc_auc": [
+     0.5681910269972351,
+     0.014349995999436689
+    ],
+    "pr_auc": [
+     0.2010531357558245,
+     0.06157463816656264
+    ]
+   },
+   "personal RF (draft selection)": {
+    "n_people": 29,
+    "pr_auc_mean": 0.3392416129150265,
+    "test_prevalence_mean": 0.19993287183557218
+   }
+  },
+  "corrected_global": {
+   "LR": {
+    "roc_auc": 0.6092942605290779,
+    "pr_auc": 0.22078415659840203,
+    "within_roc_auc": 0.6103079540192486
+   },
+   "RF": {
+    "roc_auc": 0.6027161857956842,
+    "pr_auc": 0.20713588250621312,
+    "within_roc_auc": 0.6135257322989933
+   },
+   "XGB": {
+    "roc_auc": 0.5786326246214268,
+    "pr_auc": 0.2002799226106376,
+    "within_roc_auc": 0.58507853527068
+   },
+   "LGBM": {
+    "roc_auc": 0.5699325370975284,
+    "pr_auc": 0.19184464755225783,
+    "within_roc_auc": 0.5748619357308488
+   },
+   "Fixed rule (night, social or > 10 min)": {
+    "roc_auc": 0.5354882902919151,
+    "pr_auc": 0.16115358692237308,
+    "within_roc_auc": 0.5420557309369319
+   }
+  },
+  "corrected_personal": {
+   "Own base rate": {
+    "roc_auc": 0.7464284021424846,
+    "pr_auc": 0.3284151447657537,
+    "within_roc_auc": 0.5
+   },
+   "Global (zero-shot)": {
+    "roc_auc": 0.6010665023463051,
+    "pr_auc": 0.22881436405031672,
+    "within_roc_auc": 0.5654685793083225
+   },
+   "Global + personal intercept": {
+    "roc_auc": 0.7569701853344076,
+    "pr_auc": 0.37304490767102316,
+    "within_roc_auc": 0.5654685793083225
+   },
+   "Personal RF": {
+    "roc_auc": 0.7375515476134047,
+    "pr_auc": 0.33829291447214244,
+    "within_roc_auc": 0.5977694979517127
+   },
+   "Personal XGBoost": {
+    "roc_auc": 0.7094942408873299,
+    "pr_auc": 0.28366230797959757,
+    "within_roc_auc": 0.5366560023551497
+   },
+   "Combined RF": {
+    "roc_auc": 0.6618713561169834,
+    "pr_auc": 0.29624402747472495,
+    "within_roc_auc": 0.5770215912515546
+   }
+  },
+  "icc": {
+   "gap_continuous": 0.3385920018526752,
+   "answer": 0.3906854083344996,
+   "high_gap_binary": 0.09951018322948313
+  },
+  "night": {
+   "n": 349,
+   "rate": 0.2808022922636103,
+   "rest_rate": 0.14143463027844366
+  }
+ },
+ "synthetic_null": {
+  "rows": 5772,
+  "high_gap_rate": 0.14414414414414414,
+  "draft": {
+   "LR | draft features (incl. demographics)": {
+    "roc_auc": [
+     0.5329934329367635,
+     0.012285034838750167
+    ],
+    "pr_auc": [
+     0.16966683141688646,
+     0.011853790209448831
+    ]
+   },
+   "RF | draft features (incl. demographics)": {
+    "roc_auc": [
+     0.5003512449424021,
+     0.015516514335471635
+    ],
+    "pr_auc": [
+     0.1523706622188826,
+     0.012202561780996128
+    ]
+   },
+   "XGB | draft features (incl. demographics)": {
+    "roc_auc": [
+     0.5141981163219983,
+     0.014443497647587702
+    ],
+    "pr_auc": [
+     0.16260043020693998,
+     0.010497137009970287
+    ]
+   },
+   "LGBM | draft features (incl. demographics)": {
+    "roc_auc": [
+     0.505717627845373,
+     0.0127672271987224
+    ],
+    "pr_auc": [
+     0.15656288125515105,
+     0.011870490749904877
+    ]
+   },
+   "LR | draft features minus demographics": {
+    "roc_auc": [
+     0.5291841725640916,
+     0.010155053132792564
+    ],
+    "pr_auc": [
+     0.1646168101803017,
+     0.01373719612352637
+    ]
+   },
+   "RF | draft features minus demographics": {
+    "roc_auc": [
+     0.49998548687815597,
+     0.02498641150460154
+    ],
+    "pr_auc": [
+     0.14956083779730492,
+     0.010173563496886338
+    ]
+   },
+   "XGB | draft features minus demographics": {
+    "roc_auc": [
+     0.5019060062398457,
+     0.023520506684052363
+    ],
+    "pr_auc": [
+     0.1513529562371768,
+     0.017315843177915305
+    ]
+   },
+   "LGBM | draft features minus demographics": {
+    "roc_auc": [
+     0.49103580453984536,
+     0.01103564674489369
+    ],
+    "pr_auc": [
+     0.14471851625125792,
+     0.008552109181473883
+    ]
+   },
+   "personal RF (draft selection)": {
+    "n_people": 37,
+    "pr_auc_mean": 0.23135819936598792,
+    "test_prevalence_mean": 0.16831141329319044
+   }
+  },
+  "corrected_global": {
+   "LR": {
+    "roc_auc": 0.5207789142790408,
+    "pr_auc": 0.15548258834403852,
+    "within_roc_auc": 0.5248993349938942
+   },
+   "RF": {
+    "roc_auc": 0.500688307770165,
+    "pr_auc": 0.14824252166809376,
+    "within_roc_auc": 0.5057685901343989
+   },
+   "XGB": {
+    "roc_auc": 0.5115388264948615,
+    "pr_auc": 0.15391378836181174,
+    "within_roc_auc": 0.518066609723258
+   },
+   "LGBM": {
+    "roc_auc": 0.5113509956010588,
+    "pr_auc": 0.15294287280548285,
+    "within_roc_auc": 0.5144151832748126
+   },
+   "Fixed rule (night, social or > 10 min)": {
+    "roc_auc": 0.4979251012145749,
+    "pr_auc": 0.14363965145215143,
+    "within_roc_auc": 0.49594546368337766
+   }
+  },
+  "corrected_personal": {
+   "Own base rate": {
+    "roc_auc": 0.5011015571526352,
+    "pr_auc": 0.1638821761253762,
+    "within_roc_auc": 0.5
+   },
+   "Global (zero-shot)": {
+    "roc_auc": 0.5168929196136589,
+    "pr_auc": 0.18147400630881658,
+    "within_roc_auc": 0.5221960686098808
+   },
+   "Global + personal intercept": {
+    "roc_auc": 0.5126601832838998,
+    "pr_auc": 0.1644056742449545,
+    "within_roc_auc": 0.5221960686098808
+   },
+   "Personal RF": {
+    "roc_auc": 0.4817238953532588,
+    "pr_auc": 0.15888154749489897,
+    "within_roc_auc": 0.48137868808549134
+   },
+   "Personal XGBoost": {
+    "roc_auc": 0.49262538976348014,
+    "pr_auc": 0.15942138091759167,
+    "within_roc_auc": 0.49142463305179146
+   },
+   "Combined RF": {
+    "roc_auc": 0.5183331432048064,
+    "pr_auc": 0.17342940376922505,
+    "within_roc_auc": 0.5196117615299886
+   }
+  },
+  "icc": {
+   "gap_continuous": 0.0005194854342565593,
+   "answer": -0.0003179192972491695,
+   "high_gap_binary": 6.722968703000234e-05
+  },
+  "night": {
+   "n": 357,
+   "rate": 0.12605042016806722,
+   "rest_rate": 0.14533702677746999
+  }
+ },
+ "sim_to_real": {
+  "LR": {
+   "roc_auc": 0.5635672299925496,
+   "pr_auc": 0.16531954142013822,
+   "within_roc_auc": 0.6003972540928527,
+   "within_n": 34
+  },
+  "RF": {
+   "roc_auc": 0.6087996522787149,
+   "pr_auc": 0.17712969001027198,
+   "within_roc_auc": 0.6105336161959263,
+   "within_n": 34
+  },
+  "XGB": {
+   "roc_auc": 0.5847407496094661,
+   "pr_auc": 0.1847491561796452,
+   "within_roc_auc": 0.5771924183153252,
+   "within_n": 34
+  },
+  "LGBM": {
+   "roc_auc": 0.5900012540209529,
+   "pr_auc": 0.17141478598587526,
+   "within_roc_auc": 0.561738530140337,
+   "within_n": 34
+  }
+ }
+}

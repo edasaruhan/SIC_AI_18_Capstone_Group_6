@@ -1,0 +1,972 @@
+{
+ "data": {
+  "rows_released": 5772,
+  "rows_unique": 5627,
+  "duplicate_rows": 145,
+  "duplicate_people": 1,
+  "participants": 37,
+  "sessions": 5549,
+  "rows_per_person": [
+   72,
+   148.0,
+   294
+  ],
+  "days_per_person": [
+   14,
+   19.0,
+   32
+  ],
+  "date_range": [
+   "2025-07-02",
+   "2025-10-06"
+  ],
+  "high_gap_n": 718,
+  "high_gap_rate": 0.12759907588413008,
+  "high_gap_rate_released": 0.14882189882189883,
+  "answer_10_share": 0.3012262306735383,
+  "answer_le5_share": 0.26461702505775725,
+  "remaining_median_min": 5.0227,
+  "remaining_max_min": 646.5696833333334,
+  "remaining_over_128_share": 0.009418873289497068,
+  "night": {
+   "n": 375,
+   "rate": 0.304,
+   "rest_rate": 0.115003808073115
+  },
+  "paper_night_22_06_rate": 0.24437299035369775,
+  "afternoon_12_18_rate": 0.10740402193784278,
+  "hourly": {
+   "0": {
+    "k": 30,
+    "n": 109,
+    "ci": [
+     0.2001190236455971,
+     0.3656439573826762
+    ]
+   },
+   "1": {
+    "k": 17,
+    "n": 65,
+    "ci": [
+     0.17018055060319132,
+     0.3795103339782245
+    ]
+   },
+   "2": {
+    "k": 18,
+    "n": 46,
+    "ci": [
+     0.2639302235524884,
+     0.5354341628235508
+    ]
+   },
+   "3": {
+    "k": 18,
+    "n": 45,
+    "ci": [
+     0.27024679447957545,
+     0.5454840579085527
+    ]
+   },
+   "4": {
+    "k": 17,
+    "n": 54,
+    "ci": [
+     0.2067911428909822,
+     0.44743695591679633
+    ]
+   },
+   "5": {
+    "k": 14,
+    "n": 56,
+    "ci": [
+     0.15516915222973843,
+     0.37692892001431927
+    ]
+   },
+   "6": {
+    "k": 17,
+    "n": 115,
+    "ci": [
+     0.0943894011574522,
+     0.2240310845983774
+    ]
+   },
+   "7": {
+    "k": 35,
+    "n": 190,
+    "ci": [
+     0.1355381097568369,
+     0.24539972814792654
+    ]
+   },
+   "8": {
+    "k": 26,
+    "n": 309,
+    "ci": [
+     0.05806597643341675,
+     0.12043202383253256
+    ]
+   },
+   "9": {
+    "k": 46,
+    "n": 378,
+    "ci": [
+     0.09248682008444495,
+     0.15851149963765973
+    ]
+   },
+   "10": {
+    "k": 46,
+    "n": 431,
+    "ci": [
+     0.08097398117043106,
+     0.1394317941739702
+    ]
+   },
+   "11": {
+    "k": 35,
+    "n": 427,
+    "ci": [
+     0.05952500959881689,
+     0.11186419701447207
+    ]
+   },
+   "12": {
+    "k": 41,
+    "n": 445,
+    "ci": [
+     0.06864228053086471,
+     0.12260915427375232
+    ]
+   },
+   "13": {
+    "k": 40,
+    "n": 428,
+    "ci": [
+     0.06938391085037422,
+     0.12476505488150523
+    ]
+   },
+   "14": {
+    "k": 37,
+    "n": 367,
+    "ci": [
+     0.07403030764194202,
+     0.1358749457061182
+    ]
+   },
+   "15": {
+    "k": 44,
+    "n": 348,
+    "ci": [
+     0.09554991180907343,
+     0.16548118854972435
+    ]
+   },
+   "16": {
+    "k": 37,
+    "n": 311,
+    "ci": [
+     0.08755699370852674,
+     0.15968352342770942
+    ]
+   },
+   "17": {
+    "k": 36,
+    "n": 289,
+    "ci": [
+     0.09135045114916455,
+     0.16763461108243094
+    ]
+   },
+   "18": {
+    "k": 37,
+    "n": 270,
+    "ci": [
+     0.1010811848347639,
+     0.18317657585608804
+    ]
+   },
+   "19": {
+    "k": 35,
+    "n": 241,
+    "ci": [
+     0.10631191860033437,
+     0.19527735381088987
+    ]
+   },
+   "20": {
+    "k": 26,
+    "n": 233,
+    "ci": [
+     0.0772963133527788,
+     0.1584798340807802
+    ]
+   },
+   "21": {
+    "k": 28,
+    "n": 223,
+    "ci": [
+     0.08831723122220435,
+     0.17548623339804165
+    ]
+   },
+   "22": {
+    "k": 25,
+    "n": 153,
+    "ci": [
+     0.11319476938675144,
+     0.23009170563008086
+    ]
+   },
+   "23": {
+    "k": 13,
+    "n": 94,
+    "ci": [
+     0.08263699831631924,
+     0.22236210227075212
+    ]
+   }
+  },
+  "categories": {
+   "Browser": {
+    "k": 65,
+    "n": 459
+   },
+   "Daily Life": {
+    "k": 46,
+    "n": 398
+   },
+   "Game": {
+    "k": 13,
+    "n": 93
+   },
+   "Media": {
+    "k": 70,
+    "n": 393
+   },
+   "Message": {
+    "k": 89,
+    "n": 951
+   },
+   "Not recorded": {
+    "k": 89,
+    "n": 703
+   },
+   "Social": {
+    "k": 172,
+    "n": 863
+   },
+   "System tool": {
+    "k": 5,
+    "n": 136
+   },
+   "To exclude": {
+    "k": 113,
+    "n": 976
+   },
+   "Work & Study": {
+    "k": 56,
+    "n": 655
+   }
+  },
+  "icc": {
+   "gap_continuous": 0.3868178921214436,
+   "answer": 0.41957475621224083,
+   "high_gap_binary": 0.282134540447576
+  },
+  "per_person_rate": [
+   0.0,
+   0.0,
+   0.0,
+   0.0064516129032258064,
+   0.007518796992481203,
+   0.007874015748031496,
+   0.008547008547008548,
+   0.011299435028248588,
+   0.015625,
+   0.016129032258064516,
+   0.027777777777777776,
+   0.03278688524590164,
+   0.03669724770642202,
+   0.037037037037037035,
+   0.048484848484848485,
+   0.05142857142857143,
+   0.06201550387596899,
+   0.06293706293706294,
+   0.07,
+   0.07006369426751592,
+   0.07432432432432433,
+   0.08064516129032258,
+   0.1073170731707317,
+   0.11578947368421053,
+   0.11650485436893204,
+   0.13157894736842105,
+   0.13986013986013987,
+   0.16097560975609757,
+   0.1695906432748538,
+   0.211340206185567,
+   0.2703862660944206,
+   0.2802547770700637,
+   0.30097087378640774,
+   0.3274336283185841,
+   0.40425531914893614,
+   0.5205479452054794,
+   0.9724137931034482
+  ],
+  "per_person_n": [
+   294,
+   81,
+   210,
+   155,
+   133,
+   127,
+   117,
+   177,
+   128,
+   186,
+   72,
+   122,
+   109,
+   162,
+   165,
+   175,
+   129,
+   143,
+   200,
+   157,
+   148,
+   186,
+   205,
+   95,
+   103,
+   114,
+   143,
+   205,
+   171,
+   194,
+   233,
+   157,
+   206,
+   113,
+   94,
+   73,
+   145
+  ],
+  "per_person_rate_median": 0.07,
+  "people_without_high_gap": 3,
+  "share_of_high_gap_top1_top3_top10": [
+   0.19637883008356546,
+   0.37047353760445684,
+   0.7325905292479109
+  ],
+  "top1_rows_and_rate": [
+   145,
+   0.9724137931034482
+  ],
+  "rate_without_top1": 0.10525355709595038,
+  "gender_rates": {
+   "women": 0.16189596799015082,
+   "men": 0.08074011774600505
+  },
+  "within_night": {
+   "mean": 0.18749083142848216,
+   "ci": [
+    0.08917487817275235,
+    0.3011883703297233
+   ],
+   "higher": 16,
+   "n": 22,
+   "wilcoxon_p": 0.0014710997703089304
+  },
+  "within_social": {
+   "mean": 0.03062677613065518,
+   "ci": [
+    -0.010555075299769174,
+    0.07803515712828271
+   ],
+   "higher": 11,
+   "n": 27,
+   "wilcoxon_p": 0.6070522480710051
+  },
+  "missing": {
+   "app_category": 703,
+   "app_durations": 700,
+   "activity": 127,
+   "interaction_cells": 0,
+   "zero_interaction_share": 0.2511107161897992
+  },
+  "median_taps_short_vs_long_sessions": [
+   2.0,
+   0.0
+  ],
+  "app_duration_exceeds_elapsed": {
+   "rows": 97,
+   "people": 3
+  },
+  "rules": {
+   "Night (00:00-05:59)": {
+    "flagged": 0.06664297138795094,
+    "precision": 0.304,
+    "recall": 0.15877437325905291
+   },
+   "Social-media app open": {
+    "flagged": 0.15336769148747112,
+    "precision": 0.1993047508690614,
+    "recall": 0.2395543175487465
+   },
+   "Session longer than 10 min": {
+    "flagged": 0.05615781055624667,
+    "precision": 0.18670886075949367,
+    "recall": 0.08217270194986072
+   },
+   "Screen time today over 3 h": {
+    "flagged": 0.30495823707126357,
+    "precision": 0.18006993006993008,
+    "recall": 0.43036211699164345
+   },
+   "Any of the first three": {
+    "flagged": 0.24435756175582016,
+    "precision": 0.21818181818181817,
+    "recall": 0.4178272980501393
+   }
+  }
+ },
+ "n_features": 49,
+ "features": [
+  "hour_sin",
+  "hour_cos",
+  "weekday_sin",
+  "weekday_cos",
+  "esm_is_weekend",
+  "esm_is_workday",
+  "time_period_morning",
+  "time_period_afternoon",
+  "time_period_evening",
+  "time_period_night",
+  "session_minutes",
+  "app_duration",
+  "app_total_duration_session",
+  "unique_apps_in_session",
+  "app_switches_in_session",
+  "screen_time_minutes",
+  "prev_session_count_today",
+  "prev_session_avg_duration_today",
+  "last_session_duration",
+  "interval_after_last_session",
+  "app_total_duration_today",
+  "unique_apps_today",
+  "app_switches_today",
+  "tap_count",
+  "text_edit_count",
+  "scroll_down_count",
+  "scroll_down_distance",
+  "scroll_up_count",
+  "scroll_up_distance",
+  "scroll_left_count",
+  "scroll_left_distance",
+  "scroll_right_count",
+  "scroll_right_distance",
+  "genre_Social",
+  "genre_Media",
+  "genre_Browser",
+  "genre_Game",
+  "genre_Message",
+  "genre_Work & Study",
+  "genre_Daily Life",
+  "genre_System tool",
+  "genre_To exclude",
+  "activity_still",
+  "activity_walking",
+  "activity_running",
+  "activity_on_bicycle",
+  "activity_in_vehicle",
+  "app_missing",
+  "activity_missing"
+ ],
+ "global": {
+  "LR": {
+   "roc_auc": 0.6160389279879886,
+   "pr_auc": 0.17754628993072075,
+   "brier": 0.2227232746266369,
+   "roc_auc_ci": [
+    0.5493320761319347,
+    0.6745214000194212
+   ],
+   "pr_auc_ci": [
+    0.1064546103335443,
+    0.28139747235490625
+   ],
+   "within_n": 34,
+   "within_roc_auc": 0.622879990875369,
+   "within_roc_auc_ci": [
+    0.5515484441874596,
+    0.683808996566486
+   ],
+   "within_pr_auc": 0.2526335993160429,
+   "within_prevalence": 0.1457900754779149,
+   "within_share_above_half": 0.7941176470588235
+  },
+  "RF": {
+   "roc_auc": 0.5983878737876142,
+   "pr_auc": 0.15633442085237464,
+   "brier": 0.19288680954176232,
+   "roc_auc_ci": [
+    0.5460721179701215,
+    0.6464147641116795
+   ],
+   "pr_auc_ci": [
+    0.09646299063946337,
+    0.2425883082690301
+   ],
+   "within_n": 34,
+   "within_roc_auc": 0.6298016846737522,
+   "within_roc_auc_ci": [
+    0.5757150996830737,
+    0.6774845029260144
+   ],
+   "within_pr_auc": 0.23567176230801964,
+   "within_prevalence": 0.1457900754779149,
+   "within_share_above_half": 0.7941176470588235
+  },
+  "XGB": {
+   "roc_auc": 0.5743082599125817,
+   "pr_auc": 0.15412111650709578,
+   "brier": 0.19720622448320038,
+   "roc_auc_ci": [
+    0.5233232371467952,
+    0.6262257186269682
+   ],
+   "pr_auc_ci": [
+    0.09684178799820213,
+    0.23707169552061672
+   ],
+   "within_n": 34,
+   "within_roc_auc": 0.6112647761214658,
+   "within_roc_auc_ci": [
+    0.5569505918057136,
+    0.6584922098874301
+   ],
+   "within_pr_auc": 0.2388960391082777,
+   "within_prevalence": 0.1457900754779149,
+   "within_share_above_half": 0.8529411764705882
+  },
+  "LGBM": {
+   "roc_auc": 0.5574049369840285,
+   "pr_auc": 0.15063462106974973,
+   "brier": 0.18820618675195294,
+   "roc_auc_ci": [
+    0.5021192840220324,
+    0.6166979425925344
+   ],
+   "pr_auc_ci": [
+    0.09538559523722123,
+    0.22831165293605937
+   ],
+   "within_n": 34,
+   "within_roc_auc": 0.6018576586308563,
+   "within_roc_auc_ci": [
+    0.5489927422034964,
+    0.6506849062273456
+   ],
+   "within_pr_auc": 0.23088707618514126,
+   "within_prevalence": 0.1457900754779149,
+   "within_share_above_half": 0.8529411764705882
+  },
+  "RF + demographics": {
+   "roc_auc": 0.557345356803007,
+   "pr_auc": 0.15473176941167838,
+   "brier": 0.17574484046971545,
+   "roc_auc_ci": [
+    0.49152737398536583,
+    0.6434959793386992
+   ],
+   "pr_auc_ci": [
+    0.10395113345463189,
+    0.22199006236829394
+   ],
+   "within_n": 34,
+   "within_roc_auc": 0.6303231416601589,
+   "within_roc_auc_ci": [
+    0.566425901074465,
+    0.685322545934219
+   ],
+   "within_pr_auc": 0.24928118735198157,
+   "within_prevalence": 0.1457900754779149,
+   "within_share_above_half": 0.8235294117647058
+  },
+  "LR + demographics": {
+   "roc_auc": 0.5242462965243192,
+   "pr_auc": 0.14360738307313914,
+   "brier": 0.22253164210343204,
+   "roc_auc_ci": [
+    0.4345754023847885,
+    0.6128929111686354
+   ],
+   "pr_auc_ci": [
+    0.09599656519153336,
+    0.22822741815317144
+   ],
+   "within_n": 34,
+   "within_roc_auc": 0.6343489929525439,
+   "within_roc_auc_ci": [
+    0.5702197073242904,
+    0.690026500787172
+   ],
+   "within_pr_auc": 0.25289443583837934,
+   "within_prevalence": 0.1457900754779149,
+   "within_share_above_half": 0.8235294117647058
+  },
+  "Fixed rule (night, social or > 10 min)": {
+   "roc_auc": 0.5994208806404699,
+   "pr_auc": 0.16544701834834516,
+   "brier": 0.2653278834192287,
+   "roc_auc_ci": [
+    0.5518993391711949,
+    0.6453717922473591
+   ],
+   "pr_auc_ci": [
+    0.09823615729639265,
+    0.2415494724967578
+   ],
+   "within_n": 34,
+   "within_roc_auc": 0.5698903368167145,
+   "within_roc_auc_ci": [
+    0.5277689558384893,
+    0.6136424017323062
+   ],
+   "within_pr_auc": 0.18387550965520594,
+   "within_prevalence": 0.1457900754779149,
+   "within_share_above_half": 0.6764705882352942
+  }
+ },
+ "alert_rate": 0.24435756175582016,
+ "at_alert_rate": {
+  "LR": {
+   "tp": 247,
+   "fp": 1128,
+   "fn": 471,
+   "tn": 3781,
+   "flagged": 0.24435756175582016,
+   "precision": 0.17963636363636365,
+   "recall": 0.34401114206128136
+  },
+  "RF": {
+   "tp": 225,
+   "fp": 1150,
+   "fn": 493,
+   "tn": 3759,
+   "flagged": 0.24435756175582016,
+   "precision": 0.16363636363636364,
+   "recall": 0.31337047353760444
+  },
+  "XGB": {
+   "tp": 229,
+   "fp": 1146,
+   "fn": 489,
+   "tn": 3763,
+   "flagged": 0.24435756175582016,
+   "precision": 0.16654545454545455,
+   "recall": 0.318941504178273
+  },
+  "LGBM": {
+   "tp": 234,
+   "fp": 1141,
+   "fn": 484,
+   "tn": 3768,
+   "flagged": 0.24435756175582016,
+   "precision": 0.17018181818181818,
+   "recall": 0.32590529247910865
+  },
+  "RF + demographics": {
+   "tp": 230,
+   "fp": 1145,
+   "fn": 488,
+   "tn": 3764,
+   "flagged": 0.24435756175582016,
+   "precision": 0.16727272727272727,
+   "recall": 0.3203342618384401
+  },
+  "LR + demographics": {
+   "tp": 197,
+   "fp": 1178,
+   "fn": 521,
+   "tn": 3731,
+   "flagged": 0.24435756175582016,
+   "precision": 0.14327272727272727,
+   "recall": 0.2743732590529248
+  },
+  "Fixed rule": {
+   "tp": 300,
+   "fp": 1075,
+   "fn": 418,
+   "tn": 3834,
+   "flagged": 0.24435756175582016,
+   "precision": 0.21818181818181817,
+   "recall": 0.4178272980501393
+  }
+ },
+ "groupkfold5": {
+  "RF": {
+   "roc_auc": [
+    0.6192523050561445,
+    0.031246465268686744
+   ],
+   "pr_auc": [
+    0.18330209368480638,
+    0.06884916299099343
+   ]
+  },
+  "RF + demographics": {
+   "roc_auc": [
+    0.5766125498896976,
+    0.1014497607530514
+   ],
+   "pr_auc": [
+    0.17994495857125514,
+    0.05678749672762626
+   ]
+  }
+ },
+ "gini_share_demographics": 0.4746832842692285,
+ "gini_top3_with_demographics": {
+  "Age": 0.12,
+  "Education_encoded": 0.098,
+  "Employment_retired": 0.072
+ },
+ "personal": {
+  "n_test_rows": 1705,
+  "test_prevalence": 0.1284457478005865,
+  "approaches": {
+   "Own base rate": {
+    "roc_auc": 0.8270739996435529,
+    "pr_auc": 0.5069840599329345,
+    "brier": 0.08361987618261714,
+    "roc_auc_ci": [
+     0.7367695005613497,
+     0.899022400307566
+    ],
+    "pr_auc_ci": [
+     0.22496877356583536,
+     0.7316671945274069
+    ],
+    "within_n": 25,
+    "within_roc_auc": 0.5,
+    "within_roc_auc_ci": [
+     0.5,
+     0.5
+    ],
+    "within_pr_auc": 0.19945966536918852,
+    "within_prevalence": 0.19945966536918852,
+    "within_share_above_half": 0.0
+   },
+   "Global (zero-shot)": {
+    "roc_auc": 0.5979768555221643,
+    "pr_auc": 0.15197299153798652,
+    "brier": 0.19305007875259156,
+    "roc_auc_ci": [
+     0.5255841215583946,
+     0.6643119404576991
+    ],
+    "pr_auc_ci": [
+     0.08295687441117292,
+     0.2471273440679879
+    ],
+    "within_n": 25,
+    "within_roc_auc": 0.6022228314028291,
+    "within_roc_auc_ci": [
+     0.5299215232581096,
+     0.672093060592402
+    ],
+    "within_pr_auc": 0.31022376837737387,
+    "within_prevalence": 0.19945966536918852,
+    "within_share_above_half": 0.8
+   },
+   "Global + personal intercept": {
+    "roc_auc": 0.8370975374423077,
+    "pr_auc": 0.539566790072145,
+    "brier": 0.08243929648401291,
+    "roc_auc_ci": [
+     0.7548325675623037,
+     0.903957199596041
+    ],
+    "pr_auc_ci": [
+     0.25419773861899897,
+     0.7678405181877241
+    ],
+    "within_n": 25,
+    "within_roc_auc": 0.6022228314028291,
+    "within_roc_auc_ci": [
+     0.5299215232581096,
+     0.672093060592402
+    ],
+    "within_pr_auc": 0.31022376837737387,
+    "within_prevalence": 0.19945966536918852,
+    "within_share_above_half": 0.8
+   },
+   "Personal RF": {
+    "roc_auc": 0.8429251399669365,
+    "pr_auc": 0.5581092708500176,
+    "brier": 0.08564901974262909,
+    "roc_auc_ci": [
+     0.753756423551973,
+     0.9086798902680718
+    ],
+    "pr_auc_ci": [
+     0.2743759372436689,
+     0.7709254928050691
+    ],
+    "within_n": 25,
+    "within_roc_auc": 0.5872441029597577,
+    "within_roc_auc_ci": [
+     0.4936121705445383,
+     0.6767959256894934
+    ],
+    "within_pr_auc": 0.3616650314565725,
+    "within_prevalence": 0.19945966536918852,
+    "within_share_above_half": 0.68
+   },
+   "Personal XGBoost": {
+    "roc_auc": 0.8125795092092407,
+    "pr_auc": 0.3650504290175632,
+    "brier": 0.10869203274576587,
+    "roc_auc_ci": [
+     0.7370300820656253,
+     0.8711653624477965
+    ],
+    "pr_auc_ci": [
+     0.21747184741167966,
+     0.5303702113723066
+    ],
+    "within_n": 25,
+    "within_roc_auc": 0.6106290924948258,
+    "within_roc_auc_ci": [
+     0.5257895602482093,
+     0.6912714500623737
+    ],
+    "within_pr_auc": 0.37433098952322014,
+    "within_prevalence": 0.19945966536918852,
+    "within_share_above_half": 0.64
+   },
+   "Combined RF": {
+    "roc_auc": 0.7440064652126084,
+    "pr_auc": 0.40539086068982894,
+    "brier": 0.16988569075831522,
+    "roc_auc_ci": [
+     0.6347076387153654,
+     0.8330136506462901
+    ],
+    "pr_auc_ci": [
+     0.17740857597145152,
+     0.6255450381019917
+    ],
+    "within_n": 25,
+    "within_roc_auc": 0.6153625515668163,
+    "within_roc_auc_ci": [
+     0.5249837931665529,
+     0.7002881648883433
+    ],
+    "within_pr_auc": 0.3719162534702689,
+    "within_prevalence": 0.19945966536918852,
+    "within_share_above_half": 0.72
+   }
+  },
+  "random_within_pr_auc": 0.2602469942884027,
+  "personal_minus_global_within_roc": {
+   "mean": -0.014978728443071368,
+   "ci": [
+    -0.10268747322751964,
+    0.07035261213198583
+   ],
+   "wilcoxon_p": 0.5448913894371836,
+   "personal_better": 10,
+   "n": 25
+  },
+  "base_rate_stability_r": 0.8736253306581392
+ },
+ "permutation_importance_top15": [
+  {
+   "feature": "app_total_duration_session",
+   "group": "current session",
+   "auc_drop": 0.023252717775902765
+  },
+  {
+   "feature": "last_session_duration",
+   "group": "earlier use today",
+   "auc_drop": 0.011673413686368548
+  },
+  {
+   "feature": "time_period_night",
+   "group": "time",
+   "auc_drop": 0.009699576181855832
+  },
+  {
+   "feature": "hour_cos",
+   "group": "time",
+   "auc_drop": 0.006563462157352275
+  },
+  {
+   "feature": "app_duration",
+   "group": "current session",
+   "auc_drop": 0.006229869123875749
+  },
+  {
+   "feature": "interval_after_last_session",
+   "group": "earlier use today",
+   "auc_drop": 0.004569789245373181
+  },
+  {
+   "feature": "genre_Work & Study",
+   "group": "app and activity",
+   "auc_drop": 0.0035293324623350756
+  },
+  {
+   "feature": "screen_time_minutes",
+   "group": "earlier use today",
+   "auc_drop": 0.0033844685747372203
+  },
+  {
+   "feature": "app_total_duration_today",
+   "group": "earlier use today",
+   "auc_drop": 0.003299585430100742
+  },
+  {
+   "feature": "unique_apps_today",
+   "group": "earlier use today",
+   "auc_drop": 0.0025760686620940687
+  },
+  {
+   "feature": "session_minutes",
+   "group": "current session",
+   "auc_drop": 0.0022053476554397995
+  },
+  {
+   "feature": "tap_count",
+   "group": "recent interaction",
+   "auc_drop": 0.0009138158532662999
+  },
+  {
+   "feature": "app_switches_in_session",
+   "group": "current session",
+   "auc_drop": 0.0008047360242970968
+  },
+  {
+   "feature": "genre_System tool",
+   "group": "app and activity",
+   "auc_drop": 0.0007752986056469923
+  },
+  {
+   "feature": "prev_session_avg_duration_today",
+   "group": "earlier use today",
+   "auc_drop": 0.0007034888567405105
+  }
+ ],
+ "permutation_importance_by_group": {
+  "current session": 0.032583182825473664,
+  "earlier use today": 0.02359170357175449,
+  "time": 0.015066186799951505,
+  "app and activity": 0.0008940278306957118,
+  "recent interaction": -0.0080059992390898
+ }
+}

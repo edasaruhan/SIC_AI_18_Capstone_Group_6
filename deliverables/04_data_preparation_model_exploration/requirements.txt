@@ -1,0 +1,10 @@
+# Tested analysis environment (Python 3.11)
+numpy==2.2.6
+pandas==2.3.3
+scipy==1.16.3
+scikit-learn==1.8.0
+xgboost==3.2.0
+lightgbm==4.7.0
+# Report and figure builders
+matplotlib>=3.9,<4
+python-docx==1.2.0

@@ -1,6 +1,9 @@
 # AwareMind data have no licence: never commit raw or processed data (see data/README.md)
 data/raw/
 data/processed/
+# Homework 4 run outputs: held-out scores per check-in (predictions.csv) stay local
+deliverables/04_data_preparation_model_exploration/run/
+predictions.csv
 
 # Office lock files and OS files
 ~$*
