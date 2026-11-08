@@ -1,335 +1,268 @@
-# NudgeWell model refinement and test submission plan
+# NudgeWell homework workflow with AI agents
 
-Prepare a reproducible refinement report for **Thursday 12 November 2026**. Finish the results and report on **Wednesday 11 November** and keep 12 November for verification and submission. Dates and suggested cutoffs use Europe/Istanbul time; the submission hour has not been specified.
+Complete the supplied **Model Refinement and Test Submission** template using real experiments, reproducible code and a clear explanation of what changed from Homework 4. The submission is due **12 November 2026**. This plan follows the work step by step; the deadline does not define the steps.
 
-The recommended order is to repair evaluation, establish strong simple baselines, run a bounded search, evaluate personalization, and test a fixed prompt policy. A small temporal experiment is optional before a firm cutoff. Report measured improvements and negative results; completing the assignment does not depend on beating a benchmark.
+The main workflow is:
 
-This is an implementation plan. The audit findings below are verified; the proposed experiments have not yet been run. Preserve the submitted Homework 4 files as the historical record.
+**Understand the assignment → establish the starting point → agree on evaluation → implement and test → compare refinements → evaluate the frozen procedure → review the evidence → write the report → verify the submission.**
 
-## 1 Current evidence and priorities
+The project audit and template review are already complete. Reuse that work rather than asking every agent to rediscover the project. Model-refinement implementation and new experiments remain to be done.
 
-The working analysis is [`hw4_pipeline.py`](../04_data_preparation_model_exploration/code/hw4_pipeline.py). The submitted aggregate results are in [`results_real.json`](../04_data_preparation_model_exploration/build/results/results_real.json). The Mac can run the existing quick pipeline and a Jupyter kernel with the pinned Python 3.11 environment.
+## How we work together
 
-| Finding | Verified evidence | Consequence for this milestone |
+Use this chat as the **lead agent**. It keeps the shared decisions, integrates code, coordinates other agents, runs the final experiment and checks that the report matches the evidence. You provide course-specific information, resolve substantive scope questions and review the final explanation. Routine coding, debugging, plotting and document formatting can proceed without repeated approval requests.
+
+Use specialist agents for bounded tasks:
+
+| Role | Responsibility | Handoff |
 |---|---|---|
-| The effective sample is small | 5,627 unique check-ins, 718 positives, 37 participants; positive prevalence 12.76% | Keep models and search spaces small. Use participant-aware evaluation and intervals |
-| Old prevalence figures are outdated for the cleaned data | 14.9% describes the released file with duplicates; the cleaned file is 12.76% positive | Use cleaned denominators in every new table and figure |
-| Simple rules remain competitive | The combined night/social/long-session rule has 21.82% precision and 41.78% recall while flagging 24.44% of cleaned check-ins | Treat this as a required comparator, not an incidental illustration |
-| Higher overall AUC can hide weak moment selection | Known-user personal RF has pooled AUC 0.8429, versus 0.8271 for a constant personal base rate; personal RF within-person mean AUC is 0.5872 | Separate pooled discrimination from ranking moments within a person |
-| Calibration deserves attention | Old global LR Brier score is 0.2227; several models use class weights | Test unweighted fitting and training-only sigmoid calibration. Use reliability plots as well as Brier scores |
-| App-duration provenance needs checking | `app_total_duration_session` exceeds elapsed session time in 97 rows from three participants; it is also the top old RF permutation feature | Audit units and the aggregation window before relying on it. This anomaly is a warning, not proof of target leakage |
-| Timing boundaries need repair | Of 63 sessions with multiple check-ins, one crosses the old 70/30 boundary; one old training outcome is unresolved at the first test prompt; 34 participant splits divide a local day | Split on whole local days and purge unresolved training outcomes and shared boundary sessions |
-| Personalization support is uneven | Before day 8, 36 people have at least 5 and 10 check-ins, 33 have 20, 26 have 40, and only one has 80 | Use a matched 0/5/10/20-label comparison; treat 40 as secondary and omit an aggregate 80-label curve |
-| Some metric denominators are small | Three participants have a single binary class overall; 12 have a single class in the old chronological test slice | Keep these users in prediction and policy evaluation. Report how many people are eligible for within-person AUC |
+| Lead agent | Requirements, shared protocol, integration and final consistency | One authoritative protocol, experiment runner and report |
+| Data and evaluation agent | Feature availability, splitting, label timing and leakage tests | Data audit, split code, tests and review findings |
+| Modelling agent | Fixed baselines, bounded tuning and refinement comparisons | Model code, configuration lists, validation traces and interpretation |
+| Review and document agent | Independent evidence review, then template filling and layout checks | Findings tied to files, completed DOCX and verified figures |
 
-The counts from the fresh timing audit use raw check-in counts before label-availability purging. Recompute eligibility after applying the final cutoff rules. The audit also confirmed millisecond timestamps, no missing prompt/unlock/lock timestamps, and `remaining_minutes = (lock_time - esm_time) / 60000` to numerical tolerance.
+These are responsibilities, not a requirement to create four separate chats. An agent can be reused for later tasks. With four execution slots, keep the lead plus at most three specialists active. A reviewer should not be the only person checking their own modelling implementation.
 
-### Problems to fix before comparing refinements
+All implementation belongs under `deliverables/05_model_refinement_test_submission/`. Preserve Homework 1–4. Give agents different files to edit, establish shared interfaces first, and use one authoritative job to write experiment results. Parallelize preparation and review; avoid running duplicate large training jobs or editing the same report simultaneously.
 
-1. **Indirect contamination of population calibration.** `personal_regime()` fits a population offset from `global_oof[others]`. Those scores were produced by LOPO models whose training sets include the target participant, including their later outcomes. For target participant G, regenerate every tuning and calibration score inside the universe that excludes G. The direct global prediction for G already excludes G; the problem is the reused calibration inputs. This affects the old intercept-based comparison, not every old model result.
-2. **Evaluation-distribution threshold selection.** The old alert comparison computes a quantile of the evaluation predictions. This does not directly use evaluation labels, but it does use the evaluation score distribution to impose its budget. Keep that result as a descriptive ranking comparison; fit a deployable threshold on training/validation scores and freeze it before evaluation.
-3. **Incomplete timing checks.** The feature-name guard catches explicit outcome columns, but cannot establish that an app aggregate was calculated before the prompt. Add provenance and temporal boundary checks.
-4. **Historical scope differences.** The concept note promised continuous-gap regression, first-week/day-forward evaluation, 10x weighting for combined RF, and TCN/GRU experiments. Homework 4 instead reports binary classification, a 70/30 check-in split and combined weight 5. Explain these changes explicitly. AUC cannot be compared to the paper's MAE or R².
+## Shared context for every agent
 
-## 2 Scope for 12 November
+Attach this context to each task, then add the specific prompt from the relevant step:
 
-### Required work
+> Work on the NudgeWell Samsung Innovation Campus homework in `/Users/thynatos/Documents/IC`. Read this plan, the relevant existing code, and `data/README.md`. Use the existing Python 3.11 `.venv`. The target is `answer <= 5 and remaining_minutes > 5`. Remove exact duplicates: the current file has 5,627 unique rows, 718 positives and 37 participants. Preserve submitted Homework 1–4. Use participant-aware evaluation and earlier resolved labels for personal history. Fit preprocessing, feature selection, tuning, calibration and thresholds inside the permitted training data. Do not invent metrics or describe planned work as completed. Keep raw data, participant manifests, row-level predictions and fitted artifacts local and ignored by Git. Return changed files, commands, evidence, limitations and the next handoff. Do not submit coursework or contact anyone.
 
-- Correct participant isolation, chronological splits, outcome availability, calibration and threshold selection.
-- Reproduce the old outputs separately, then evaluate unchanged baselines under the corrected protocol so protocol effects can be separated from model improvements.
-- Tune logistic regression, random forest and XGBoost within a fixed compute budget. Retain the existing LightGBM configuration as a fixed comparator; a fourth large search is unnecessary.
-- Compare population probability, personal base rate, global scores, global scores with personal offset, personal RF and combined RF on identical eligible rows.
-- Run a small, predefined feature ablation and calibration comparison.
-- Evaluate a fixed threshold and a chronological prompt-budget replay.
-- Produce the filled Word template, reproducible code, aggregate results, figures, run metadata and a clear account of limitations.
+## Step 1 Turn the template into a checklist
 
-### Optional work with a cutoff
+**Agent task:** map each assignment section to a concrete question and the evidence needed to answer it. Use the local retained template at `.local/model-refinement/Model_Refinement_Template.docx`. The earlier review established that deployment and feature selection are conditional where the template says “if applicable.”
 
-One compact TCN and a simple history-feature comparator may be included if the core evaluation passes by **10 November at 12:00** and the pilot works within two hours of implementation plus two hours of compute. Stop new model development by **10 November at 18:00**. A working optional experiment must use the same evaluation contract; a validation-only pilot must be labelled as such.
+**Deliverable:** a short requirements checklist in the Homework 5 README, using the mapping near the end of this plan. Clearly separate template requirements, existing project commitments and optional experiments.
 
-### Work deferred from this submission
+**Prompt:**
 
-Full TCN/GRU architecture searches, dual-target training, continuous-gap paper reproduction, neural fine-tuning, ONNX/LiteRT export, Android integration, SHAP integration and a new secondary dataset are outside the critical path. Record these as outstanding concept-note commitments. The assignment makes deployment conditional; explain its current status rather than claiming an on-device system exists.
+> Convert the Model Refinement template into an evidence checklist for NudgeWell. For each section, state the question we must answer, the existing evidence we can reuse, the new experiment or explanation needed, and the resulting table, figure or code excerpt. Separate assignment requirements from optional project extensions. Reuse the completed template review; do not start training.
 
-Follow the current [`data/README.md`](../../data/README.md) coursework-only handling policy. Keep raw data, row-level predictions, participant manifests and trained artifacts local. Record the discrepancy with the older concept note's permission wording, and confirm reuse permission before publishing weights or deploying a trained model. This plan does not authorize contacting anyone or submitting coursework.
+**Complete when:** every section has an evidence source or a specific task that will produce one. No section depends on fabricated deployment, a new external test dataset, or an assumed improvement.
 
-## 3 Freeze the evaluation contract
+**Your role:** add any instructor feedback or submission-format rule that is not in the template. The agent can otherwise proceed from the supplied requirements.
 
-Write `build/protocol.json` before running the new outer evaluations. It must contain the dataset SHA-256, duplicate rule, label definition, feature sets, splitter version, candidate configurations, selection metric, seeds, calibration procedure, threshold rule, policy settings and reporting rules. Freeze this file in Git. Changes after results are inspected require a new protocol version and an explicit exploratory label.
+## Step 2 Establish what Homework 4 already proves
 
-### Target and feature availability
+**Agent task:** read the existing pipeline and aggregate results, prepare the starting comparison table, and turn the audit findings into actionable fixes.
 
-- Keep Homework 4's target: `answer <= 5 AND remaining_minutes > 5`.
-- Remove exact duplicate rows before creating splits or histories.
-- Exclude all direct outcomes, identifiers and demographic columns from classifier inputs.
-- Use demographics only for aggregate descriptive error checks; verify category encodings before attaching labels.
-- Keep timestamps and session IDs available to the splitter, history builder and audit, but never feed them as raw model features.
-- Use `lock_time < prediction_cutoff` as the conservative rule for when an earlier label becomes available. Avoid deriving an earlier availability time from the outcome itself.
-- Fit imputers, scalers, feature selection, class-weight calculations and calibration within the permitted training universe. No full-dataset fitting or synthetic oversampling across splits.
+The key findings already established are:
 
-### New-user evaluation
+- Cleaned prevalence is **12.76%**, rather than the duplicated release's 14.9%.
+- The fixed night/social/long-session rule achieved **21.82% precision and 41.78% recall**, flagging 24.44% of cleaned check-ins in the old analysis.
+- The personal RF's pooled AUC was **0.8429**, while a constant personal rate achieved **0.8271**. Its within-person mean AUC was **0.5872**. Pooled AUC alone cannot establish good moment selection.
+- The old personal population calibrator indirectly reuses held-out-person information through `global_oof[others]`; regenerate calibration scores inside each outer training universe.
+- The old alert comparison selects a quantile of evaluation scores. Retain it only as a descriptive ranking diagnostic; a deployable cutoff must come from validation.
+- The old split cuts through a local day for 34 participants. One session crosses its train/test boundary and one training outcome is unresolved at first testing.
+- A key app-duration aggregate exceeds elapsed session time in 97 rows. Verify units and aggregation windows; this is an anomaly to investigate, not proof of leakage.
 
-For each of the 37 held-out participants G:
+**Deliverable:** `build/baseline_review.md`, with the old results explicitly labelled as historical and an issue checklist linked to code locations.
 
-1. Exclude every row of G from population fitting, feature selection, hyperparameter selection, population priors and calibration.
-2. Tune using three participant-grouped inner folds on the other 36 participants. Use the same inner assignments for all candidates.
-3. Select one candidate per family from inner results only. Generate training-only out-of-fold scores for calibration and threshold fitting; never reuse an OOF array generated across all 37 people.
-4. Refit the selected base model on the permitted background participants and score G. If a calibration ensemble is used, preserve its fold-specific fitted models and apply the same ensemble definition to threshold fitting and evaluation.
-5. Store the prediction and provenance locally. Every row of G receives one outer prediction per declared model procedure.
+**Prompt:**
 
-The primary new-user tuning score is **participant-balanced average precision**: concatenate inner held-out predictions and weight each participant's rows to total weight one. This includes negative-only participants as potential false alerts without letting large participants dominate. Also report ordinary pooled AP and within-person AUC; do not call weighted AP a within-person ranking measure.
+> Using Homework 4's saved results and code, write the starting-point review for this homework. Separate trustworthy historical findings, comparisons needing a corrected rerun, and unresolved feature provenance. Explain the calibration path and threshold issue precisely. Identify what should be preserved and what must change. Do not present an anomaly as confirmed leakage or rerun the full analysis unnecessarily.
 
-If the complete 37-fold search is projected to exceed four hours after a timed pilot, switch before inspecting performance to a documented **five-outer-fold, three-inner-fold grouped evaluation**. Use it for every model in that comparison. Do not screen hyperparameters on all participants and then present fixed-parameter LOPO scores as nested evaluation.
+**Complete when:** we have a defensible baseline narrative and a finite list of fixes. The reviewed code and saved JSON, rather than memory or a previous chat summary, support every number.
 
-The peer cohort is treated as a previously collected offline training cohort. Within-person time order is enforced, but this is not a claim of prospective deployment over a shared global calendar.
+## Step 3 Specify how experiments will be judged
 
-### Known-user evaluation
+**Lead task:** write `build/protocol.json` before new evaluation results are inspected. This is the common contract that keeps agents' experiments comparable.
 
-Use a day-forward simulation instead of the old row-count split:
+Recommended homework scope:
 
-1. Define a local day using the released `date_4am` convention after validating its relationship to the local prompt timestamps. Count **elapsed calendar days**, not simply seven observed dates.
-2. Use the first seven local calendar days as initial history. Starting on day 8, predict the next day's check-ins using only labels resolved before that day's cutoff.
-3. Purge training rows whose sessions appear in the evaluation day, including a session that crosses the day boundary. Earlier unresolved sessions cannot provide labels or outcome-history inputs.
-4. Refit permitted personal models or update their offsets at the daily cutoff. Keep population models trained on other participants frozen for this simulation.
-5. Score each eligible check-in once. Earlier test-day outcomes may enter training on later days after they resolve; describe this as daily updating, not a static untouched holdout.
-6. Choose hyperparameters and shrinkage rules on the background participants using analogous forward simulations. Never tune them on G's future days. Run an all-user population-only fallback where the personal history is too short or single-class.
+- Keep binary classification as the main target, continuing Homework 4.
+- Evaluate logistic regression and random forest as the core tuned models. Add XGBoost as the third family once the runner works; retain fixed LightGBM only if it adds useful comparison.
+- Include population prevalence, personal base rate and the fixed rule as appropriate baselines.
+- Treat calibration and one simple personal-offset comparison as refinements relevant to the project.
+- Use an audited feature set and a small predefined feature-block comparison.
 
-One participant has only one observed check-in during their first seven calendar days. Keep that person and apply the fallback. Do not silently change their warmup to seven observed days. A seven-observed-day sensitivity analysis may be reported separately if time permits.
+For new users, a practical default is **five outer participant-grouped folds and three inner grouped folds**. Inner folds choose features, parameters and model family; outer folds evaluate that complete selection procedure. The old LOPO results remain historical context. Explain the new nested strategy in the template's cross-validation section. If we elect to retain nested LOPO instead, choose that before opening the new results and apply it consistently.
 
-### Prior exposure to the dataset
+For known-user comparisons, use whole local days: initial seven calendar days as warmup, then daily predictions using only labels resolved before the day's cutoff. Keep peer models trained on other participants. Purge unresolved outcomes and shared boundary sessions. This simulates daily updating, not a static holdout. Keep a defined fallback for small or one-class histories.
 
-All participants have already appeared in EDA and Homework 4. Describe the new results as internally evaluated, retrospective coursework experiments with a frozen refinement protocol. Nested isolation reduces tuning bias but does not turn an already explored dataset into a new independent test set. An external/prospective dataset would be needed for that claim.
+Primary tuning score: participant-balanced average precision, giving each participant total row weight one. Report ordinary pooled AP, ROC-AUC, within-person AUC where defined, and probability quality separately. For calibration, use training-only validation and Brier loss, supported by reliability plots. Thresholds must be fixed from validation before evaluation.
 
-## 4 Implementation sequence and acceptance checks
+Record data/configuration hashes, seeds, fold definitions, candidate lists, preprocessing, calibration, threshold selection, metrics and tie rules. All participants have already appeared in exploration; describe the evaluation as retrospective internal validation, not an untouched external test.
 
-### Step A Preserve the baseline and make runs traceable
+**Prompt:**
 
-Create a separate Homework 5 folder. Reuse audited feature definitions where appropriate, but do not edit old reports or overwrite their results. Keep a copy of the reference DOCX under local `guidelines/` or `.local/`; avoid leaving the only copy in WhatsApp's temporary directory.
+> Write the shared experimental protocol for the minimum complete homework. Make the target, participant boundaries, personal-history timing, candidate models, selection metric, calibration procedure and final evaluation explicit. Use nested grouped validation for new users and a separate day-forward comparison for known users. Explain changes from Homework 4 and the concept note. Resolve ambiguous choices in the protocol before experiments; keep optional extensions separate.
 
-Each run must record the Git commit, Python/package versions, platform, dataset hash, config hash, seed, fold schedule, runtime and warnings. Save checkpoints per outer participant/fold so a run can resume after switching computers. Use one level of parallelism; keep individual tree fits to two threads when folds run concurrently. Measure the first outer fold before committing to the full runtime.
+**Complete when:** a data agent and a modelling agent could independently implement their parts without choosing different splits or metrics.
 
-**Done when:** a clean checkout plus local data can reproduce a baseline command, and raw data/predictions/checkpoints are confirmed ignored by Git.
+**Your role:** review the research question and scope: can we explain why these refinements are appropriate, and how their evaluation answers the homework? This is a substantive learning checkpoint, not a request to approve every implementation detail.
 
-### Step B Add tests that target the actual risks
+## Step 4 Implement the corrected data and evaluation code
 
-Use tiny fixtures created inside the tests; the missing older synthetic simulator is not a dependency.
+**Agent task:** implement cleaning, feature construction, participant splits, day-forward splits and evaluation isolation. Reuse sound existing code, but preserve the old pipeline.
 
-- A held-out participant cannot occur in any fitting, tuning or population-calibration manifest.
-- Changing G's future labels must leave G's earlier predictions unchanged. For a frozen zero-shot model, changing any of G's labels must leave every prediction unchanged. This catches indirect calibration contamination.
-- No label with `lock_time >= cutoff` enters a daily training set or history.
-- Train and evaluation sessions are disjoint at the cutoff; same-session outcomes remain unavailable.
-- A sequence contains only earlier observations from the same person. Padding is masked and does not cross a person boundary.
-- A fitted threshold remains unchanged when evaluation labels or evaluation score distributions are altered.
-- No outcome/identifier/demographic column can enter the model matrix. Scaling and imputation fit on training rows only.
-- One-class histories, empty eligible histories, zero alerts, no positives and missing app data return defined fallbacks and denominators.
-- Check-in counts reconcile through duplicate removal, purging, warmup and evaluation. Every model in a comparison uses the same rows.
+Use `esm_time` and `lock_time` for timing checks. A conservative history rule is `lock_time < prediction_cutoff`. IDs and timestamps can drive grouping and audits without becoming model inputs. Audit the app-use aggregates for pre-prompt availability; exclude unresolved columns from the main feature set and document the reason.
 
-**Done when:** these tests pass and the corrected unchanged baselines complete. Treat this as a prerequisite for tuning, not a report appendix to write later.
+**Required tests:**
 
-### Step C Audit and compare a small set of feature blocks
+- The evaluated participant cannot enter population fitting, tuning or calibration.
+- Changing that participant's future labels cannot change earlier predictions.
+- No unresolved outcome or same boundary session enters earlier training.
+- Imputation and scaling fit only on training rows.
+- Outcome fields, identifiers and demographics cannot enter the classifier inputs.
+- Evaluation labels or score distributions cannot change a previously fitted threshold.
+- One-class histories, no positives, missing fields and zero alerts have defined behavior.
+- Models in a comparison receive the same eligible evaluation rows.
 
-For each app-use column, document units, aggregation window, available-at-prompt evidence and whether the Android prototype could produce it. Compare values with elapsed time without silently clipping or reinterpreting units.
+Use small fixtures created inside tests; the older synthetic generator is absent from the repo. Add the new Homework 5 `run/` directory to `.gitignore` before generating private outputs.
 
-Use these feature configurations:
+**Deliverable:** data/split modules, the meaningful tests above, and an aggregate count-reconciliation report.
 
-| Set | Definition | Purpose |
+**Prompt:**
+
+> Implement the data and split portions of the agreed protocol under Homework 5. Correct the known calibration isolation and timing risks without changing old submitted work. Add tests that would fail if future labels or the evaluated participant entered fitting. Audit feature timing and record unresolved columns. Use tiny local fixtures, then run a small integration check on the real file. Return the evidence that the boundaries hold.
+
+**Complete when:** tests pass, counts reconcile, and a small model can run through the corrected pipeline. Review failures here before adding more models.
+
+## Step 5 Run baselines and bounded refinement experiments
+
+**Modelling task:** establish validation behavior of the fixed baselines, then implement a small comparison matrix. Use the same runner, folds and metric definitions for every method. Keep outer evaluation unavailable for choosing additional experiments.
+
+| Experiment | Concrete change | Question answered |
 |---|---|---|
-| F0 | The old 49 features | Historical reproduction and sensitivity reference |
-| F1 | All old features whose pre-prompt availability passes the audit | Main evaluation set |
-| F2 | F1 without the ten tap/text/scroll interaction fields | Tests a lower-permission sensing option |
-| F3 | F1 plus simple earlier-check-in summaries | Tests whether history helps without a neural network |
+| Baseline | Existing fixed LR/RF settings plus simple references | What does the corrected procedure achieve before tuning? |
+| Hyperparameters | LR: four C values × two class-weight settings; RF: eight fixed sampled settings varying depth, minimum leaf size and class weighting | Does controlled tuning improve validation behavior? |
+| Boosting | Optional eight XGBoost settings with shallow trees and bounded learning rates | Is a third algorithm useful beyond the core models? |
+| Feature blocks | Audited full set versus removing tap/text/scroll fields | Can a simpler input set preserve or improve performance? |
+| Calibration | Identity versus training-only sigmoid calibration | Are predicted probabilities more reliable? |
+| Personalization | Frozen global score, personal base rate, and regularized personal offset | Does a small amount of personal information improve predictions beyond base-rate differences? |
 
-If provenance remains unresolved for the seven app-use aggregates (`app_duration`, session app duration/count/switch fields, and daily app duration/count/switch fields), exclude those fields from F1. Removing all seven leaves 42 features; removing only the three durations leaves 46. Record the actual decision per column. Do not choose which uncertainty to tolerate by looking at outer scores.
+Fix candidate lists and seeds in the protocol. With five outer folds, three inner folds and 16 LR/RF configurations, one feature-set search involves about 240 inner fits plus calibration/refits; optional boosting and a second feature set add to that budget. This is a bounded homework comparison, not an open-ended search for a high score.
 
-F3 is optional: previous check-in feature values, time since the previous check-in, and a short mean of earlier feature values, with a history-length indicator. Current-row values must be excluded from historical summaries. Keep outcome-based history to the separately declared personalization methods so its information advantage is explicit.
+Fit calibrators on held-out scores within the permitted training universe. A fitted calibrator's own calibration labels cannot also serve as independent evidence for selecting it. The evaluation agent should check the actual data flow.
 
-Evaluate F1/F2 in the inner selection process. F0 remains a labelled sensitivity analysis if its provenance is unresolved. If F3 is attempted, register it before outer results are opened. Do not search arbitrary combinations of the 49 columns; do not select the top features using old full-dataset importance and call that independent selection.
+**Deliverable:** model/configuration code, validation traces, warnings, runtime and a record of the complete selection procedure. Record failed or negative experiments too.
 
-### Step D Fit fixed baselines and bounded refinements
+**Prompt:**
 
-Required baselines are the training-population prevalence, a shrunk personal prevalence where labels are available, the combined fixed rule, and the old fixed LR/RF/XGB/LightGBM configurations under the corrected protocol.
+> Implement and run the predefined refinement matrix using the shared protocol. Start with fixed baselines and the LR/RF search; add the declared optional comparisons only if the runner is correct. Keep feature, parameter, family, calibration and threshold choices inside training validation. Save configurations and validation evidence. Do not change the experiment list in response to outer evaluation scores or claim that larger pooled AUC alone means better moment selection.
 
-Use the following bounded classification searches, with seed 42 for deterministic configuration sampling:
+**Complete when:** every intended refinement has a rationale, a reproducible configuration and validation evidence. Freeze the complete selection procedure before final evaluation. Exact fitted parameters may differ by outer fold; the frozen object is the procedure for choosing them.
 
-| Family | Search | Maximum configurations per feature set |
+## Step 6 Apply the frozen procedure and evaluate
+
+**Lead task:** run the complete nested procedure and collect outer predictions, then run the declared day-forward personal comparison. Generate reportable results from saved predictions and metadata.
+
+For the template's “test submission” section, demonstrate model application on held-out evaluation folds/days. If the instructor supplies a separate test dataset, keep it untouched until the trained procedure is finalized and apply the same fitted preprocessing, calibration and threshold to it. Do not invent an external test set or imply a Kaggle-style submission is required by the generic wording.
+
+Report:
+
+- Training and inner-validation diagnostics, clearly distinguished from outer evaluation.
+- AP and ROC-AUC, plus within-person discrimination and eligible participant counts.
+- Brier/log loss and reliability curves for probabilities.
+- Precision, recall, confusion counts and actual alert share at the validation-selected cutoff.
+- Paired participant-level uncertainty for the main refinement-versus-baseline comparison.
+- Personalization results against the personal base-rate baseline, on identical rows.
+
+Keep single-class users in probability and decision metrics even where their within-person AUC is undefined. Use participant-level resampling rather than treating check-ins as independent. Do not keep testing new variants against these outer results; any later change is a separately labelled exploratory experiment.
+
+**Deliverable:** aggregate result JSON/CSV, figures and a concise interpretation distinguishing supported gains, uncertain differences and negative findings.
+
+**Prompt:**
+
+> Execute the frozen procedure and create the final comparison tables and plots. Verify that every comparison uses matching rows and that all reported numbers can be traced to saved outputs. Explain pooled versus within-person performance and calibration versus ranking. Report paired participant uncertainty and coverage. Label retrospective internal evaluation accurately and preserve disappointing results.
+
+**Complete when:** the evidence answers whether each refinement helped, for whom, and according to which metric.
+
+## Step 7 Ask an independent agent to challenge the evidence
+
+**Reviewer task:** inspect the code, protocol, manifests and tables. The reviewer should attempt to disprove the claims, not simply polish them.
+
+**Prompt:**
+
+> Independently review the Homework 5 implementation and results against the template and frozen protocol. Inspect participant isolation, temporal label availability, calibration inputs, feature selection, model-family selection and threshold fitting. Check metric denominators, one-class fallbacks, paired comparisons and source-to-table consistency. Identify defects with file/line evidence and practical consequences. Separate correctness problems from optional enhancements. Do not modify model choices just to improve a score.
+
+**Deliverable:** actionable review findings and their disposition. The lead fixes correctness problems, reruns affected results and records why. Unaffected results need not be rerun.
+
+**Complete when:** material correctness findings are resolved and the report's claims match what the experiment can support. Review a corrected result again if its calculation changed.
+
+## Step 8 Fill the instructor template from the evidence
+
+**Document task:** follow the supplied headings, replace instructional prompts with the project's actual work, and generate tables/figures from reviewed results. Use the document skill's render-and-inspect workflow.
+
+| Template section | What to write | Evidence |
 |---|---|---|
-| Logistic regression | `C` in 0.01, 0.1, 1, 10; class weight none or balanced; training-fold median imputation and standardization | 8 |
-| Random forest | 200 trees; depth 3, 6 or unrestricted; minimum leaf size 5, 15 or 30; max features sqrt or 0.5; class weight none or balanced | 12 sampled combinations |
-| XGBoost | 200 trees; depth 2, 3 or 4; learning rate 0.03 or 0.1; minimum child weight 5 or 15; subsample 0.7 or 1; positive weight 1 or training-fold negative/positive ratio | 12 sampled combinations |
-| LightGBM | Existing Homework 4 configuration, including its existing number of trees | 1 fixed comparator |
+| Model Refinement — Overview | What we tried to improve and why | Target and experiment rationale |
+| Model Evaluation | Starting results and weaknesses | Historical review and corrected baseline comparison |
+| Refinement Techniques | Changes actually implemented | Experiment matrix and results |
+| Hyperparameter Tuning | Search spaces, selection method and outcomes | Saved configurations and validation traces |
+| Cross-Validation | Participant grouping, nested selection and personal timing | Protocol, split diagram and tests |
+| Feature Selection | Audited inclusion/exclusion and feature-block comparison | Availability audit and ablation results |
+| Test Submission — Overview | How the finalized procedure was evaluated | Evaluation contract and saved run metadata |
+| Data Preparation for Testing | Deduplication, missingness, timing and fitted preprocessing | Count reconciliation and data code |
+| Model Application | Applying the fitted processing/model/calibration in order | Real inference code excerpt |
+| Test Metrics | Validation/evaluation comparison and interpretation | Reviewed tables and plots |
+| Model Deployment | Actual current status; offline evaluation and remaining integration | Status supported by the repo |
+| Code Implementation | Short meaningful excerpts with comments | Actual implemented source |
+| Conclusion | What helped, what did not, limitations and next work | Reviewed results |
+| References | Papers and libraries actually used | Verified primary sources |
 
-The 32 searched configurations require about 3,552 inner fits for one feature set with 37 outer participants and three inner folds, plus refits, calibration and fixed comparators. F1/F2 double the searched fit count; time the pilot and apply the four-hour budget. If needed, halve both tree searches to six configurations before evaluation, or choose the five-fold grouped fallback. Record this once, before outer metrics are inspected.
+Do not claim deployment, a completed neural model, effectiveness of real interventions, or superiority to the paper's regression benchmark unless that work was actually done. Binary AUC is not comparable to regression MAE or R². The historical concept-note commitments should be acknowledged where scope changed.
 
-Within each outer training universe, choose by participant-balanced AP. Use a fixed tie rule: if scores differ by less than 0.005 AP, prefer fewer features, then LR over a tree ensemble, then shallower trees. This is a pragmatic selection rule, not a significance threshold. The final evaluated procedure must include family/feature selection inside the outer loop; showing separate family results is secondary, not permission to pick an outer-score winner and claim an unbiased final estimate for it.
+**Prompt:**
 
-**Done when:** each baseline and selected procedure has valid outer predictions, configuration traces, train/validation diagnostics and no fitting failures hidden by blanket warning suppression.
+> Fill the supplied Model Refinement template for NudgeWell using only the reviewed implementation and results. Preserve the template's section order and recognizable formatting. Explain the experiments in a student's clear technical voice. Insert real metrics, figures and source-linked code excerpts; do not invent successful outcomes or completed deployment. Include limitations and accurate references. Render the DOCX and inspect every page, repairing layout defects before delivery.
 
-### Step E Evaluate probability calibration and personalization
+**Deliverable:** completed DOCX, report/build source, figures and aggregate results. A PDF is an additional output if the course requires one; keep internal rendering images local.
 
-For population calibration, use a sigmoid transformation as the primary method and identity as the comparator. Fit on group-held-out scores generated entirely within the outer training universe. Choose identity versus sigmoid using further training-only calibration validation and Brier loss; never score a fitted calibrator on its own calibration labels to select it. Use a documented cross-fitted ensemble or a separate grouped calibration partition consistently through threshold fitting and evaluation. Defer isotonic calibration because small calibration sets make it an unnecessary additional degree of freedom for this deadline. Calibration data must be independent of each underlying base-model fit, as described in the [scikit-learn calibration guide](https://scikit-learn.org/stable/modules/calibration.html).
+**Complete when:** every template prompt is answered, every number traces to evidence, and the entire document has passed visual inspection.
 
-For the day-forward task, compare on identical rows:
+## Step 9 Make sure you can explain the homework
 
-1. Population prevalence and shrunk personal prevalence.
-2. Frozen calibrated global model.
-3. The same global model plus a regularized personal log-odds offset, using resolved earlier labels only.
-4. Personal RF, falling back to the shrunk rate when the training history has one class.
-5. Combined RF, mixing the frozen peer training cohort with resolved local history. Compare personal weights 1, 5 and 10 on background-user forward validation only, then freeze the rule for G.
+**Your task with the lead agent:** walk through the completed work in plain language. You should be able to explain:
 
-Choose personal-rate prior strength from 5, 10 and 20 pseudo-observations, and offset prior standard deviation from 0.25, 0.5, 1 and 2. Use background-participant day-forward validation and mean per-participant Brier loss to select these inexpensive settings. Tune personal/combined tree choices by participant-balanced AP on the analogous background forward predictions. Freeze all these choices before evaluating G. Prevent Newton updates from producing non-finite offsets; use bounded optimization or damping and a tested fallback. Keep fixed scores and offsets separate in saved metadata so the information source is inspectable.
+1. What the target means and why the model inputs cannot reveal its future outcome.
+2. Why records from the same participant cannot be randomly mixed across training and testing for the new-user claim.
+3. What tuning, feature comparison and calibration changed.
+4. Why personal base rate is a necessary baseline and why a high pooled AUC can mislead.
+5. Which result supports the conclusion, how uncertain it is, and what did not improve.
+6. What is implemented and what remains future work.
 
-For adaptation curves, freeze the personal update after the first **n = 0, 5, 10, 20** resolved labels from the initial seven days. Use the same post-week-one evaluation rows for every n. Use a common eligible participant set across those n values, expected to contain at most 33 participants before purging. Report a separate all-37-user result with fallback. Add n = 40 only as a secondary matched comparison with its own denominator, expected at most 26. Do not draw an aggregate n = 80 curve from one eligible participant. The learning-curve experiment freezes adaptation; distinguish it from the daily-updating main experiment.
+**Prompt:**
 
-**Done when:** the report can show whether personal calibration improves probability quality or alert usefulness, and whether a personal RF adds within-person ranking beyond a constant personal rate.
+> Walk me through our completed homework using our actual figures and code. Ask me one understanding question at a time about the target, splits, refinements, metrics and limitations. Help me explain any weak area accurately. Check that the final report reflects our real work and the course's rules for AI assistance.
 
-### Step F Apply a frozen prompt policy
+**Complete when:** the report is understandable to you, the files open correctly, and you are comfortable defending the choices and conclusions. The final course submission remains your/team action.
 
-Estimate the combined fixed rule's alert share on training/validation opportunities in each outer training universe. On independent or cross-fitted calibrated validation scores, choose a threshold that approaches that budget without exceeding it; define deterministic handling of ties. Freeze the numeric threshold before scoring the outer participant. The test alert share may differ from the validation target; report that difference rather than moving the threshold.
+## What is optional
 
-Report two distinct analyses:
+TCN/GRU experiments, long personalization learning curves, prompt-budget/cooldown simulation, paper regression reproduction, model export and Android integration belong to broader project work. None is automatically required by this template. Add an extension only when it answers a chosen homework question and can use the same valid protocol. Do not add tasks just to make the submission look larger.
 
-- **Fixed-threshold evaluation:** precision, recall, alert share, confusion counts and false alerts. This is the deployable decision rule.
-- **Equal-alert-count ranking diagnostic:** top-k selection using an evaluation score distribution may be shown only as a retrospective diagnostic, clearly separate from the frozen-threshold result.
+If demonstrating the prompt policy, predeclare three prompts per local day and a 30-minute cooldown and compare the fixed rule under the same restrictions. Describe it as an offline replay of sampled check-ins. If adding an adaptation curve, use a matched participant set; the existing audit found at most 33 users with 20 first-week labels and only one with 80, before availability filtering.
 
-Replay each person's evaluation opportunities in timestamp order with the primary **three prompts per local day and 30-minute cooldown**. Reset the budget at the declared local-day boundary. Apply the same budget and cooldown to the fixed-rule baseline. Exclude a prediction if its prerequisite history is unavailable; record the reason and apply the same opportunity mask to all compared methods.
+## Agent handoffs and parallel work
 
-Report prompts per observed person-day, precision, recall, high-gap moments reached, and the fraction of prompts where the person reported wanting to continue (`answer > 5`). The answer is permitted here as a retrospective evaluation outcome, never as an input. Report the number of observed opportunities and days; the public check-ins do not represent every phone-use moment or a real intervention trial. Add one predeclared sensitivity of two prompts/day and a 60-minute cooldown if time permits; do not use it to replace a disappointing primary result.
+Use this dependency order:
 
-## 5 Metrics and rules for interpreting improvements
+1. Lead completes the requirement checklist and shared protocol.
+2. Data/evaluation agent implements boundaries and tests while modelling agent prepares configuration/model code against the agreed interfaces. A document agent can prepare the template outline with explicitly pending evidence.
+3. Lead integrates and runs the experiments through one runner.
+4. Independent reviewer checks the integrated code and results.
+5. Document agent writes from accepted results; lead cross-checks numbers and the final artifact.
+6. You and the lead review the explanation and submission files.
 
-| Question | Required measures | Reporting rule |
-|---|---|---|
-| Can the model generalize to a new user? | Participant-balanced AP, ordinary pooled AP, pooled ROC-AUC | Keep the balanced-AP selection metric fixed. Do not select by headline pooled AUC afterward |
-| Does it rank a person's moments? | Mean within-person ROC-AUC and AP; participant counts and prevalence; random-score AP reference on identical rows | Exclude one-class people only from undefined AUC calculations; keep their errors in the other measures |
-| Are probabilities useful? | Brier, log loss, reliability diagram with bin counts; mean prediction versus observed prevalence | Brier alone is not a pure calibration measure; inspect the reliability plot |
-| Does the prompt rule help? | Precision, recall, alert share, prompts/day and false-prompt measures | Compare on identical opportunities with thresholds fixed before evaluation |
-| Is personalization useful? | Matched change versus personal base rate and frozen global model | Report differences and participant coverage, not just each model's separate headline score |
-| Is the result stable? | Paired participant bootstrap intervals, per-person distribution, dominant-participant sensitivity | Resample participants with all their rows; do not bootstrap individual check-ins as independent |
+Each handoff should name the files, completed checks, actual results, remaining issues and exact next task. The next agent reads those files rather than treating a predecessor's confident summary as proof. Avoid a chain of agents merely rewriting each other's prose without inspecting evidence.
 
-Use 2,000 paired participant bootstrap replicates for the principal contrasts, seed 2026. The same resampled people must be used for both models. Report intervals for the **difference**, not a conclusion inferred from overlap between separate intervals. These intervals summarize variation across the observed participant predictions; they do not fully capture model-selection uncertainty or establish transportability.
+## Files and synchronization
 
-The top participant accounts for 19.64% of positives, the top three for 37.05%, and the top ten for 73.26%. Show a prespecified sensitivity excluding the highest-positive contributor from metric aggregation; retain the primary model fits, identify it as an aggregation sensitivity, and do not use it for selection. A separately retrained cohort-removal analysis is optional and must be labelled distinctly.
+Proposed implementation files are `code/data_contract.py`, `code/splits.py`, `code/models.py`, `code/evaluate.py` and `code/run_refinement.py`; associated risk-focused tests; `build/protocol.json`; aggregate `build/results/`; figures; and the final report/build sources. These paths describe work to create, not existing completed code.
 
-For demographic summaries, verify the dictionary's currently incomplete gender encoding before use. Include participant and positive-event counts and suppress tiny identifying breakdowns. Treat age/gender results as exploratory descriptions of 37 adults, not evidence of demographic fairness or validity for Türkiye.
+Use a feature branch for implementation, commit coherent steps, and push before switching computers. The PC must pull the same branch. Raw data and ignored runs stay local; recreate or privately transfer them separately if resuming computation on another machine. Preserve the old submitted artifacts.
 
-**Decision rule:** a positive paired point difference with an interval including zero is suggestive, not established improvement. A higher pooled AUC with unchanged within-person ranking is mainly a between-person gain. A negative result still satisfies refinement if the protocol and experiments are complete. The old 21.82% precision and 41.78% recall are historical references; the actual policy comparison uses a freshly evaluated baseline on the same new rows.
+## Existing evidence to reuse
 
-## 6 Optional temporal experiment
-
-Register this optional design and F3 in the initial protocol; the later go/no-go decision depends on test correctness and remaining runtime, not a disappointing outer score. Start implementation only after Steps A–E are working and the 10 November gate is met. Prefer the simple F3 history summaries first. If they and the sequence tests work:
-
-- Use one causal TCN with 16 earlier check-ins, two small causal convolution blocks, roughly 16 hidden channels, dropout 0.2, and fewer than 50,000 parameters verified in the run log.
-- Keep a separate current-feature branch. History consists of earlier features and elapsed-time indicators, plus padding masks; do not add earlier answers or outcomes in this first experiment.
-- Fit imputation and scaling on training participants only. For a strict cold-start task, earlier held-out-user features are available as unlabeled history; their outcomes are not.
-- Cap training at 50 epochs, early-stopping patience five on a participant-held-out inner validation set, learning rate 0.001, and seeds 42, 43 and 44. Fix the architecture; no architecture search.
-- Run a validation pilot and benchmark runtime first. Include a final nested/grouped comparison only if it can finish under the same frozen evaluation rules by the cutoff. Otherwise describe the pilot honestly and defer a comparative claim.
-- Add GRU only after the submission. Do not call the TCN-only experiment completion of the original TCN-and-GRU commitment.
-
-This branch tests a hypothesis about temporal information; the dataset's size makes success uncertain. It cannot displace the required calibrated tabular and policy results.
-
-## 7 Files to create during implementation
-
-All paths below are proposed; only this plan currently exists in the Homework 5 directory.
-
-```text
-deliverables/05_model_refinement_test_submission/
-  PLAN.md
-  README.md
-  requirements.txt
-  code/
-    data_contract.py      # cleaning, availability checks, feature sets
-    splits.py             # grouped nesting and local day-forward schedule
-    models.py             # bounded tabular configurations and personal offset
-    evaluate.py           # cross-fitting, calibration, metrics, paired contrasts
-    policy.py             # frozen threshold, daily budget and cooldown
-    run_refinement.py     # CLI, manifests, resume and run metadata
-  tests/
-    test_isolation.py
-    test_time_and_history.py
-    test_policy_and_fallbacks.py
-  build/
-    protocol.json
-    make_figures.py
-    build_report.py
-    report.md
-    results/              # aggregate-only JSON and summary CSV
-  figures/
-  run/                    # ignored: manifests, predictions, fitted artifacts
-  NudgeWell_Group6_Model_Refinement_Test_Submission.docx
-```
-
-Add the new `run/` directory to `.gitignore` **before** generating any row-level outputs. The old ignore rule covers Homework 4 only. Keep any newly added instructor template under a local ignored directory unless the team intentionally decides to version it. Use portable paths based on the repository root, and keep the Python environment outside Git.
-
-The eventual CLI should support commands equivalent to `--stage audit`, `--stage baseline`, `--stage refine`, `--stage personalize`, `--stage policy` and `--stage report`, with a config path, output directory and resume option. These are interfaces to implement, not commands currently available.
-
-Use a working branch such as `codex/model-refinement`, commit completed code/configuration stages, push before switching computers, and pull the same branch on the other machine. Push aggregate evidence and source; keep participant-level run files local. To resume on the PC, either rerun the deterministic job from its manifests or transfer ignored outputs privately; Git alone will not transfer them. Do not run two jobs writing to the same output directory.
-
-## 8 Map evidence into the instructor template
-
-| Template section | Content to supply | Concrete evidence |
-|---|---|---|
-| Model Refinement 1 Overview | Binary target, core question, scope and changes from the concept note | Data contract and protocol |
-| 2 Model Evaluation | Corrected baseline weaknesses, pooled versus within-person results | Baseline table and participant performance plot |
-| 3 Refinement Techniques | Audited feature sets, regularization, personal offset and calibration | Ablation and method comparison table |
-| 4 Hyperparameter Tuning | Exact spaces, candidate budgets, inner scores, selection rule and runtime | Search summary plus a short executable code excerpt |
-| 5 Cross-Validation | Outer participant exclusion, inner selection, daily updating and prior exposure | Split diagram and isolation tests |
-| 6 Feature Selection | Pre-prompt audit and F1/F2 comparison; F3 only if completed | Availability table and ablation result |
-| Test Submission 1 Overview | Frozen evaluation procedure and model application | Protocol hash and run metadata |
-| 2 Data Preparation for Testing | Deduplication, warmup, local days, label purging and missingness | Count reconciliation table |
-| 3 Model Application | Fitted preprocessing, calibration, offset and threshold applied in order | Inference code excerpt with no participant records |
-| 4 Test Metrics | Outer metrics, validation diagnostics, paired differences and policy measures | Main results, reliability diagram and policy table |
-| 5 Model Deployment | Current offline status, sensing gaps, permission status and deferred integration | Explicit status statement; no fabricated deployment |
-| 6 Code Implementation | Representative split, fit, calibration and replay code | Source-linked snippets generated from the actual scripts |
-| Conclusion and References | What improved, what failed, what remains unresolved | Frozen results and primary-source citations |
-
-Aim for roughly **10–14 readable pages**, adjusted to the content rather than padded. Required figures are a split diagram, a PR comparison, a calibration plot, a pooled/within-person comparison, the matched adaptation curve and a prompt-policy comparison. Use tables for the candidate budgets, feature availability and final metrics. Optional temporal figures enter only if the experiment finishes.
-
-The authoritative submission format in this request is the supplied Word template. Build the DOCX and render every page for inspection. A PDF can be supplied if the course requires it; macOS rendering has already worked for the template, so the old Word/PowerShell script is not the only possible review route. Check font substitutions, clipping, table breaks, captions, source citations and consistency between figures and JSON. Keep validation renders local.
-
-## 9 Schedule and cutoffs
-
-The schedule assumes about **26–32 focused hours** plus background compute. It is a planning estimate, not a measured implementation duration. Keep the ordering if the working hours shift.
-
-| Date | Work | Deliverable and stop rule |
-|---|---|---|
-| Sun 8 Nov | Complete the audit and plan; retain the template; choose scope | This plan and the issue list. No new performance claims |
-| Mon 9 Nov morning | Implement contracts, manifests, whole-day splits and contamination tests | Isolation tests pass; protocol draft freezes the search and metrics |
-| Mon 9 Nov afternoon and evening | Corrected fixed baselines; timed nested-search pilot; implement calibration and resume | Baseline results plus runtime estimate. If the four-hour projection fails, reduce the predeclared search or use grouped outer folds before viewing scores |
-| Tue 10 Nov morning | Complete tabular tuning and daily personalization; establish matched adaptation eligibility | Core outer predictions and valid personal comparisons |
-| Tue 10 Nov by 12:00 | Decide whether the optional temporal pilot is feasible | Skip it if the core is incomplete. No extension of this gate to chase a better score |
-| Tue 10 Nov by 18:00 | Finish any optional pilot and freeze all model/config choices | End new model development. Preserve completed negative results |
-| Wed 11 Nov morning | Policy replay, paired intervals, feature/coverage summaries and required plots | Final aggregate evidence; stop model changes except correctness fixes |
-| Wed 11 Nov afternoon and evening | Fill the template, build and inspect all pages; verify report numbers against JSON | Complete DOCX and reproducible source committed and synchronized. Target a readable first complete report by 18:00, final checks later that evening |
-| Thu 12 Nov | Verify final file, links, branch status and submission requirements | Submission buffer. No new experiments; submission itself remains a separate user/team action |
-
-If time slips, cut in this order: GRU and paper-reproduction work already deferred; then the TCN pilot; then F3 history summaries; then optional sensitivities. Preserve correct evaluation, required baselines, bounded tuning, calibration, the main personalization comparison, primary policy replay and a complete report. If needed, reduce search configurations or the number of outer grouped folds before running them, and report the change. Never simplify by mixing participants or tuning on evaluation results.
-
-The original concept note names Bahadır for modelling/personalization/policy, Ersel for tree baselines/evaluation, Çağla for data/splits, Fatih for testing/content and Damla for Android. These are existing roles, not confirmed availability for this deadline. The core plan must remain executable by Bahadır with coding assistance; teammate review can improve it without becoming a dependency. No messages or assignments have been sent.
-
-## 10 Submission acceptance checklist
-
-- [ ] Target, cleaned counts, feature provenance and data hash are frozen.
-- [ ] Population training and calibration fully exclude the evaluated participant.
-- [ ] Day-forward fits contain only resolved labels and disjoint boundary sessions.
-- [ ] Corrected fixed baselines and refinements share the same opportunities.
-- [ ] Search, calibration, feature and family selection happen inside evaluation boundaries.
-- [ ] Numeric thresholds are frozen before evaluation; budget/cooldown are implemented and tested.
-- [ ] All one-class users remain represented through defined fallbacks and denominators.
-- [ ] Pooled, within-person, calibration and policy findings are distinguished.
-- [ ] Main differences have paired participant intervals; unsupported improvement claims are removed.
-- [ ] All completed experiments, including failures, are listed with runtime and configuration.
-- [ ] No claim of untouched external testing, intervention effectiveness, paper reproduction or deployment exceeds the work performed.
-- [ ] The filled template includes every required section and real source-linked code excerpts.
-- [ ] The final document has been rendered and every page visually checked.
-- [ ] No raw records, participant identifiers, timestamps, private predictions or model checkpoints are staged for Git.
-- [ ] Another computer can obtain the source, install dependencies and reproduce the aggregate results with its local dataset.
-
-## 11 Sources and audit locations
-
-- [Submitted Homework 4 results](../04_data_preparation_model_exploration/build/results/results_real.json), [analysis implementation](../04_data_preparation_model_exploration/code/hw4_pipeline.py), and [Homework 4 README](../04_data_preparation_model_exploration/README.md).
-- [Original concept note and implementation commitments](../03_concept_note_implementation_plan/build/concept_note.md) and [current data handling policy](../../data/README.md).
-- Local reference: `.local/model-refinement/Model_Refinement_Template.docx`; rendered and inspected as a two-page template. Local timing audit: `.local/model-refinement/data-audit.json`. These files stay local and are not required to read this plan.
-- [AwareMind paper, model design in Section 4.3](https://arxiv.org/html/2609.08909v1#S4.SS3): confirms regression, LOPO, daily personal updates after week one and combined weighting. It supplies context, not directly comparable binary-classification targets.
-- [scikit-learn nested evaluation example](https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html): supports separation of model selection and evaluation.
-- [scikit-learn probability calibration](https://scikit-learn.org/stable/modules/calibration.html): supports independent calibration inputs and reliability-curve interpretation.
-- [scikit-learn 1.8 metrics documentation](https://scikit-learn.org/1.8/modules/model_evaluation.html): definitions and implementation reference for the installed analysis version.
+- [Homework 4 pipeline](../04_data_preparation_model_exploration/code/hw4_pipeline.py) and [saved aggregate results](../04_data_preparation_model_exploration/build/results/results_real.json).
+- [Homework 4 explanation and rebuilding instructions](../04_data_preparation_model_exploration/README.md).
+- [Concept note and original project commitments](../03_concept_note_implementation_plan/build/concept_note.md).
+- [Current data handling policy](../../data/README.md).
+- Local retained template: `.local/model-refinement/Model_Refinement_Template.docx`.
+- Local timing audit: `.local/model-refinement/data-audit.json`.
+- [Nested evaluation reference](https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html), [calibration reference](https://scikit-learn.org/stable/modules/calibration.html), and [installed-version metric definitions](https://scikit-learn.org/1.8/modules/model_evaluation.html).
