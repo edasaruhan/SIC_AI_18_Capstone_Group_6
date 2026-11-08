@@ -1,0 +1,6 @@
+# Analysis and report dependencies retain the versions used for Homework 4.
+-r deliverables/04_data_preparation_model_exploration/requirements.txt
+# Notebook authoring on both Windows and macOS.
+jupyterlab==4.6.6
+ipykernel==7.4.0
+matplotlib==3.11.2

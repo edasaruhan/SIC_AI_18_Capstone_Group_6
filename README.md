@@ -28,6 +28,8 @@ Each homework folder has its own README that lists every file.
 
 ## Repository layout
 
+For Python and Jupyter setup and the workflow for switching between PC and Mac, see [Development setup](DEVELOPMENT.md).
+
 ```
 deliverables/
 ├── 01_idea_proposal/                       Homework 1

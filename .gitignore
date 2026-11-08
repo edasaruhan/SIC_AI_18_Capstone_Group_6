@@ -14,3 +14,7 @@ desktop.ini
 # Python and Jupyter
 __pycache__/
 .ipynb_checkpoints/
+.venv/
+.local/
+.jupyter/
+.cache/
