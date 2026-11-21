@@ -1,0 +1,24 @@
+{
+  "run_id": "hw5-v1-step5-20261117",
+  "protocol_sha256": "566f08be28187c6c3ddfc7683eae43d1d9fac7caa0f63821fc71a843bb4a7d06",
+  "evaluation_sha256": "4b3ca05e98bd36e65590dfba8b042010212f69269d495a5043382b8ed9456e05",
+  "private_artifact_sha256": {
+    "predictions_new_user.csv": "6346112794626761ddaf0840f5a642a30b994f990271a3bde25959f62f5b81f1",
+    "predictions_known_user.csv": "a02327b363976cc0244777d7f8b0bda57da1d1211f4f96369c5109e3726319f7",
+    "personal_states.json": "49dd492991617ca04ea68e4a9cf89ca14ed54eff1c60515005cbecf23126b39c"
+  },
+  "rows_checked": {
+    "new_user": 5627,
+    "known_user": 3772
+  },
+  "participant_days_checked": 423,
+  "paired_replicates_reproduced_per_contrast": 2000,
+  "verified": [
+    "Frozen protocol, source and artifact fingerprints",
+    "Complete outer coverage and matched prediction rows",
+    "Outer and daily decisions at saved validation cutoffs",
+    "Excluded-fold priors, resolved own history and daily offset application",
+    "Probability, discrimination, coverage and operating metrics",
+    "Prespecified paired bootstrap intervals and contrast signs"
+  ]
+}

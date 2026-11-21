@@ -1,0 +1,248 @@
+{
+  "step": 4,
+  "date_local": "2026-11-17",
+  "protocol_sha256": "566f08be28187c6c3ddfc7683eae43d1d9fac7caa0f63821fc71a843bb4a7d06",
+  "frozen_protocol_unchanged": true,
+  "synthetic_boundary_tests": {
+    "run": 35,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": true,
+    "ids": [
+      "test_contract.Contracts.test_all_missing_training_feature_keeps_its_column",
+      "test_contract.Contracts.test_calibrated_validation_scores_keep_full_upstream_provenance",
+      "test_contract.Contracts.test_calibration_fallbacks_are_explicit",
+      "test_contract.Contracts.test_calibration_rejects_self_assessment_or_incomplete_provenance",
+      "test_contract.Contracts.test_clean_calibration_excludes_assessment_upstream_and_is_invariant",
+      "test_contract.Contracts.test_cutoff_uses_permitted_validation_only_and_stays_fixed",
+      "test_contract.Contracts.test_deduplication_preserves_file_order_and_label_boundary",
+      "test_contract.Contracts.test_dropping_daily_evaluation_rows_or_reusing_state_fails",
+      "test_contract.Contracts.test_dst_days_are_23_and_25_hours",
+      "test_contract.Contracts.test_feature_order_and_forbidden_columns_are_enforced",
+      "test_contract.Contracts.test_features_do_not_read_outcomes_or_identifiers",
+      "test_contract.Contracts.test_fit_rejects_outer_people_even_when_row_universe_is_broad",
+      "test_contract.Contracts.test_folds_match_frozen_preflight_assignment",
+      "test_contract.Contracts.test_future_labels_do_not_change_earlier_personal_predictions",
+      "test_contract.Contracts.test_identity_fallback_does_not_erase_calibration_dependencies",
+      "test_contract.Contracts.test_inconsistent_session_is_rejected",
+      "test_contract.Contracts.test_matching_and_single_class_metrics",
+      "test_contract.Contracts.test_missing_and_unmapped_inference_context_is_explicit",
+      "test_contract.Contracts.test_missing_or_invalid_contract_fields_stop",
+      "test_contract.Contracts.test_nested_splits_exclude_every_parent_test_person",
+      "test_contract.Contracts.test_old_global_oof_others_dependency_is_rejected",
+      "test_contract.Contracts.test_participant_weights_preserve_bootstrap_multiplicity",
+      "test_contract.Contracts.test_personal_single_class_empty_and_optimizer_fallback",
+      "test_contract.Contracts.test_population_calibrator_with_hidden_person_dependency_fails",
+      "test_contract.Contracts.test_private_output_guard_resolves_traversal",
+      "test_contract.Contracts.test_protocol_and_source_seal",
+      "test_contract.Contracts.test_scoped_sklearn_pipeline_runs_on_tiny_fixture",
+      "test_contract.Contracts.test_self_calibration_cannot_be_relabelled_as_heldout_scores",
+      "test_contract.Contracts.test_single_class_and_empty_base_fallbacks",
+      "test_contract.Contracts.test_split_assignment_is_label_and_row_order_blind",
+      "test_contract.Contracts.test_strict_cutoff_equal_late_lock_and_shared_session",
+      "test_contract.Contracts.test_timezone_change_keeps_reference_and_uses_current_predictor_clock",
+      "test_contract.Contracts.test_train_only_preprocessing_and_evaluation_feature_invariance",
+      "test_contract.Contracts.test_warmup_partial_day_and_midnight_not_4am",
+      "test_contract.Contracts.test_warning_retry_and_failure_behavior"
+    ]
+  },
+  "source_sha256": {
+    "deliverables/05_model_refinement_test_submission/code/check_data_contract.py": "01951f5784ce69f38052d087a9d01eb677151a251da0d3d73962d1f6058f1caa",
+    "deliverables/05_model_refinement_test_submission/code/nudgewell_hw5/__init__.py": "77c68fb3867fc586bdaf1e6a243641fc3f8249e396cd2542f5ff3d86c7c11089",
+    "deliverables/05_model_refinement_test_submission/code/nudgewell_hw5/data_contract.py": "26ac01c605fa9b0abc07c5a985d2ee212e4dcbb2162bab2cc009db9493efeb0d",
+    "deliverables/05_model_refinement_test_submission/code/nudgewell_hw5/evaluation_contract.py": "f213eb0e5a4cdfb660dfd62f84ebb05aa14f5d995e90266852e71c706174ad1e",
+    "deliverables/05_model_refinement_test_submission/code/nudgewell_hw5/splits.py": "fc6dd6500fd5d1c542a55bc7c668977b56325c9035700cd4f28347750c9b456f",
+    "deliverables/05_model_refinement_test_submission/tests/test_contract.py": "d5d20f30e7f8724590f1e8e1a01f18e109d15d5236694afdce4f2b477f1f1baa"
+  },
+  "release_counts": {
+    "released_rows": 5772,
+    "unique_rows": 5627,
+    "positive_rows": 718,
+    "participants": 37,
+    "columns": 92
+  },
+  "row_reconciliation": {
+    "released": 5772,
+    "exact_duplicates_removed": 145,
+    "unique": 5627,
+    "feature_exclusions": 0,
+    "known_user_warmup_rows": 1855,
+    "known_user_evaluation_rows": 3772,
+    "known_user_evaluation_people": 37,
+    "known_user_evaluated_days": 423,
+    "unresolved_history_row_day_exclusions": 1,
+    "unique_unresolved_history_rows": 1
+  },
+  "feature_packs": {
+    "time_session": 5,
+    "main_context": 15
+  },
+  "missing_category_encoded_without_dropping_rows": 703,
+  "nested_split_counts": {
+    "outer": 5,
+    "inner": 15,
+    "calibration": 45
+  },
+  "outer_aggregate_geometry": [
+    {
+      "outer_fold": 0,
+      "fit_people": 29,
+      "test_people": 8,
+      "fit_rows": 4307,
+      "test_rows": 1320,
+      "inner_folds": [
+        {
+          "fold": 0,
+          "fit_people": 19,
+          "validation_people": 10,
+          "fit_rows": 2846,
+          "validation_rows": 1461
+        },
+        {
+          "fold": 1,
+          "fit_people": 19,
+          "validation_people": 10,
+          "fit_rows": 2728,
+          "validation_rows": 1579
+        },
+        {
+          "fold": 2,
+          "fit_people": 20,
+          "validation_people": 9,
+          "fit_rows": 3040,
+          "validation_rows": 1267
+        }
+      ]
+    },
+    {
+      "outer_fold": 1,
+      "fit_people": 29,
+      "test_people": 8,
+      "fit_rows": 4339,
+      "test_rows": 1288,
+      "inner_folds": [
+        {
+          "fold": 0,
+          "fit_people": 19,
+          "validation_people": 10,
+          "fit_rows": 2776,
+          "validation_rows": 1563
+        },
+        {
+          "fold": 1,
+          "fit_people": 19,
+          "validation_people": 10,
+          "fit_rows": 2726,
+          "validation_rows": 1613
+        },
+        {
+          "fold": 2,
+          "fit_people": 20,
+          "validation_people": 9,
+          "fit_rows": 3176,
+          "validation_rows": 1163
+        }
+      ]
+    },
+    {
+      "outer_fold": 2,
+      "fit_people": 30,
+      "test_people": 7,
+      "fit_rows": 4514,
+      "test_rows": 1113,
+      "inner_folds": [
+        {
+          "fold": 0,
+          "fit_people": 20,
+          "validation_people": 10,
+          "fit_rows": 2878,
+          "validation_rows": 1636
+        },
+        {
+          "fold": 1,
+          "fit_people": 20,
+          "validation_people": 10,
+          "fit_rows": 3042,
+          "validation_rows": 1472
+        },
+        {
+          "fold": 2,
+          "fit_people": 20,
+          "validation_people": 10,
+          "fit_rows": 3108,
+          "validation_rows": 1406
+        }
+      ]
+    },
+    {
+      "outer_fold": 3,
+      "fit_people": 30,
+      "test_people": 7,
+      "fit_rows": 4830,
+      "test_rows": 797,
+      "inner_folds": [
+        {
+          "fold": 0,
+          "fit_people": 20,
+          "validation_people": 10,
+          "fit_rows": 3361,
+          "validation_rows": 1469
+        },
+        {
+          "fold": 1,
+          "fit_people": 20,
+          "validation_people": 10,
+          "fit_rows": 3155,
+          "validation_rows": 1675
+        },
+        {
+          "fold": 2,
+          "fit_people": 20,
+          "validation_people": 10,
+          "fit_rows": 3144,
+          "validation_rows": 1686
+        }
+      ]
+    },
+    {
+      "outer_fold": 4,
+      "fit_people": 30,
+      "test_people": 7,
+      "fit_rows": 4518,
+      "test_rows": 1109,
+      "inner_folds": [
+        {
+          "fold": 0,
+          "fit_people": 20,
+          "validation_people": 10,
+          "fit_rows": 3208,
+          "validation_rows": 1310
+        },
+        {
+          "fold": 1,
+          "fit_people": 20,
+          "validation_people": 10,
+          "fit_rows": 3096,
+          "validation_rows": 1422
+        },
+        {
+          "fold": 2,
+          "fit_people": 20,
+          "validation_people": 10,
+          "fit_rows": 2732,
+          "validation_rows": 1786
+        }
+      ]
+    }
+  ],
+  "private_manifest": "deliverables/05_model_refinement_test_submission/run/step4/split_manifest.json",
+  "real_data_model_fits": 0,
+  "real_data_predictions_or_performance_estimates_created": false,
+  "scope": "Implemented data/feature, split, scoped-fit/calibration-provenance, history, preprocessing and cutoff primitives. Tests fit tiny synthetic models only.",
+  "remaining_before_full_experiments": [
+    "Implement the bounded candidate selector and orchestration in Step 5.",
+    "Test selected calibration/cutoff fallback orchestration and complete aggregate metrics/bootstrap/figure generation when implemented.",
+    "Independently review integrated model-selection/evaluation data flow before final report claims."
+  ]
+}

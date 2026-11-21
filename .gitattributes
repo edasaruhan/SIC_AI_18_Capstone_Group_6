@@ -2,3 +2,14 @@
 *.py text eol=lf
 *.sh text eol=lf
 *.ps1 text eol=crlf
+
+# Preserve the exact checkout bytes checked by the sealed HW5 v1 protocol and results.
+data/README.md text eol=lf
+deliverables/04_data_preparation_model_exploration/requirements.txt text eol=lf
+deliverables/04_data_preparation_model_exploration/code/hw4_pipeline.py text eol=crlf
+deliverables/04_data_preparation_model_exploration/build/results/results_real.json text eol=crlf
+deliverables/05_model_refinement_test_submission/build/baseline_review.md text eol=lf
+deliverables/05_model_refinement_test_submission/build/baseline_evidence.json text eol=crlf
+deliverables/05_model_refinement_test_submission/build/protocol.json text eol=crlf
+deliverables/05_model_refinement_test_submission/build/protocol_notes.md text eol=lf
+deliverables/05_model_refinement_test_submission/build/results/hw5-v1-step5-20261117_evaluation.json text eol=crlf

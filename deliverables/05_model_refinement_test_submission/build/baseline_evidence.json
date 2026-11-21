@@ -1,0 +1,251 @@
+{
+  "review_date": "2026-11-16",
+  "scope": "Saved HW4 result reconciliation and deterministic old-split audit; no model fitting or new model evaluation.",
+  "source_sha256": {
+    "hw4_pipeline.py": "b42769ee1310e65d66ad66e10679098c058e5ba29da52b1cb15d0926c1c2c846",
+    "results_real.json": "5e0d4205b523580631878460ffb80439df0c8423c81f6106cff9317438796ab8"
+  },
+  "source_functions": {
+    "load": {
+      "start": 88,
+      "end": 94
+    },
+    "build_features": {
+      "start": 97,
+      "end": 113
+    },
+    "make_models": {
+      "start": 125,
+      "end": 163
+    },
+    "pooled": {
+      "start": 167,
+      "end": 172
+    },
+    "per_person": {
+      "start": 175,
+      "end": 189
+    },
+    "boot": {
+      "start": 192,
+      "end": 202
+    },
+    "summarise": {
+      "start": 205,
+      "end": 225
+    },
+    "random_pr_level": {
+      "start": 228,
+      "end": 244
+    },
+    "lopo": {
+      "start": 248,
+      "end": 254
+    },
+    "chrono_split": {
+      "start": 257,
+      "end": 264
+    },
+    "fit_offset": {
+      "start": 267,
+      "end": 277
+    },
+    "personal_regime": {
+      "start": 280,
+      "end": 378
+    },
+    "icc1": {
+      "start": 382,
+      "end": 389
+    },
+    "within_difference": {
+      "start": 392,
+      "end": 408
+    },
+    "wilson": {
+      "start": 411,
+      "end": 415
+    },
+    "describe": {
+      "start": 418,
+      "end": 565
+    },
+    "main": {
+      "start": 569,
+      "end": 696
+    }
+  },
+  "local_data_audit": {
+    "rows_released": 5772,
+    "columns": 92,
+    "rows_unique": 5627,
+    "duplicate_rows": 145,
+    "participants": 37,
+    "high_gap_n": 718,
+    "high_gap_rate": 0.12759907588413008,
+    "global_both_classes_participants": 34,
+    "n_test_rows": 1705,
+    "test_positives": 219,
+    "test_participants": 37,
+    "test_both_classes_participants": 25,
+    "same_day_split_participants_by_definition": {
+      "local_midnight": 36,
+      "released_date": 36,
+      "released_date_4am": 34,
+      "local_4am": 34,
+      "utc_midnight": 33
+    },
+    "shared_boundary_sessions": 1,
+    "training_outcomes_unresolved_at_first_test": 1,
+    "participants_with_unresolved_training_outcome": 1,
+    "app_duration_exceeds_elapsed": {
+      "rows": 97,
+      "people": 3
+    },
+    "missing": {
+      "app_category": 703,
+      "app_durations": 700,
+      "activity": 127
+    },
+    "esm_local_hour_matches_esm_hour": true,
+    "raw_sha256": "fda56b69c89bc7bad98f430ca0f4139eac52ff4108e7e1bbc6882661009c0f0a"
+  },
+  "historical_metrics_from_saved_json": {
+    "global": {
+      "LR": {
+        "roc_auc": 0.6160389279879886,
+        "pr_auc": 0.17754628993072075,
+        "brier": 0.2227232746266369,
+        "within_roc_auc": 0.622879990875369,
+        "within_pr_auc": 0.2526335993160429,
+        "within_n": 34
+      },
+      "RF": {
+        "roc_auc": 0.5983878737876142,
+        "pr_auc": 0.15633442085237464,
+        "brier": 0.19288680954176232,
+        "within_roc_auc": 0.6298016846737522,
+        "within_pr_auc": 0.23567176230801964,
+        "within_n": 34
+      },
+      "XGB": {
+        "roc_auc": 0.5743082599125817,
+        "pr_auc": 0.15412111650709578,
+        "brier": 0.19720622448320038,
+        "within_roc_auc": 0.6112647761214658,
+        "within_pr_auc": 0.2388960391082777,
+        "within_n": 34
+      },
+      "LGBM": {
+        "roc_auc": 0.5574049369840285,
+        "pr_auc": 0.15063462106974973,
+        "brier": 0.18820618675195294,
+        "within_roc_auc": 0.6018576586308563,
+        "within_pr_auc": 0.23088707618514126,
+        "within_n": 34
+      },
+      "RF + demographics": {
+        "roc_auc": 0.557345356803007,
+        "pr_auc": 0.15473176941167838,
+        "brier": 0.17574484046971545,
+        "within_roc_auc": 0.6303231416601589,
+        "within_pr_auc": 0.24928118735198157,
+        "within_n": 34
+      },
+      "LR + demographics": {
+        "roc_auc": 0.5242462965243192,
+        "pr_auc": 0.14360738307313914,
+        "brier": 0.22253164210343204,
+        "within_roc_auc": 0.6343489929525439,
+        "within_pr_auc": 0.25289443583837934,
+        "within_n": 34
+      },
+      "Fixed rule (night, social or > 10 min)": {
+        "roc_auc": 0.5994208806404699,
+        "pr_auc": 0.16544701834834516,
+        "brier": 0.2653278834192287,
+        "within_roc_auc": 0.5698903368167145,
+        "within_pr_auc": 0.18387550965520594,
+        "within_n": 34
+      }
+    },
+    "personal": {
+      "Own base rate": {
+        "roc_auc": 0.8270739996435529,
+        "pr_auc": 0.5069840599329345,
+        "brier": 0.08361987618261714,
+        "within_roc_auc": 0.5,
+        "within_pr_auc": 0.19945966536918852,
+        "within_n": 25
+      },
+      "Global (zero-shot)": {
+        "roc_auc": 0.5979768555221643,
+        "pr_auc": 0.15197299153798652,
+        "brier": 0.19305007875259156,
+        "within_roc_auc": 0.6022228314028291,
+        "within_pr_auc": 0.31022376837737387,
+        "within_n": 25
+      },
+      "Global + personal intercept": {
+        "roc_auc": 0.8370975374423077,
+        "pr_auc": 0.539566790072145,
+        "brier": 0.08243929648401291,
+        "within_roc_auc": 0.6022228314028291,
+        "within_pr_auc": 0.31022376837737387,
+        "within_n": 25
+      },
+      "Personal RF": {
+        "roc_auc": 0.8429251399669365,
+        "pr_auc": 0.5581092708500176,
+        "brier": 0.08564901974262909,
+        "within_roc_auc": 0.5872441029597577,
+        "within_pr_auc": 0.3616650314565725,
+        "within_n": 25
+      },
+      "Personal XGBoost": {
+        "roc_auc": 0.8125795092092407,
+        "pr_auc": 0.3650504290175632,
+        "brier": 0.10869203274576587,
+        "within_roc_auc": 0.6106290924948258,
+        "within_pr_auc": 0.37433098952322014,
+        "within_n": 25
+      },
+      "Combined RF": {
+        "roc_auc": 0.7440064652126084,
+        "pr_auc": 0.40539086068982894,
+        "brier": 0.16988569075831522,
+        "within_roc_auc": 0.6153625515668163,
+        "within_pr_auc": 0.3719162534702689,
+        "within_n": 25
+      }
+    }
+  },
+  "saved_aggregate_checks": {
+    "data.rows_released": true,
+    "data.rows_unique": true,
+    "data.duplicate_rows": true,
+    "data.participants": true,
+    "data.high_gap_n": true,
+    "data.high_gap_rate": true,
+    "data.app_duration_exceeds_elapsed": true,
+    "data.missing": true,
+    "feature_count": true,
+    "personal.n_test_rows": true,
+    "personal.test_prevalence": true,
+    "global.within_n": true,
+    "personal.within_n": true,
+    "confusion.LR": true,
+    "confusion.RF": true,
+    "confusion.XGB": true,
+    "confusion.LGBM": true,
+    "confusion.RF + demographics": true,
+    "confusion.LR + demographics": true,
+    "confusion.Fixed rule": true
+  },
+  "all_checks_pass": true,
+  "limitations": [
+    "The Mac .local/model-refinement/data-audit.json and original HW5 template were unavailable.",
+    "Saved prediction files were unavailable; model metrics and intervals were not independently reproduced.",
+    "The published dictionary does not establish the collection windows of every derived feature."
+  ]
+}

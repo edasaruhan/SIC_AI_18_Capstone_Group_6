@@ -1,0 +1,258 @@
+{
+  "scope": "Configuration, source/data consistency and boundary feasibility only; no model fits or performance estimates.",
+  "protocol_sha256": "566f08be28187c6c3ddfc7683eae43d1d9fac7caa0f63821fc71a843bb4a7d06",
+  "frozen_date_local": "2026-11-17",
+  "checks": {
+    "frozen_v1": true,
+    "no_training_at_freeze": true,
+    "python_version": true,
+    "version.numpy": true,
+    "version.pandas": true,
+    "version.scipy": true,
+    "version.scikit-learn": true,
+    "source.hw4_code": true,
+    "source.hw4_saved_results": true,
+    "source.baseline_review": true,
+    "source.baseline_evidence": true,
+    "source.data_card": true,
+    "source.numerical_requirements": true,
+    "source.protocol_explanation": true,
+    "source.protocol_validator": true,
+    "raw_hash": true,
+    "dictionary.full_data_all_feature_dictonary.md": true,
+    "dictionary.app_categorization_dictionary.md": true,
+    "input_packs": true,
+    "input_order": true,
+    "no_forbidden_inputs": true,
+    "candidate_counts": true,
+    "candidate_ids_unique": true,
+    "LR_grid": true,
+    "RF_grid": true,
+    "structural_grid": true,
+    "structure_ids_unique": true,
+    "fixed_anchors": true,
+    "fold_geometry": true,
+    "calibration_assessment_separated": true,
+    "cutoff_fixed_in_training": true,
+    "daily_contract": true,
+    "peer_archive_excludes_outer_fold": true,
+    "paired_participant_bootstrap": true,
+    "private_run_ignored": true,
+    "expected_counts": true,
+    "required_columns": true,
+    "valid_target": true,
+    "finite_timestamps": true,
+    "valid_timestamp_order": true,
+    "elapsed_matches_release": true,
+    "identity_metadata_present": true,
+    "timezone_reference_rule": true,
+    "session_unlock_consistent": true,
+    "session_lock_consistent": true,
+    "category_vocabulary": true,
+    "genres_match_categories": true,
+    "recorded_package_is_prompt_app": true,
+    "recorded_categories_have_prompt_app": true,
+    "recorded_categories_have_package": true,
+    "timezone_hour_matches": true,
+    "timezone_weekday_matches": true,
+    "timezone_local_time_matches": true,
+    "outer.0.disjoint": true,
+    "outer.0.inner.0.geometry": true,
+    "outer.0.inner.1.geometry": true,
+    "outer.0.inner.2.geometry": true,
+    "outer.1.disjoint": true,
+    "outer.1.inner.0.geometry": true,
+    "outer.1.inner.1.geometry": true,
+    "outer.1.inner.2.geometry": true,
+    "outer.2.disjoint": true,
+    "outer.2.inner.0.geometry": true,
+    "outer.2.inner.1.geometry": true,
+    "outer.2.inner.2.geometry": true,
+    "outer.3.disjoint": true,
+    "outer.3.inner.0.geometry": true,
+    "outer.3.inner.1.geometry": true,
+    "outer.3.inner.2.geometry": true,
+    "outer.4.disjoint": true,
+    "outer.4.inner.0.geometry": true,
+    "outer.4.inner.1.geometry": true,
+    "outer.4.inner.2.geometry": true,
+    "day_forward_sessions_disjoint": true,
+    "day_forward_nonempty": true
+  },
+  "all_checks_pass": true,
+  "versions": {
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "scipy": "1.16.3",
+    "scikit-learn": "1.8.0"
+  },
+  "data_counts": {
+    "released_rows": 5772,
+    "unique_rows": 5627,
+    "positive_rows": 718,
+    "participants": 37,
+    "columns": 92
+  },
+  "app_metadata_counts": {
+    "recorded_app_name_pairs": 4924,
+    "category_missing": 703,
+    "prompt_app_missing": 700,
+    "category_missing_with_known_prompt_app": 3
+  },
+  "people_with_multiple_recorded_timezones": 1,
+  "outer_fold_aggregate_geometry": [
+    {
+      "outer_fold": 0,
+      "test_people": 8,
+      "test_rows": 1320,
+      "test_positives": 156,
+      "inner_folds": [
+        {
+          "fold": 0,
+          "validation_people": 10,
+          "fit_people": 19,
+          "validation_rows": 1461,
+          "validation_positives": 364
+        },
+        {
+          "fold": 1,
+          "validation_people": 10,
+          "fit_people": 19,
+          "validation_rows": 1579,
+          "validation_positives": 79
+        },
+        {
+          "fold": 2,
+          "validation_people": 9,
+          "fit_people": 20,
+          "validation_rows": 1267,
+          "validation_positives": 119
+        }
+      ]
+    },
+    {
+      "outer_fold": 1,
+      "test_people": 8,
+      "test_rows": 1288,
+      "test_positives": 233,
+      "inner_folds": [
+        {
+          "fold": 0,
+          "validation_people": 10,
+          "fit_people": 19,
+          "validation_rows": 1563,
+          "validation_positives": 228
+        },
+        {
+          "fold": 1,
+          "validation_people": 10,
+          "fit_people": 19,
+          "validation_rows": 1613,
+          "validation_positives": 134
+        },
+        {
+          "fold": 2,
+          "validation_people": 9,
+          "fit_people": 20,
+          "validation_rows": 1163,
+          "validation_positives": 123
+        }
+      ]
+    },
+    {
+      "outer_fold": 2,
+      "test_people": 7,
+      "test_rows": 1113,
+      "test_positives": 131,
+      "inner_folds": [
+        {
+          "fold": 0,
+          "validation_people": 10,
+          "fit_people": 20,
+          "validation_rows": 1636,
+          "validation_positives": 348
+        },
+        {
+          "fold": 1,
+          "validation_people": 10,
+          "fit_people": 20,
+          "validation_rows": 1472,
+          "validation_positives": 109
+        },
+        {
+          "fold": 2,
+          "validation_people": 10,
+          "fit_people": 20,
+          "validation_rows": 1406,
+          "validation_positives": 130
+        }
+      ]
+    },
+    {
+      "outer_fold": 3,
+      "test_people": 7,
+      "test_rows": 797,
+      "test_positives": 96,
+      "inner_folds": [
+        {
+          "fold": 0,
+          "validation_people": 10,
+          "fit_people": 20,
+          "validation_rows": 1469,
+          "validation_positives": 94
+        },
+        {
+          "fold": 1,
+          "validation_people": 10,
+          "fit_people": 20,
+          "validation_rows": 1675,
+          "validation_positives": 180
+        },
+        {
+          "fold": 2,
+          "validation_people": 10,
+          "fit_people": 20,
+          "validation_rows": 1686,
+          "validation_positives": 348
+        }
+      ]
+    },
+    {
+      "outer_fold": 4,
+      "test_people": 7,
+      "test_rows": 1109,
+      "test_positives": 102,
+      "inner_folds": [
+        {
+          "fold": 0,
+          "validation_people": 10,
+          "fit_people": 20,
+          "validation_rows": 1310,
+          "validation_positives": 200
+        },
+        {
+          "fold": 1,
+          "validation_people": 10,
+          "fit_people": 20,
+          "validation_rows": 1422,
+          "validation_positives": 328
+        },
+        {
+          "fold": 2,
+          "validation_people": 10,
+          "fit_people": 20,
+          "validation_rows": 1786,
+          "validation_positives": 88
+        }
+      ]
+    }
+  ],
+  "known_user_boundary_feasibility": {
+    "people": 37,
+    "rows": 3772,
+    "observed_days": 423,
+    "shared_history_evaluation_session_errors": 0
+  },
+  "implementation_acceptance_tests_passed": false,
+  "implementation_test_status": "Not implemented at Step 3; required before model runs."
+}

@@ -13,6 +13,7 @@ NudgeWell predicts the **intention–behavior gap** within a single phone sessio
 | 2 | **Literature, Data & Technology Review** | 12 Oct 2026 | [Report (PDF, 19 pages)](deliverables/02_literature_data_technology_review/NudgeWell_Group6_Literature_Data_Technology_Review.pdf) | [Interactive supplement](https://htmlpreview.github.io/?https://github.com/edasaruhan/SIC_AI_18_Capstone_Group_6/blob/main/deliverables/02_literature_data_technology_review/NudgeWell_Group6_Literature_Data_Technology_Review_Supplement.html) (opens in the browser) and its [PDF copy](deliverables/02_literature_data_technology_review/NudgeWell_Group6_Literature_Data_Technology_Review_Supplement.pdf); figures; analysis notebook; build sources |
 | 3 | **Concept Note & Implementation Plan** | 20 Oct 2026 | [Concept note and plan (PDF, 17 pages)](deliverables/03_concept_note_implementation_plan/NudgeWell_Group6_Concept_Note_Implementation_Plan.pdf) | The document as a Word file; architecture diagram and Gantt chart; build sources |
 | 4 | **Data Preparation / Feature Engineering and Model Exploration** | – | [Report (PDF, 13 pages)](deliverables/04_data_preparation_model_exploration/NudgeWell_Group6_Data_Preparation_Model_Exploration.pdf) | The report as a Word file; seven figures; [the analysis script](deliverables/04_data_preparation_model_exploration/code/hw4_pipeline.py) behind every number; build sources and aggregate results |
+| 5 | **Model Refinement and Test Submission** | 12 Nov 2026 | [Report (PDF, 7 pages)](deliverables/05_model_refinement_test_submission/NudgeWell_HW5_Model_Refinement_and_Test_Submission.pdf) | [Word report](deliverables/05_model_refinement_test_submission/NudgeWell_HW5_Model_Refinement_and_Test_Submission.docx), frozen protocol, evaluation code and tests, figures, and aggregate results |
 
 Each homework folder has its own README that lists every file.
 
@@ -39,10 +40,15 @@ deliverables/
 ├── 03_concept_note_implementation_plan/    Homework 3
 │   ├── figures/                            architecture diagram and Gantt chart
 │   └── build/                              document text, build and figure scripts, fixed-rule check
-└── 04_data_preparation_model_exploration/  Homework 4
-    ├── code/                               the analysis script behind every number
-    ├── figures/                            Figures 1–7
-    └── build/                              figure and Word-file scripts, synthetic-data checks, results
+├── 04_data_preparation_model_exploration/  Homework 4
+│   ├── code/                               the analysis script behind every number
+│   ├── figures/                            Figures 1–7
+│   └── build/                              figure and Word-file scripts, synthetic-data checks, results
+└── 05_model_refinement_test_submission/   Homework 5
+    ├── code/                               participant-aware selection and evaluation
+    ├── tests/                              synthetic unit and integration checks
+    ├── figures/                            three evaluation figures
+    └── build/                              frozen protocol, aggregate results, and report scripts
 notebooks/
 └── 01_awaremind_eda.ipynb                  analysis behind every statistic in Homework 2
 data/

@@ -1,0 +1,22 @@
+{
+  "date_local": "2026-11-17",
+  "run_id": "hw5-v1-step5-20261117",
+  "checks": {
+    "frozen_protocol_and_sources": true,
+    "gate_code_hashes_match_run": true,
+    "five_checkpoint_hashes_valid": true,
+    "all_160_candidate_traces_present": true,
+    "outer_results_unopened": true,
+    "no_real_evaluation_predictions": true
+  },
+  "tests_passed": 51,
+  "candidate_evaluations": 160,
+  "fit_counts": {
+    "base_fit_jobs": 540,
+    "estimator_fit_attempts": 540,
+    "cache_hits": 0,
+    "failed_jobs": 0,
+    "constant_fallback_jobs": 0
+  },
+  "validation_only": true
+}

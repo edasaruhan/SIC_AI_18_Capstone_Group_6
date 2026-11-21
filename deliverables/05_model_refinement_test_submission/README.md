@@ -1,11 +1,55 @@
 # Homework 5 Model Refinement and Test Submission
 
 **NudgeWell · Group 6 · Samsung Innovation Campus**  
-**Step 1 evidence checklist · 8 November 2026**
+**Completed report · 21 November 2026**
 
-Complete all 14 sections of the instructor's template using traceable evidence. Continue Homework 4's binary task: predict `answer <= 5 and remaining_minutes > 5` from information available at the check-in. The homework can demonstrate refinement and retrospective held-out evaluation without a neural network or Android deployment. An improvement is a question to test, not a required outcome.
+The seven-page report follows the instructor's original template. It contains the matched held-out results, three figures, and three commented code excerpts. [PDF report](NudgeWell_HW5_Model_Refinement_and_Test_Submission.pdf) · [Word report](NudgeWell_HW5_Model_Refinement_and_Test_Submission.docx)
 
-This file is requirements analysis, not the completed report. No new training or evaluation was performed for this checklist. Homework 1–4 remain unchanged. The existing audit in [PLAN.md](PLAN.md) and the local timing audit were reused; relevant claims were checked against the actual Homework 4 source and saved aggregate results. No applicable `AGENTS.md` was found.
+The refined procedure showed no clear gain in new-user ranking. The daily offset modestly improved probability accuracy relative to the personal base rate and preserved the global model's within-day ranking. The work is a retrospective coursework evaluation. [Aggregate results](build/results/) · [Independent review](build/independent_review.md)
+
+## Reproduce the package
+
+Use a Git checkout so runs can record the source commit. From the repository root, install the [pinned Python 3.11 dependencies](requirements.txt). Run the synthetic gate with `python -m unittest discover -s deliverables/05_model_refinement_test_submission/tests -v`. The [experiment guide](code/EXPERIMENTS.md) documents selection and evaluation with a local copy of the dataset.
+
+The bundled figures and metrics can be rebuilt from the verified aggregates. Rebuilding the Word report also requires the original instructor template. On Windows, Microsoft Word exports the final PDF.
+
+```powershell
+python deliverables/05_model_refinement_test_submission/build/export_step6.py --run-id hw5-v1-step5-20261117
+python deliverables/05_model_refinement_test_submission/build/build_hw5_report.py --template 'path/to/Model Refinement_Template.docx'
+& deliverables/05_model_refinement_test_submission/build/render_docx.ps1
+```
+
+Raw data, participant manifests, row-level predictions and fitted models stay local. The project uses the released data for coursework analysis. Written permission is required before publishing or deploying a fitted model. [Data handling](../../data/README.md)
+
+## Continuation checkpoint — 16 November 2026
+
+**Step 2 is complete:** read [the baseline review](build/baseline_review.md), its [aggregate verification evidence](build/baseline_evidence.json), and the [reproducible count/split checker](build/verify_baseline.py). Historical model metrics were reconciled to the saved JSON and source; no models were trained. A bounded check of the local CSV confirms the old split crosses a midnight local day for 36 people and a 04:00-adjusted local day for 34, resolving the earlier ambiguous “34 local days” wording. The calibration dependency and evaluation-quantile cutoff require repair; feature provenance remains unresolved.
+
+The Mac's ignored template/audit files were not included in the Git sync; the review states what could be verified locally and what remains unavailable. The original Step 1 requirement mapping and Step 2 task brief below are retained as source context.
+
+## Frozen protocol checkpoint — 17 November 2026
+
+**Step 3 is complete:** [protocol.json](build/protocol.json) is frozen as v1.0.0, with a [plain-language explanation](build/protocol_notes.md), [SHA-256 seal](build/protocol.sha256), and [75 passing specification/data preflight checks](build/protocol_preflight.json). No HW5 models were fitted. The frozen design has 15 main inputs, a five-input comparison pack, five outer participant folds, three inner folds, bounded LR/RF selection, training-only calibration/cutoffs, and a matched daily personalization comparison after seven warmup days. Evaluation days use each participant's first-observed timezone; predictor clocks use each row's timezone. One participant's timezone changes are retained under that explicit rule.
+
+The Step 3 preflight checks the contract and data consistency; it is retained as a historical snapshot. Additions to the protocol after the freeze need a separate version and result lineage. Private manifests, row predictions and fitted models belong only in the ignored HW5 `run/` folder.
+
+## Data/split implementation checkpoint — 17 November 2026
+
+**Step 4 is complete:** [the implementation guide](code/README.md) describes the data/split contract, scoped fitting and calibration-provenance interfaces under `code/nudgewell_hw5/`. [35 synthetic boundary tests](tests/test_contract.py) pass, including the indirect calibration dependency, future-label mutations, strict lock cutoffs, session boundaries, training-only preprocessing, fixed cutoffs, timezone/DST and degenerate histories. [Aggregate verification evidence](build/step4_validation.json) reconciles 5,627 unique rows into 1,855 warmup and 3,772 day-forward evaluation rows across 37 people/423 days. All 5 outer, 15 inner and 45 calibration splits are constructed. Private memberships are ignored. No models were fitted on the released data, and the frozen protocol/seal remain unchanged.
+
+The Step 4 evidence is retained as a dated snapshot; the subsequent integration gate below covers the current implementation.
+
+## Bounded selection checkpoint — 17 November 2026
+
+**Step 5 is complete:** [the selector/runner guide](code/EXPERIMENTS.md) documents the exact candidate factory, scoped cache, nested calibration, immutable cutoffs, private checkpoints and separate selection/evaluation commands. [51 unit/integration tests passed](build/step5_validation.json) before real-data fitting. The validation-side run `hw5-v1-step5-20261117` completed **160 candidate evaluations and 540 successful base-fit jobs**, with no failed jobs. [Aggregate traces](build/results/hw5-v1-step5-20261117_selection.json) preserve all candidates and stage diagnostics; [the run review](build/step5_run_review.json) verifies source/artifact hashes and that outer evaluation is unopened. Fitted models and row scores remain in the ignored run directory.
+
+## Frozen evaluation checkpoint · 21 November 2026
+
+**Step 6 is complete.** All 51 tests passed before the five saved procedures were applied. The new-user evaluation covers 5,627 check-ins across 37 held-out participants. The matched daily evaluation covers 3,772 check-ins across 423 participant-days. The new-user balanced AP difference was −0.0169 (paired 95% interval −0.0652 to +0.0222). The daily offset lowered balanced Brier loss by 0.00159 versus the personal base rate (paired 95% interval 0.00048 to 0.00275). Row coverage, history, saved cutoffs, metrics and both paired intervals were verified from the private prediction files. [Evaluation review and figures](build/evaluation_review.md) · [Aggregate metrics CSV](build/results/hw5-v1-step5-20261117_metrics.csv) · [Verification evidence](build/results/hw5-v1-step5-20261117_verification.json)
+
+## Independent review checkpoint · 21 November 2026
+
+**Step 7 is complete.** An independent reviewer traced participant isolation, nested calibration, saved cutoffs and the daily history boundary. It reproduced the paired intervals and reconciled the aggregate tables. The review found no material leakage or numerical error in the completed v1 run. The lead added the matched day manifest inside the ignored run directory and clarified that the daily probability gain is an average against the personal base rate. The review records four code discrepancies that did not affect this run. [Independent evidence review and dispositions](build/independent_review.md)
 
 ## Requirement categories
 
@@ -20,7 +64,7 @@ This file is requirements analysis, not the completed report. No new training or
 
 ## Evidence register
 
-Paths in this document are relative to `/Users/thynatos/Documents/IC` unless stated otherwise. Links resolve from this README. Source identifiers below provide exact file references for each checklist item; function names and JSON keys identify the relevant evidence within a file.
+Paths in this document are relative to the repository root unless stated otherwise. Links resolve from this README. Source identifiers below point to the files used for each checklist item.
 
 | ID | Existing source | Relevant content |
 |---|---|---|
@@ -222,10 +266,10 @@ Finish by filling the retained template from reviewed evidence and visually chec
 - Frozen-procedure held-out results, matching-row comparison tables, uncertainty, calibration/decision plots and review findings with dispositions.
 - Evidence-based conclusions, checked references and the completed, visually verified template. No deployment evidence is needed if deployment is inapplicable.
 
-## 4 Exact next task for the evaluation agent
+## 4 Historical handoff
 
-**Next deliverable:** `deliverables/05_model_refinement_test_submission/build/baseline_review.md` (PLAN Step 2). This is a bounded evidence reconciliation and evaluation-contract proposal; implementation follows the lead's frozen protocol in Step 3.
+The Step 9 walkthrough is complete.
 
-> Work in `/Users/thynatos/Documents/IC`. Read this README and `deliverables/05_model_refinement_test_submission/PLAN.md`. Reuse `.local/model-refinement/data-audit.json`; verify relevant findings against `deliverables/04_data_preparation_model_exploration/code/hw4_pipeline.py` and `deliverables/04_data_preparation_model_exploration/build/results/results_real.json`. Write `deliverables/05_model_refinement_test_submission/build/baseline_review.md`. Include (1) a historical starting table with JSON keys and code locations, distinguishing pooled/within-person metrics and coverage; (2) a finite issue list separating confirmed data-flow defects from unresolved feature provenance; and (3) proposed evaluation-contract decisions for the lead to freeze, covering new-user nested participant splits, known-user local-day cutoffs and resolved labels, calibration-score isolation, validation-only thresholds, matched rows, one-class fallbacks and metric weighting. Explain the indirect `global_oof[others]` calibration path and evaluation-quantile cutoff precisely. Preserve historical results as historical; do not rerun exploration or train models. Do not modify Homework 1–4. Return the evidence references, unresolved choices and exact tests the implementation must pass. Keep raw data, manifests, row predictions and fitted artifacts local and ignored. Do not submit coursework or contact anyone.
+The baseline review reconciled Homework 4's code and saved aggregates. It records the indirect calibration dependency, the evaluation-derived cutoff and the unresolved labels at the chronological split. These findings informed the frozen participant splits, calibration boundaries and daily history rules. [Baseline review](build/baseline_review.md)
 
-**Handoff complete when:** the lead can freeze `deliverables/05_model_refinement_test_submission/build/protocol.json` without rediscovering the old audit. After that prerequisite, the evaluation agent can implement the data/split contract and boundary tests under Homework 5 using the existing Python 3.11 `.venv`; model training is a later step.
+The original Step 2 handoff is complete. Its baseline review informed the frozen protocol and the completed evaluations. [Evaluation review](build/evaluation_review.md)

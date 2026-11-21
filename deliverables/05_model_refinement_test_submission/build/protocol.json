@@ -1,0 +1,965 @@
+{
+  "protocol_id": "nudgewell-hw5-evaluation-v1",
+  "version": "1.0.0",
+  "status": "frozen",
+  "freeze": {
+    "date_local": "2026-11-17",
+    "timezone": "Europe/Istanbul",
+    "authorization": "User requested Step 3 and freezing the evaluation protocol.",
+    "hw5_model_fits_before_freeze": 0,
+    "checkpoint_type": "before_any_new_HW5_model_fit_or_outer_performance_inspection",
+    "repository_head_at_freeze": "1edafe600db4bfe28ccd8eb376b0604753d2a927",
+    "branch": "codex/personalization-core",
+    "immutable_after_seal": true,
+    "amendment_policy": "Separate version, rationale, new hash and result lineage; post-outer-result changes are exploratory and never replace v1 results."
+  },
+  "purpose": {
+    "primary_question": "Does bounded model/feature/calibration refinement improve participant-balanced AP over an inner-selected fixed LR/RF baseline?",
+    "secondary_question": "Does a daily regularized personal offset improve participant-balanced Brier over a smoothed personal base rate?",
+    "evidence_type": "retrospective_internal_validation_on_previously_explored_data",
+    "claims_excluded": [
+      "untouched_external_test",
+      "prospective_common_calendar_deployment",
+      "intervention_effectiveness",
+      "clinical_addiction_diagnosis",
+      "completed_Android_deployment"
+    ],
+    "optional_extensions_enabled": []
+  },
+  "sources": {
+    "hw4_code": {
+      "path": "deliverables/04_data_preparation_model_exploration/code/hw4_pipeline.py",
+      "sha256": "b42769ee1310e65d66ad66e10679098c058e5ba29da52b1cb15d0926c1c2c846"
+    },
+    "hw4_saved_results": {
+      "path": "deliverables/04_data_preparation_model_exploration/build/results/results_real.json",
+      "sha256": "5e0d4205b523580631878460ffb80439df0c8423c81f6106cff9317438796ab8"
+    },
+    "baseline_review": {
+      "path": "deliverables/05_model_refinement_test_submission/build/baseline_review.md",
+      "sha256": "1e116699b165856659c30abd0b8a0eb5a344f50688615ad8971c96a9fa0a387c"
+    },
+    "baseline_evidence": {
+      "path": "deliverables/05_model_refinement_test_submission/build/baseline_evidence.json",
+      "sha256": "22244ea26393d7de2877d2935635f9cd0e7d16912f403fabfe14dd4d488241fd"
+    },
+    "data_card": {
+      "path": "data/README.md",
+      "sha256": "f6e2769845fb6a1c51aef3cdacdc61043525389bf68f96725237a945e7e10ed0"
+    },
+    "numerical_requirements": {
+      "path": "deliverables/04_data_preparation_model_exploration/requirements.txt",
+      "sha256": "1c1f81793f59d1a76ba361b20487270774bd245e7fe6718226085dfe7bae852b"
+    },
+    "protocol_explanation": {
+      "path": "deliverables/05_model_refinement_test_submission/build/protocol_notes.md",
+      "sha256": "8b3152b59aa7e2945675689a91af21094210f262c6bf0141e02e3ed1aa5cb71e"
+    },
+    "protocol_validator": {
+      "path": "deliverables/05_model_refinement_test_submission/build/validate_protocol.py",
+      "sha256": "db08a54277b9c9d0e8e8e32cf5fb07136dcffdfed31406d8e34d052131614c03"
+    }
+  },
+  "environment": {
+    "python_major_minor": [
+      3,
+      11
+    ],
+    "exact_packages": {
+      "numpy": "2.2.6",
+      "pandas": "2.3.3",
+      "scipy": "1.16.3",
+      "scikit-learn": "1.8.0"
+    },
+    "timezone_database": "Use installed IANA database; record tzdata/pytz versions in every run.",
+    "estimator_n_jobs": 1,
+    "parallel_model_fits": 1,
+    "numeric_dtype": "float64",
+    "warnings": "Capture warnings; never suppress globally.",
+    "new_dependency_install_required_for_step3": false
+  },
+  "data": {
+    "raw_filename": "full_data_all_feature.csv",
+    "raw_sha256": "fda56b69c89bc7bad98f430ca0f4139eac52ff4108e7e1bbc6882661009c0f0a",
+    "dictionary_sha256": {
+      "full_data_all_feature_dictonary.md": "c67085cda062934cfaed3848f6dd7e72859a11a1ab98cfaebf447f2e5fe5a1f1",
+      "app_categorization_dictionary.md": "7df50882c6ac9d0b4e28f17d0d1784376e8e4a22200f1b4a487fd087dee15d3b"
+    },
+    "expected_counts": {
+      "released_rows": 5772,
+      "unique_rows": 5627,
+      "positive_rows": 718,
+      "participants": 37,
+      "columns": 92
+    },
+    "deduplication": "pandas.drop_duplicates across all released columns, keep first, preserve file order, reset index",
+    "row_key": "Private SHA256 of the canonical released row including metadata; never use as a model input or publish.",
+    "target": "int(answer <= 5 and remaining_minutes > 5)",
+    "target_fields_required_complete": true,
+    "timestamps": "Milliseconds since UTC epoch; convert to timezone-aware local time using each row timezone.",
+    "required_columns": [
+      "pid",
+      "session_id_combined",
+      "answer",
+      "remaining_minutes",
+      "esm_time",
+      "unlock_time",
+      "lock_time",
+      "timezone",
+      "esm_local",
+      "esm_hour",
+      "esm_weekday",
+      "session_minutes",
+      "Category_L1",
+      "app_at_prompt",
+      "package_name",
+      "genre_Social",
+      "genre_Media",
+      "genre_Browser",
+      "genre_Game",
+      "genre_Message",
+      "genre_Work & Study",
+      "genre_Daily Life",
+      "genre_System tool",
+      "genre_To exclude"
+    ],
+    "data_contract_errors": [
+      "source hash/count mismatch",
+      "missing or nonfinite required timestamp/target",
+      "answer outside 1..10",
+      "negative remaining minutes",
+      "unlock after prompt or lock before prompt",
+      "missing participant/session/timezone metadata",
+      "unknown timezone",
+      "inconsistent unlock or lock within participant/session",
+      "unknown recorded category in this fixed released file"
+    ],
+    "error_action": "Stop before model fitting; investigate and version any necessary data-contract amendment. Do not silently discard rows.",
+    "current_eligible_population": "All 5627 deduplicated valid rows; predictors are fully reconstructible under the declared rules.",
+    "missing_predictor_values": "Predetermined context encoding plus training-fitted numeric preprocessing; no outcome-based row filtering.",
+    "deterministic_row_order": "Preserve original file order after exact deduplication for all fits and predictions. Private row hashes are join/provenance keys only, never sorting criteria or model inputs."
+  },
+  "features": {
+    "main_pack": "main_context",
+    "packs": {
+      "time_session": [
+        "hour_sin",
+        "hour_cos",
+        "weekday_sin",
+        "weekday_cos",
+        "log_session_minutes"
+      ],
+      "main_context": [
+        "hour_sin",
+        "hour_cos",
+        "weekday_sin",
+        "weekday_cos",
+        "log_session_minutes",
+        "genre_Social",
+        "genre_Media",
+        "genre_Browser",
+        "genre_Game",
+        "genre_Message",
+        "genre_Work & Study",
+        "genre_Daily Life",
+        "genre_System tool",
+        "genre_To exclude",
+        "app_context_missing"
+      ]
+    },
+    "ordered_definitions": [
+      {
+        "name": "hour_sin",
+        "expression": "sin(2*pi*integer_local_hour/24)",
+        "availability": "prompt timestamp"
+      },
+      {
+        "name": "hour_cos",
+        "expression": "cos(2*pi*integer_local_hour/24)",
+        "availability": "prompt timestamp"
+      },
+      {
+        "name": "weekday_sin",
+        "expression": "sin(2*pi*Monday_zero_local_weekday/7)",
+        "availability": "prompt timestamp"
+      },
+      {
+        "name": "weekday_cos",
+        "expression": "cos(2*pi*Monday_zero_local_weekday/7)",
+        "availability": "prompt timestamp"
+      },
+      {
+        "name": "log_session_minutes",
+        "expression": "log1p((esm_time-unlock_time)/60000)",
+        "availability": "current prompt and preceding unlock timestamps"
+      },
+      {
+        "name": "genre_Social",
+        "expression": "1 if Category_L1 == 'Social' else 0",
+        "availability": "static category metadata of app at prompt"
+      },
+      {
+        "name": "genre_Media",
+        "expression": "1 if Category_L1 == 'Media' else 0",
+        "availability": "static category metadata of app at prompt"
+      },
+      {
+        "name": "genre_Browser",
+        "expression": "1 if Category_L1 == 'Browser' else 0",
+        "availability": "static category metadata of app at prompt"
+      },
+      {
+        "name": "genre_Game",
+        "expression": "1 if Category_L1 == 'Game' else 0",
+        "availability": "static category metadata of app at prompt"
+      },
+      {
+        "name": "genre_Message",
+        "expression": "1 if Category_L1 == 'Message' else 0",
+        "availability": "static category metadata of app at prompt"
+      },
+      {
+        "name": "genre_Work & Study",
+        "expression": "1 if Category_L1 == 'Work & Study' else 0",
+        "availability": "static category metadata of app at prompt"
+      },
+      {
+        "name": "genre_Daily Life",
+        "expression": "1 if Category_L1 == 'Daily Life' else 0",
+        "availability": "static category metadata of app at prompt"
+      },
+      {
+        "name": "genre_System tool",
+        "expression": "1 if Category_L1 == 'System tool' else 0",
+        "availability": "static category metadata of app at prompt"
+      },
+      {
+        "name": "genre_To exclude",
+        "expression": "1 if Category_L1 == 'To exclude' else 0",
+        "availability": "static category metadata of app at prompt"
+      },
+      {
+        "name": "app_context_missing",
+        "expression": "1 if Category_L1 is missing or outside app_categories else 0; all genre bits are zero in that case",
+        "availability": "current app metadata availability"
+      }
+    ],
+    "app_categories": [
+      "Social",
+      "Media",
+      "Browser",
+      "Game",
+      "Message",
+      "Work & Study",
+      "Daily Life",
+      "System tool",
+      "To exclude"
+    ],
+    "excluded_blocks": [
+      "app durations/totals and switches/counts within session or today",
+      "cumulative screen-time totals",
+      "tap/text/scroll interactions",
+      "sensor/activity fields and missingness flags",
+      "previous-session summaries without verified upstream collection logic",
+      "redundant released clock encodings"
+    ],
+    "forbidden_raw_classifier_columns": [
+      "answer",
+      "remaining_time",
+      "remaining_minutes",
+      "remaining_capped",
+      "remaining_log",
+      "remaining_scaled",
+      "temp_scaled",
+      "intention_behavior_gap",
+      "high_gap",
+      "lock_time",
+      "pid",
+      "PID",
+      "host",
+      "esm_id_full",
+      "session_id_combined",
+      "session_index",
+      "package_name",
+      "app_at_prompt",
+      "date",
+      "date_4am",
+      "unlock_time",
+      "esm_time",
+      "esm_local",
+      "unlock_local",
+      "timezone",
+      "Age",
+      "Gender_encoded",
+      "Education_encoded",
+      "Race_Asian",
+      "Race_black",
+      "Race_native",
+      "Race_others",
+      "Race_white",
+      "Employment_full_time",
+      "Employment_part_time",
+      "Employment_student",
+      "Employment_self_employed",
+      "Employment_retired",
+      "Employment_homemaker",
+      "Employment_others",
+      "is_synthetic"
+    ],
+    "pre_prompt_assumptions": [
+      "Current-app categories are static lookups attached to app_at_prompt; local package/category/genre consistency is checked. Original collector code was not inspected."
+    ],
+    "new_or_unproven_features_after_freeze": "Not admitted to v1; any later addition requires a versioned exploratory amendment.",
+    "inference_unknown_category": "Encode all genre bits zero and app_context_missing=1; do not learn a category vocabulary from evaluation rows.",
+    "input_order": "Exactly the selected ordered pack; fail on absent required raw columns. Ignore unrelated extra raw columns but record schema.",
+    "feature_selection": "Only the two predeclared packs; choose pack inside inner validation. No permutation-importance-driven changes after outer results."
+  },
+  "preprocessing": {
+    "LR": [
+      "SimpleImputer(strategy=median,keep_empty_features=True)",
+      "StandardScaler(with_mean=True,with_std=True)",
+      "LogisticRegression"
+    ],
+    "RF": [
+      "SimpleImputer(strategy=median,keep_empty_features=True)",
+      "RandomForestClassifier"
+    ],
+    "fit_scope": "Current base-fit training partition only; transformations cloned per fit.",
+    "all_missing_training_feature": "Imputer keeps the column and fills zero; scaler uses its fitted constant-column behavior.",
+    "training_row_sample_weight": "Uniform one; candidate class_weight is additional estimator behavior. Participant-balanced weights apply to selection, calibration and specified reporting metrics."
+  },
+  "splits": {
+    "seed": 42,
+    "outer_folds": 5,
+    "inner_folds": 3,
+    "calibration_folds": 3,
+    "assignment": "Canonical group string is str(pid), unchanged case. Sort unique groups by (SHA256(UTF8(str(seed)+\"|\"+namespace+\"|\"+pid)).hexdigest(),pid); assign index modulo n_splits. No labels or row counts enter assignment.",
+    "outer_namespace": "outer",
+    "inner_namespace": "outer={outer_fold}/inner",
+    "calibration_namespace": "outer={outer_fold}/inner={inner_fold}/calibration",
+    "final_calibration_scores": "Reuse selected structure raw inner-held-out predictions within the full outer-training universe.",
+    "small_group_count": "Stop if a requested group split cannot be populated; never change fold counts based on scores.",
+    "one_class_training_partition": "Use declared smoothed constant predictor, retain rows and status; do not reshuffle.",
+    "manifest_output": "Ignored run directory only; public geometry is aggregate counts."
+  },
+  "models": {
+    "ordered_base_candidates": [
+      {
+        "id": "lr_C0.01_none",
+        "family": "LR",
+        "parameters": {
+          "C": 0.01,
+          "class_weight": null
+        }
+      },
+      {
+        "id": "lr_C0.01_balanced",
+        "family": "LR",
+        "parameters": {
+          "C": 0.01,
+          "class_weight": "balanced"
+        }
+      },
+      {
+        "id": "lr_C0.1_none",
+        "family": "LR",
+        "parameters": {
+          "C": 0.1,
+          "class_weight": null
+        }
+      },
+      {
+        "id": "lr_C0.1_balanced",
+        "family": "LR",
+        "parameters": {
+          "C": 0.1,
+          "class_weight": "balanced"
+        }
+      },
+      {
+        "id": "lr_C1_none",
+        "family": "LR",
+        "parameters": {
+          "C": 1.0,
+          "class_weight": null
+        }
+      },
+      {
+        "id": "lr_C1_balanced",
+        "family": "LR",
+        "parameters": {
+          "C": 1.0,
+          "class_weight": "balanced"
+        }
+      },
+      {
+        "id": "lr_C10_none",
+        "family": "LR",
+        "parameters": {
+          "C": 10.0,
+          "class_weight": null
+        }
+      },
+      {
+        "id": "lr_C10_balanced",
+        "family": "LR",
+        "parameters": {
+          "C": 10.0,
+          "class_weight": "balanced"
+        }
+      },
+      {
+        "id": "rf_d3_leaf5_none",
+        "family": "RF",
+        "parameters": {
+          "max_depth": 3,
+          "min_samples_leaf": 5,
+          "class_weight": null
+        }
+      },
+      {
+        "id": "rf_d3_leaf5_balanced",
+        "family": "RF",
+        "parameters": {
+          "max_depth": 3,
+          "min_samples_leaf": 5,
+          "class_weight": "balanced"
+        }
+      },
+      {
+        "id": "rf_d3_leaf1_none",
+        "family": "RF",
+        "parameters": {
+          "max_depth": 3,
+          "min_samples_leaf": 1,
+          "class_weight": null
+        }
+      },
+      {
+        "id": "rf_d3_leaf1_balanced",
+        "family": "RF",
+        "parameters": {
+          "max_depth": 3,
+          "min_samples_leaf": 1,
+          "class_weight": "balanced"
+        }
+      },
+      {
+        "id": "rf_d6_leaf5_none",
+        "family": "RF",
+        "parameters": {
+          "max_depth": 6,
+          "min_samples_leaf": 5,
+          "class_weight": null
+        }
+      },
+      {
+        "id": "rf_d6_leaf5_balanced",
+        "family": "RF",
+        "parameters": {
+          "max_depth": 6,
+          "min_samples_leaf": 5,
+          "class_weight": "balanced"
+        }
+      },
+      {
+        "id": "rf_d6_leaf1_none",
+        "family": "RF",
+        "parameters": {
+          "max_depth": 6,
+          "min_samples_leaf": 1,
+          "class_weight": null
+        }
+      },
+      {
+        "id": "rf_d6_leaf1_balanced",
+        "family": "RF",
+        "parameters": {
+          "max_depth": 6,
+          "min_samples_leaf": 1,
+          "class_weight": "balanced"
+        }
+      }
+    ],
+    "ordered_structural_candidates": [
+      {
+        "id": "time_session__lr_C0.01_none",
+        "base_id": "lr_C0.01_none",
+        "feature_pack": "time_session"
+      },
+      {
+        "id": "time_session__lr_C0.01_balanced",
+        "base_id": "lr_C0.01_balanced",
+        "feature_pack": "time_session"
+      },
+      {
+        "id": "time_session__lr_C0.1_none",
+        "base_id": "lr_C0.1_none",
+        "feature_pack": "time_session"
+      },
+      {
+        "id": "time_session__lr_C0.1_balanced",
+        "base_id": "lr_C0.1_balanced",
+        "feature_pack": "time_session"
+      },
+      {
+        "id": "time_session__lr_C1_none",
+        "base_id": "lr_C1_none",
+        "feature_pack": "time_session"
+      },
+      {
+        "id": "time_session__lr_C1_balanced",
+        "base_id": "lr_C1_balanced",
+        "feature_pack": "time_session"
+      },
+      {
+        "id": "time_session__lr_C10_none",
+        "base_id": "lr_C10_none",
+        "feature_pack": "time_session"
+      },
+      {
+        "id": "time_session__lr_C10_balanced",
+        "base_id": "lr_C10_balanced",
+        "feature_pack": "time_session"
+      },
+      {
+        "id": "time_session__rf_d3_leaf5_none",
+        "base_id": "rf_d3_leaf5_none",
+        "feature_pack": "time_session"
+      },
+      {
+        "id": "time_session__rf_d3_leaf5_balanced",
+        "base_id": "rf_d3_leaf5_balanced",
+        "feature_pack": "time_session"
+      },
+      {
+        "id": "time_session__rf_d3_leaf1_none",
+        "base_id": "rf_d3_leaf1_none",
+        "feature_pack": "time_session"
+      },
+      {
+        "id": "time_session__rf_d3_leaf1_balanced",
+        "base_id": "rf_d3_leaf1_balanced",
+        "feature_pack": "time_session"
+      },
+      {
+        "id": "time_session__rf_d6_leaf5_none",
+        "base_id": "rf_d6_leaf5_none",
+        "feature_pack": "time_session"
+      },
+      {
+        "id": "time_session__rf_d6_leaf5_balanced",
+        "base_id": "rf_d6_leaf5_balanced",
+        "feature_pack": "time_session"
+      },
+      {
+        "id": "time_session__rf_d6_leaf1_none",
+        "base_id": "rf_d6_leaf1_none",
+        "feature_pack": "time_session"
+      },
+      {
+        "id": "time_session__rf_d6_leaf1_balanced",
+        "base_id": "rf_d6_leaf1_balanced",
+        "feature_pack": "time_session"
+      },
+      {
+        "id": "main_context__lr_C0.01_none",
+        "base_id": "lr_C0.01_none",
+        "feature_pack": "main_context"
+      },
+      {
+        "id": "main_context__lr_C0.01_balanced",
+        "base_id": "lr_C0.01_balanced",
+        "feature_pack": "main_context"
+      },
+      {
+        "id": "main_context__lr_C0.1_none",
+        "base_id": "lr_C0.1_none",
+        "feature_pack": "main_context"
+      },
+      {
+        "id": "main_context__lr_C0.1_balanced",
+        "base_id": "lr_C0.1_balanced",
+        "feature_pack": "main_context"
+      },
+      {
+        "id": "main_context__lr_C1_none",
+        "base_id": "lr_C1_none",
+        "feature_pack": "main_context"
+      },
+      {
+        "id": "main_context__lr_C1_balanced",
+        "base_id": "lr_C1_balanced",
+        "feature_pack": "main_context"
+      },
+      {
+        "id": "main_context__lr_C10_none",
+        "base_id": "lr_C10_none",
+        "feature_pack": "main_context"
+      },
+      {
+        "id": "main_context__lr_C10_balanced",
+        "base_id": "lr_C10_balanced",
+        "feature_pack": "main_context"
+      },
+      {
+        "id": "main_context__rf_d3_leaf5_none",
+        "base_id": "rf_d3_leaf5_none",
+        "feature_pack": "main_context"
+      },
+      {
+        "id": "main_context__rf_d3_leaf5_balanced",
+        "base_id": "rf_d3_leaf5_balanced",
+        "feature_pack": "main_context"
+      },
+      {
+        "id": "main_context__rf_d3_leaf1_none",
+        "base_id": "rf_d3_leaf1_none",
+        "feature_pack": "main_context"
+      },
+      {
+        "id": "main_context__rf_d3_leaf1_balanced",
+        "base_id": "rf_d3_leaf1_balanced",
+        "feature_pack": "main_context"
+      },
+      {
+        "id": "main_context__rf_d6_leaf5_none",
+        "base_id": "rf_d6_leaf5_none",
+        "feature_pack": "main_context"
+      },
+      {
+        "id": "main_context__rf_d6_leaf5_balanced",
+        "base_id": "rf_d6_leaf5_balanced",
+        "feature_pack": "main_context"
+      },
+      {
+        "id": "main_context__rf_d6_leaf1_none",
+        "base_id": "rf_d6_leaf1_none",
+        "feature_pack": "main_context"
+      },
+      {
+        "id": "main_context__rf_d6_leaf1_balanced",
+        "base_id": "rf_d6_leaf1_balanced",
+        "feature_pack": "main_context"
+      }
+    ],
+    "fixed_anchor_ids": {
+      "LR": "lr_C1_balanced",
+      "RF": "rf_d6_leaf1_balanced"
+    },
+    "fixed_anchor_feature_pack": "main_context",
+    "fixed_anchor_calibration": "identity",
+    "LR_common": {
+      "solver": "lbfgs",
+      "penalty": "l2",
+      "fit_intercept": true,
+      "max_iter": 2000,
+      "tol": 0.0001,
+      "random_state": 42
+    },
+    "RF_common": {
+      "n_estimators": 100,
+      "criterion": "gini",
+      "min_samples_split": 10,
+      "max_features": "sqrt",
+      "bootstrap": true,
+      "random_state": 42,
+      "n_jobs": 1,
+      "ccp_alpha": 0.0
+    },
+    "search_strategy": "Exhaustive over the stored 32 structures, no adaptive extension.",
+    "base_probability_clip": [
+      1e-06,
+      0.999999
+    ],
+    "one_class_or_empty_fit": "Predict (positive_count+1)/(row_count+2); zero rows gives 0.5. Record fallback.",
+    "LR_nonconvergence": "Retry once at max_iter=10000 with otherwise identical settings; record both warnings. If still nonconvergent, invalidate candidate.",
+    "unexpected_candidate_fit_failure": "Candidate invalid for this outer selection if any required fit fails. Record exception type/count without publishing raw records. All candidates invalid means abort.",
+    "fixed_anchor_failure": "Abort the run; no silent replacement.",
+    "caching": "Reuse identical training-set, configuration and feature-pack fits; record cache provenance and prevent cross-universe reuse."
+  },
+  "selection": {
+    "metric": "participant_balanced_pooled_average_precision",
+    "weights": "For every person in the assembled inner-held-out rows, each row weight is 1 / number_of_that_persons_rows; normalize only through the metric denominator.",
+    "refined_structure": "Maximize raw assembled inner-held-out participant-balanced AP across 32 structures.",
+    "fixed_baseline_selector": "Maximize the same inner AP between fixed LR and RF anchors on main_context, identity calibration; LR wins a tie.",
+    "AP_tie_tolerance_absolute": 1e-12,
+    "tie_break": "Earliest stored structural-candidate order; time_session then main_context, LR before RF, stronger LR regularization and shallower/larger-leaf RF earlier.",
+    "calibration_selection": "After structural selection, compare identity with permitted nested-trained sigmoid by participant-balanced validation Brier.",
+    "selection_diagnostics": "Optimistic after selection; never report as independent performance.",
+    "all_selection_scope": "Outer-training universe only. Outer labels/features cannot alter preprocessing, candidates, hyperparameters, family, pack, calibration or cutoff."
+  },
+  "calibration": {
+    "options": [
+      "identity",
+      "sigmoid"
+    ],
+    "assessment": "inner_validation_with_calibrator_fit_wholly_inside_inner_training",
+    "fit_scores": "Three-fold participant-cross-fitted base probabilities generated inside the current inner-training universe using the fixed selected structure. Every upstream fit excludes the inner validation people.",
+    "map": "sigmoid(a*logit(clip(p,1e-6,1-1e-6))+b)",
+    "objective": "Participant-balanced weighted mean binary log loss + 1e-4*((a-1)^2+b^2). Weights sum to one in the mean.",
+    "parameters": {
+      "a_bounds": [
+        0.0,
+        10.0
+      ],
+      "b_bounds": [
+        -20.0,
+        20.0
+      ],
+      "initial": [
+        1.0,
+        0.0
+      ],
+      "optimizer": "scipy.optimize.minimize L-BFGS-B",
+      "maxiter": 1000,
+      "ftol": 1e-10,
+      "gtol": 1e-06
+    },
+    "retain_sigmoid_if": "assembled identity Brier minus sigmoid Brier > 1e-6; otherwise identity",
+    "improvement_tolerance": 1e-06,
+    "fit_failure_or_single_class": "Return identity with status; any inner sigmoid failure makes sigmoid ineligible for that outer selection. A final sigmoid failure falls back to identity with status.",
+    "final_fit": "If selected, fit sigmoid on raw inner-held-out scores of the selected structure across the outer training set; never use outer-test scores or labels.",
+    "prohibited": "Reusing whole-dataset global_oof[others] or assessment labels to fit the map assessed on them.",
+    "objective_numeric_form": "Use stable logaddexp(0,z)-y*z at z=a*logit(clip(p))+b, plus the declared penalty; normalize participant weights to sum one.",
+    "final_failure_cutoff": "If the final sigmoid fit fails, choose identity before outer application and compute the cutoff from the already saved raw inner-held-out scores; never mix a calibrated cutoff with an identity fallback."
+  },
+  "decisions": {
+    "validation_target_alert_share": 0.25,
+    "cutoff_source": "assembled_inner_held_out_scores",
+    "quantile": 0.75,
+    "quantile_method": "higher",
+    "cutoff_input": "For refined procedure, nested-calibrated inner validation probabilities for the chosen map option; for fixed anchors, raw permitted inner probabilities.",
+    "comparison_operator": ">=",
+    "ties": "All tied scores at cutoff are flagged; report actual share, target is not a hard capacity cap.",
+    "evaluation_refit_allowed": false,
+    "known_user_personal_cutoff": "Reuse that persons population refined-procedure cutoff for global, personal-rate and offset diagnostics; never use their future scores to re-match shares.",
+    "population_prior_cutoff": null,
+    "fixed_rule": {
+      "expression": "integer_local_hour in [0,1,2,3,4,5] OR Category_L1 == Social OR elapsed_session_minutes > 10",
+      "fitted": false,
+      "reported_metrics": [
+        "confusion_counts",
+        "precision",
+        "recall",
+        "actual_alert_share"
+      ],
+      "probability_metrics": false
+    },
+    "prompt_budget_or_cooldown_enabled": false
+  },
+  "known_user": {
+    "population_model_source": "refined_procedure_from_persons_outer_fold_training_universe",
+    "peer_availability": "Fixed participant-excluded reference archive, including peers whose real calendar dates may be later; no prospective common-calendar claim.",
+    "own_data_for_population_selection_or_calibration": false,
+    "local_day_start": "00:00",
+    "warmup_calendar_days": 7,
+    "day1": "Local midnight of first eligible prompt; a partial first day counts as day one.",
+    "first_evaluation_day": "Local day eight; evaluate every observed later day, retaining gaps in elapsed calendar days.",
+    "calendar_arithmetic": "Calendar DateOffset(days=1) in the fixed first-observed study timezone, respecting DST; never fixed 86400000-millisecond increments.",
+    "history_prompt_operator": "<",
+    "history_lock_operator": "<",
+    "history_cutoff": "Midnight in the fixed first-observed study timezone for the evaluated day, converted to UTC epoch milliseconds.",
+    "history_scope": "All own prior valid prompts with resolved outcomes before cutoff; cumulative, no window or decay.",
+    "same_session_on_both_sides": "Contract error; stop and investigate rather than remove future rows to improve a model.",
+    "variants": [
+      "global",
+      "personal_rate",
+      "global_plus_daily_personal_offset"
+    ],
+    "peer_prior": "(outer_training_positive_count+1)/(outer_training_row_count+2)",
+    "personal_rate": "(own_history_positive_count+10*peer_prior)/(own_history_row_count+10)",
+    "personal_offset": {
+      "map": "expit(logit(clipped_population_probability)+delta)",
+      "prior_mean": 0.0,
+      "prior_standard_deviation": 1.0,
+      "objective": "Sum own-history binary log loss + delta^2/2; own rows have uniform weight one.",
+      "delta_bounds": [
+        -10.0,
+        10.0
+      ],
+      "initial_delta": 0.0,
+      "optimizer": "scipy.optimize.minimize L-BFGS-B",
+      "maxiter": 1000,
+      "ftol": 1e-10,
+      "gtol": 1e-06,
+      "no_history_or_fit_failure": "delta=0, return global score and status",
+      "one_class_history": "Fit the same bounded regularized objective; do not fit a personal classifier.",
+      "objective_numeric_form": "Sum logaddexp(0,z+delta)-y*(z+delta) over resolved own history, plus delta^2/2, where z is clipped population logit."
+    },
+    "no_history_personal_rate": "peer_prior",
+    "hyperparameters_tuned_on_persons_evaluation_days": false,
+    "matching": "All three variants use every identical eligible post-warmup row; no variant-specific deletion.",
+    "daily_update_time": "Once at cutoff, before scoring that day; population model remains fixed.",
+    "evaluation_timezone": "timezone_at_first_chronological_prompt_stable_file_order_ties",
+    "timezone_changes": "Allowed. Keep first-observed reference timezone for evaluation days/cutoffs; use each row timezone for clock predictors. Do not pick a modal timezone from future history."
+  },
+  "metrics": {
+    "primary": "participant_balanced_pooled_average_precision",
+    "probability": [
+      "row_pooled_Brier",
+      "participant_balanced_Brier",
+      "row_pooled_log_loss",
+      "participant_balanced_log_loss"
+    ],
+    "ranking": [
+      "row_pooled_AP",
+      "row_pooled_ROC_AUC",
+      "participant_balanced_AP",
+      "mean_within_person_ROC_AUC",
+      "mean_within_person_AP",
+      "known_user_mean_within_person_day_ROC_AUC"
+    ],
+    "decisions": [
+      "tp",
+      "fp",
+      "fn",
+      "tn",
+      "precision",
+      "recall",
+      "actual_alert_share"
+    ],
+    "within_person_eligibility": "Both outcome classes on that persons complete evaluated rows; give eligible people equal weight.",
+    "within_person_day_eligibility": "Both classes in that local person-day; equal weight per eligible day; report eligible days and people.",
+    "single_class_people": "Retain in pooled AP, Brier, log loss and decisions.",
+    "no_positive_AP": "0 with no_positive status, preserve denominator; all-positive AP is 1.",
+    "undefined_AUC": "null plus class coverage; do not substitute 0.5.",
+    "zero_alert_precision": "0 plus zero_alert status.",
+    "probability_clip_for_logs": [
+      1e-06,
+      0.999999
+    ],
+    "reliability": {
+      "bin_edges": [
+        0.0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1.0
+      ],
+      "intervals": "[left,right), last includes 1",
+      "bin_weights": "participant-balanced; include raw row counts and aggregate positives",
+      "empty_bins": "omit from plotted points; retain counts in aggregate schema"
+    },
+    "diagnostic_stages": [
+      "resubstitution_train_optimistic",
+      "inner_validation_selection_diagnostic",
+      "outer_held_out_procedure_evaluation"
+    ],
+    "global_test_aggregation": "Assemble each persons unique outer-held-out predictions, then compute metrics; do not replace with unweighted fold-mean AP."
+  },
+  "contrasts": {
+    "primary": {
+      "population": "all new-user outer-held-out rows",
+      "metric": "participant_balanced_AP",
+      "difference": "refined_selector - fixed_baseline_selector",
+      "positive_means": "refined procedure improves",
+      "baseline": "inner-selected fixed LR/RF on main_context, identity calibration"
+    },
+    "secondary_prespecified": {
+      "population": "identical post-warmup known-user daily rows",
+      "metric": "participant_balanced_Brier",
+      "difference": "personal_rate - global_plus_daily_personal_offset",
+      "positive_means": "personal offset improves probability accuracy"
+    },
+    "supporting": "Fixed LR/RF anchors, fixed rule, population prior, global known-user scores and other metrics are supporting/descriptive; no post-hoc confirmatory winner.",
+    "interpretation": "Report point difference and paired interval. An interval including zero leaves improvement uncertain; no minimum score or successful improvement is required."
+  },
+  "uncertainty": {
+    "unit": "participant",
+    "reps": 2000,
+    "seed": 20261116,
+    "paired": true,
+    "interval": "95 percent percentile [2.5,97.5] over paired metric differences",
+    "resampling": "Sample G participants with replacement from the G evaluated participants; apply the same draws to both methods.",
+    "participant_balanced_bootstrap_weights": "Each row of participant g receives multiplicity_g/n_rows_g; do not re-normalize each unique sampled ID to total weight one and erase multiplicity.",
+    "point_weights": "1/n_rows_g",
+    "within_person_bootstrap": "Resample participant-level valid paired summaries; report eligible coverage.",
+    "undefined_replicates": "Do not redraw; report finite/undefined counts and form interval from finite values. AP no-positive convention remains zero.",
+    "conditional_limit": "Stored predictions are resampled; models and selection are not refitted, so intervals do not include full training/selection variability.",
+    "formal_multiple_testing_adjustment": false,
+    "inferential_scope": "One primary comparison; secondary/supporting comparisons are explicitly identified and not independent confirmations."
+  },
+  "execution": {
+    "order": [
+      "validate sealed protocol and data hashes",
+      "implement and pass risk-focused data/split tests",
+      "generate private deterministic fold/day manifests",
+      "fit fixed anchors and bounded inner candidates",
+      "choose structure/map/cutoffs wholly inside outer training",
+      "apply each outer procedure once and save private predictions",
+      "perform predetermined known-user daily comparison using excluded-fold population artifacts",
+      "produce aggregate metrics, paired uncertainty and figures",
+      "independent correctness review before writing final report"
+    ],
+    "upper_bound_base_fits_without_cache": 540,
+    "fit_budget_explanation": "5*(32 structures*3 inner fits + selected-structure 3 inner-training calibrations*3 calibration folds + up to 3 final refits). Final map reuses selected raw inner OOF scores. Calibration optimizations and daily one-parameter offsets are separate; record actual counts.",
+    "new_outer_results_opened_before_all_choices_frozen": false,
+    "no_early_stopping_or_adaptive_search": true,
+    "later_outer_inspection": "No new candidates, features, day conventions or thresholds in v1 after outer results.",
+    "record_per_run": [
+      "protocol hash",
+      "raw/source/config hashes",
+      "code hashes and Git state",
+      "Python/library/timezone versions",
+      "private manifests",
+      "candidate/selection traces",
+      "warnings/fallbacks",
+      "runtime/cache/fit counts",
+      "train/validation/outer coverage",
+      "private row predictions and artifacts"
+    ]
+  },
+  "outputs": {
+    "private_run_root": "deliverables/05_model_refinement_test_submission/run/",
+    "private": [
+      "participant/fold/session/day memberships",
+      "exact timestamps",
+      "raw and processed rows",
+      "per-row predictions",
+      "fitted estimators/calibrators",
+      "record-level logs"
+    ],
+    "public": [
+      "aggregate result JSON/CSV",
+      "configurations without participant IDs",
+      "coverage/fallback counts",
+      "aggregate figures",
+      "reviewed report and reproducible sources"
+    ],
+    "privacy_guard": "Check intended Git files for raw records, IDs, exact timestamps, app package names and serialized fitted artifacts before publication.",
+    "reports": "No submission or contact is authorized by freezing this protocol."
+  },
+  "acceptance_tests_required_before_training": [
+    "participant and upstream calibration-score isolation",
+    "future-label mutation leaves earlier personal predictions unchanged",
+    "strict lock cutoff including equality and unresolved outcomes",
+    "disjoint session identities across each history/evaluation boundary",
+    "timezone, DST, partial first day and midnight versus 04:00 fixtures",
+    "training-only imputation, scaling and feature order",
+    "outcome/identifier/demographic and excluded feature rejection",
+    "outer-score/label/distribution invariance of stored cutoffs",
+    "one-class/empty histories, all-negative validation, ties and zero alerts",
+    "matched masks/labels across methods and count reconciliation",
+    "participant weights and bootstrap multiplicities",
+    "calibrator fitting versus assessment separation",
+    "warnings/fallback logging and failure behavior",
+    "source-to-table and private-output checks"
+  ],
+  "known_limitations": [
+    "Previously explored data; retrospective internal validation only.",
+    "Current-app availability relies on released semantics and consistency, not original collector inspection.",
+    "Conservative input restriction changes the comparison with the historical 49-feature pipeline.",
+    "Reference peer archive is not a calendar-prospective simulation.",
+    "Sampled check-ins and predicted high-gap labels do not demonstrate intervention benefit.",
+    "Original HW5 template and Mac audit are unavailable locally; template requirements are inherited from the checked handoff.",
+    "Implementation does not yet exist; protocol preflight cannot establish implementation correctness.",
+    "Evaluation-day midnight is anchored to the first observed timezone; during travel it can differ from the current phone timezone."
+  ]
+}
