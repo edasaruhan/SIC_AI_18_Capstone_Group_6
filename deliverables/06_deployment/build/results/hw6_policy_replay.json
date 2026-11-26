@@ -1,0 +1,46 @@
+{
+  "source_run": "hw5-v1-step5-20261117",
+  "hw5_evaluation_sha256": "4b3ca05e98bd36e65590dfba8b042010212f69269d495a5043382b8ed9456e05",
+  "scope": "Retrospective replay on sampled check-ins. Delivery and interruption effects are unobserved.",
+  "calendar_day": "First observed timezone per participant. Denominator includes observed days with zero deliveries.",
+  "policy": {
+    "daily_cap": 3,
+    "cooldown_minutes": 30,
+    "cooldown_crosses_midnight": true,
+    "cap_takes_precedence": true
+  },
+  "methods": {
+    "refined_fixed_cutoffs": {
+      "participants": 37,
+      "observed_participant_days": 638,
+      "sampled_checkins": 5627,
+      "positive_labels": 718,
+      "candidate_flags": 939,
+      "delivered_prompts": 740,
+      "delivered_per_observed_participant_day": 1.1598746081504703,
+      "days_with_delivery": 380,
+      "cooldown_suppressions": 68,
+      "daily_cap_suppressions": 131,
+      "positive_labels_reached": 148,
+      "positive_labels_missed": 570,
+      "negative_label_deliveries": 592,
+      "deliveries_when_answer_at_least_6": 533
+    },
+    "fixed_three_signal_rule": {
+      "participants": 37,
+      "observed_participant_days": 638,
+      "sampled_checkins": 5627,
+      "positive_labels": 718,
+      "candidate_flags": 1375,
+      "delivered_prompts": 902,
+      "delivered_per_observed_participant_day": 1.4137931034482758,
+      "days_with_delivery": 446,
+      "cooldown_suppressions": 91,
+      "daily_cap_suppressions": 382,
+      "positive_labels_reached": 198,
+      "positive_labels_missed": 520,
+      "negative_label_deliveries": 704,
+      "deliveries_when_answer_at_least_6": 596
+    }
+  }
+}

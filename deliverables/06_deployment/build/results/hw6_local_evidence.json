@@ -1,0 +1,87 @@
+{
+  "status": "verified_local_prototype",
+  "synthetic_tests_passed": 16,
+  "export": {
+    "source_run": "hw5-v1-step5-20261117",
+    "outer_fold_index": 0,
+    "candidate_id": "time_session__lr_C10_balanced",
+    "hw5_evaluation_sha256": "4b3ca05e98bd36e65590dfba8b042010212f69269d495a5043382b8ed9456e05",
+    "model_version": "hw5-v1-fold-0-refined-hw6-v1",
+    "feature_order": [
+      "hour_sin",
+      "hour_cos",
+      "weekday_sin",
+      "weekday_cos",
+      "log_session_minutes"
+    ],
+    "input_dtype": "float64",
+    "validation_cutoff": 0.18169592248459593,
+    "onnx_sha256": "2200beddc215eca615cf6dbbd6cc780d3f166645dc95540c572a88161de6ff81",
+    "hw5_protocol_sha256": "566f08be28187c6c3ddfc7683eae43d1d9fac7caa0f63821fc71a843bb4a7d06",
+    "hw5_checkpoint_sha256": "4cf528d8727093c4fc806517778ba962b120e1aaebdd8bc67868d100abef5796",
+    "onnx_opset": 17,
+    "onnx_bytes": 1046,
+    "held_out_rows": 1320,
+    "held_out_participants": 8,
+    "max_feature_difference": 0.0,
+    "probability_tolerance": 1e-08,
+    "max_probability_difference": 1.8041124150158794e-16,
+    "disagreeing_alert_flags": 0,
+    "held_out_candidate_flags": 136
+  },
+  "serving": {
+    "transport": "sequential HTTP on 127.0.0.1, synthetic check-ins, one server process",
+    "warmup_requests": 30,
+    "timed_requests": 200,
+    "latency_p50_ms": 3.0527000017173123,
+    "latency_p95_ms": 4.388974999528727,
+    "synthetic_request": {
+      "local_hour": 9,
+      "local_weekday": 1,
+      "elapsed_minutes": 2.0
+    },
+    "synthetic_response": {
+      "model_version": "hw5-v1-fold-0-refined-hw6-v1",
+      "probability_high_gap": 0.15249288559416163,
+      "candidate_alert": false
+    },
+    "monitoring": {
+      "prediction_requests": 233,
+      "prediction_status_counts": {
+        "200": 231,
+        "401": 1,
+        "422": 1
+      },
+      "successful_predictions": 231,
+      "candidate_alert_rate": 0.45021645021645024,
+      "latency_window_size": 231,
+      "p95_success_ms": 2.12975
+    }
+  },
+  "environment": {
+    "os": "Windows",
+    "platform": "win-amd64",
+    "python": "3.11.9",
+    "packages": {
+      "onnx": "1.17.0",
+      "onnxruntime": "1.20.1",
+      "fastapi": "0.165.0",
+      "pydantic": "2.13.2",
+      "starlette": "1.10.0",
+      "uvicorn": "0.40.0",
+      "httpx": "0.28.1"
+    }
+  },
+  "code_sha256": {
+    "code/check_deployment.py": "627953bda1d0f91d6af015e32fe32219e4abf8a51b84a137e991de9cbc3a82af",
+    "code/nudgewell_hw6/__init__.py": "4f23d491d64e1315554df7e40610e3df12ce29ef55a3150dd44f917cd58e2242",
+    "code/nudgewell_hw6/api.py": "300b9ba8573b3c6d230418ace78be9886f7194eeb55dba8577f6f7528c56599b",
+    "code/nudgewell_hw6/bundle.py": "bafa30b2e17e299272111c8912823b4d07b02089480ff2554f1ef8b36588fef2",
+    "code/nudgewell_hw6/demo.py": "abbf48abf6d9ff40ed04559fae7a473dad3f709c34cb436dc55ccf6d7af16134",
+    "code/nudgewell_hw6/loopback.py": "98cd496b1b105787e2a49b5fd24ef8cc29c795afa204957c356d9255a6b6c431",
+    "code/run_demo.py": "3725b8dd2b71a9c9b133bd35cb89e3efe2a60a52f5b9ecdf0274892ebf04f866",
+    "code/run_local.py": "20d56bcf5dc02c3fdb7036fe472ec1fcbe53ab27f53d6317caa872761a1357c4",
+    "tests/test_deployment.py": "815768803d5ec972b453c0fbd25ae8c079574b74d9d20a8269f64260ad4793f6",
+    "tests/test_policy_replay.py": "a4d420a1cf5802831e2ef83ef988a95728c9f1c6bf8cc9fdfa019d0a84618640"
+  }
+}

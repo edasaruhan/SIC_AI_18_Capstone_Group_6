@@ -5,6 +5,8 @@ data/processed/
 deliverables/04_data_preparation_model_exploration/run/
 # Homework 5 private manifests, row predictions, fitted artifacts and local logs
 deliverables/05_model_refinement_test_submission/run/
+# Homework 6 local export, benchmark infrastructure and render scratch
+deliverables/06_deployment/run/
 predictions.csv
 
 # Office lock files and OS files

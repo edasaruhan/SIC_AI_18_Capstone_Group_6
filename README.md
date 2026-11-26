@@ -3,7 +3,9 @@
 **Samsung Innovation Campus (SIC) AI, Cohort 18 · Digital Addiction Capstone, in partnership with Yeşilay**
 Instructor: Eda Nur Saruhan
 
-NudgeWell predicts the **intention–behavior gap** within a single phone session: the moment a person feels they should stop using their phone but keeps going. When the prediction is confident, an opt-in Android prototype offers one short alternative that the user chose in advance; otherwise it stays quiet. The model is built on the public AwareMind dataset (Zheng & Choe, 2026): 5,772 in-session check-ins from 37 US adults, of which 5,627 are unique.
+NudgeWell evaluates high-gap prediction on previously collected check-ins and serves a verified reference model on desktop. A high-gap check-in combines a survey answer of 5 or lower with more than five minutes of further phone use. The AwareMind release contains 5,772 check-ins from 37 US adults, of which 5,627 are unique. Eşik, an earlier Android prototype, illustrates the intended phone interaction separately.
+
+HW5 found no clear new-user ranking gain from refinement. A daily personal offset modestly improved probability accuracy over a personal base rate. HW6 verifies export and local serving for one global HW5 fold. The showcase can run the same API through a data-free synthetic fixture. [Final handoff and showcase](deliverables/06_deployment/showcase/SUBMISSION.md)
 
 ## Homework submissions
 
@@ -14,6 +16,7 @@ NudgeWell predicts the **intention–behavior gap** within a single phone sessio
 | 3 | **Concept Note & Implementation Plan** | 20 Oct 2026 | [Concept note and plan (PDF, 17 pages)](deliverables/03_concept_note_implementation_plan/NudgeWell_Group6_Concept_Note_Implementation_Plan.pdf) | The document as a Word file; architecture diagram and Gantt chart; build sources |
 | 4 | **Data Preparation / Feature Engineering and Model Exploration** | – | [Report (PDF, 13 pages)](deliverables/04_data_preparation_model_exploration/NudgeWell_Group6_Data_Preparation_Model_Exploration.pdf) | The report as a Word file; seven figures; [the analysis script](deliverables/04_data_preparation_model_exploration/code/hw4_pipeline.py) behind every number; build sources and aggregate results |
 | 5 | **Model Refinement and Test Submission** | 12 Nov 2026 | [Report (PDF, 7 pages)](deliverables/05_model_refinement_test_submission/NudgeWell_HW5_Model_Refinement_and_Test_Submission.pdf) | [Word report](deliverables/05_model_refinement_test_submission/NudgeWell_HW5_Model_Refinement_and_Test_Submission.docx), frozen protocol, evaluation code and tests, figures, and aggregate results |
+| 6 | **Deployment** | – | [Report (PDF)](deliverables/06_deployment/NudgeWell_Group6_HW6_Deployment.pdf) | [Word report](deliverables/06_deployment/NudgeWell_Group6_HW6_Deployment.docx), local serving code, tests, and aggregate export and benchmark evidence |
 
 Each homework folder has its own README that lists every file.
 
@@ -44,11 +47,15 @@ deliverables/
 │   ├── code/                               the analysis script behind every number
 │   ├── figures/                            Figures 1–7
 │   └── build/                              figure and Word-file scripts, synthetic-data checks, results
-└── 05_model_refinement_test_submission/   Homework 5
-    ├── code/                               participant-aware selection and evaluation
-    ├── tests/                              synthetic unit and integration checks
-    ├── figures/                            three evaluation figures
-    └── build/                              frozen protocol, aggregate results, and report scripts
+├── 05_model_refinement_test_submission/   Homework 5
+│   ├── code/                               participant-aware selection and evaluation
+│   ├── tests/                              synthetic unit and integration checks
+│   ├── figures/                            three evaluation figures
+│   └── build/                              frozen protocol, aggregate results, and report scripts
+└── 06_deployment/                          Homework 6
+    ├── code/                               HW5 model export and loopback serving
+    ├── tests/                              serialization, API, and integrity checks
+    └── build/                              aggregate evidence and report scripts
 notebooks/
 └── 01_awaremind_eda.ipynb                  analysis behind every statistic in Homework 2
 data/
