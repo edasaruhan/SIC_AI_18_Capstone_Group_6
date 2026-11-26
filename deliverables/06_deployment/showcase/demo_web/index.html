@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="nudgewell-key" content="__NUDGEWELL_KEY__">
+<title>NudgeWell · Deniz'in bir günü</title>
+<style>
+  :root {
+    --ink: #15302A; --pale: #F5F3EC; --olive: #557366; --line: #CAD2C6;
+    --rust: #922F36; --mint: #D3E8D7; --white: #FFFFFF; --amber: #B7791F;
+    --font: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--ink); overflow: hidden; }
+  body { font-family: var(--font); color: var(--ink); }
+  /* A fixed 1280x720 stage scaled to the window keeps the layout identical on any screen share. */
+  #stage { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; transform-origin: 0 0;
+    background: var(--pale); display: grid; grid-template-columns: 420px 1fr; grid-template-rows: 64px 1fr 54px; }
+  header { grid-column: 1 / 3; display: flex; align-items: center; gap: 16px; padding: 0 28px;
+    background: var(--ink); color: var(--white); }
+  header h1 { font-size: 22px; margin: 0; font-weight: 700; letter-spacing: .2px; }
+  header h1 span { color: var(--mint); font-weight: 600; }
+  .chip { font-size: 13px; padding: 5px 11px; border-radius: 999px; white-space: nowrap; }
+  .chip.label { background: var(--mint); color: var(--ink); font-weight: 600; margin-left: auto; }
+  .chip.mode { border: 1px solid var(--mint); color: var(--mint); }
+  .chip.mode.recorded { border-color: #F2C879; color: #F2C879; }
+
+  /* Phone */
+  #phoneCol { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding-top: 6px; }
+  .phone { position: relative; width: 300px; height: 560px; border-radius: 42px; background: #0E1F1B;
+    padding: 12px; box-shadow: 0 18px 40px rgba(21,48,42,.28); }
+  .screen { position: relative; width: 100%; height: 100%; border-radius: 32px; overflow: hidden;
+    background: linear-gradient(170deg, #2B4A42 0%, #15302A 70%); color: var(--white); }
+  .statusbar { display: flex; justify-content: space-between; padding: 14px 22px 0; font-size: 14px; font-weight: 600; opacity: .9; }
+  .bigclock { text-align: center; font-size: 58px; font-weight: 300; margin-top: 14px; letter-spacing: 1px; font-variant-numeric: tabular-nums; }
+  .datestr { text-align: center; font-size: 15px; opacity: .75; margin-top: 2px; }
+  .appcard { margin: 16px 20px 0; padding: 14px 18px; border-radius: 20px; background: rgba(255,255,255,.1);
+    transition: opacity .3s; }
+  .appcard .name { font-size: 22px; font-weight: 700; }
+  .appcard .mins { font-size: 15px; opacity: .8; margin-top: 4px; }
+  .quietdot { position: absolute; left: 0; right: 0; bottom: 26px; text-align: center; font-size: 13px; opacity: .7; }
+
+  .nudge { position: absolute; left: 14px; right: 14px; bottom: 18px; background: var(--white); color: var(--ink);
+    border-radius: 24px; padding: 20px 18px 16px; box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    transform: translateY(130%); transition: transform .45s cubic-bezier(.2,.8,.2,1); }
+  .nudge.show { transform: translateY(0); }
+  .nudge .brand { font-size: 12px; font-weight: 700; color: var(--olive); letter-spacing: .6px; text-transform: uppercase; }
+  .nudge .q { font-size: 21px; font-weight: 700; line-height: 1.25; margin: 6px 0 6px; }
+  .nudge .ctx { font-size: 14px; color: var(--olive); }
+  .nudge .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+  .nudge button { font: inherit; font-size: 15px; font-weight: 600; border-radius: 14px; padding: 11px 6px; cursor: pointer; border: 0; }
+  .nudge .yes { background: var(--pale); color: var(--ink); }
+  .nudge .no { background: var(--ink); color: var(--white); }
+  .nudge .foot { font-size: 12px; color: var(--olive); margin-top: 10px; text-align: center; }
+  .nudge .after { font-size: 16px; font-weight: 600; margin-top: 12px; display: none; }
+  .nudge.answered .btns { display: none; }
+  .nudge.answered .after { display: block; }
+  .nudge.waiting { outline: 3px solid var(--rust); outline-offset: 3px; }
+  .caption { width: 380px; min-height: 46px; text-align: center; font-size: 15px; line-height: 1.35; color: var(--ink); }
+  .caption b { color: var(--rust); }
+
+  /* Right column */
+  main { padding: 18px 30px 0 8px; display: grid; grid-template-rows: auto auto auto 1fr; gap: 14px; }
+  .panel { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 14px 18px; }
+  .counters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .counter .k { font-size: 13px; color: var(--olive); font-weight: 600; }
+  .counter .v { font-size: 34px; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .counter .s { font-size: 13px; color: var(--olive); }
+  .counter.timer .v { color: var(--rust); }
+
+  .risk .row { display: flex; justify-content: space-between; align-items: baseline; }
+  .risk .k { font-size: 14px; font-weight: 700; }
+  .risk .d { font-size: 14px; color: var(--olive); }
+  .bar { position: relative; height: 22px; border-radius: 11px; background: var(--pale); border: 1px solid var(--line); margin-top: 10px; overflow: visible; }
+  .bar .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: 11px; background: var(--olive); transition: width .5s, background .3s; }
+  .bar .fill.over { background: var(--rust); }
+  .bar .cut { position: absolute; top: -6px; bottom: -6px; width: 3px; background: var(--ink); border-radius: 2px; }
+  .bar .cutlbl { position: absolute; top: 26px; font-size: 12px; color: var(--ink); transform: translateX(-50%); white-space: nowrap; }
+  .axis { display: flex; justify-content: space-between; font-size: 11px; color: var(--olive); margin-top: 22px; }
+
+  .lanes .lane { position: relative; height: 40px; border-bottom: 1px dashed var(--line); }
+  .lanes .lane:last-of-type { border-bottom: 0; }
+  .lanes .lname { position: absolute; left: 0; top: 10px; font-size: 13px; font-weight: 700; width: 120px; }
+  .lanes .track { position: absolute; left: 130px; right: 4px; top: 0; bottom: 0; }
+  .mark { position: absolute; top: 50%; transform: translate(-50%, -50%); font-size: 18px; line-height: 1; transition: opacity .3s; }
+  .mark.asked { width: 13px; height: 13px; border-radius: 50%; background: var(--rust); }
+  .mark.cool { width: 13px; height: 13px; border-radius: 50%; border: 3px solid var(--amber); background: var(--white); }
+  .mark.cap { width: 12px; height: 12px; background: var(--amber); }
+  .mark.quiet { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+  .mark.fire { width: 0; height: 0; border-left: 9px solid transparent; border-right: 9px solid transparent; border-bottom: 16px solid var(--ink); }
+  .cursor { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--olive); opacity: .5; transition: left .5s; }
+  .hours { position: relative; height: 16px; margin-left: 130px; margin-right: 4px; font-size: 11px; color: var(--olive); }
+  .hours span { position: absolute; transform: translateX(-50%); }
+  .legend { font-size: 12px; color: var(--olive); margin-top: 8px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .legend i { display: inline-block; vertical-align: middle; margin-right: 5px; position: static; transform: none; }
+
+  .api { font-family: var(--mono); font-size: 12.5px; line-height: 1.5; color: var(--ink); overflow: hidden; }
+  .api .h { font-family: var(--font); font-size: 13px; font-weight: 700; display: flex; justify-content: space-between; margin-bottom: 4px; }
+  .api .h span { font-weight: 600; color: var(--olive); }
+  .api .ok { color: var(--olive); font-weight: 700; }
+  .api .warn { color: var(--rust); font-weight: 700; }
+
+  footer { grid-column: 1 / 3; display: flex; align-items: center; gap: 12px; padding: 0 28px; border-top: 1px solid var(--line); background: var(--white); }
+  footer button { font: inherit; font-size: 15px; font-weight: 600; padding: 8px 18px; border-radius: 10px; border: 1px solid var(--ink); background: var(--ink); color: var(--white); cursor: pointer; }
+  footer button.ghost { background: var(--white); color: var(--ink); }
+  footer .hint { font-size: 12.5px; color: var(--olive); }
+  footer .about { margin-left: auto; font-size: 12.5px; color: var(--olive); max-width: 560px; text-align: right; }
+
+  #summary { position: absolute; left: 448px; right: 30px; top: 82px; bottom: 72px; background: rgba(21,48,42,.97); color: var(--white);
+    border-radius: 18px; padding: 34px 40px; display: none; flex-direction: column; gap: 18px; }
+  #summary.show { display: flex; }
+  #summary h2 { margin: 0; font-size: 28px; }
+  #summary .line { display: flex; align-items: baseline; gap: 18px; font-size: 22px; }
+  #summary .line b { font-size: 44px; min-width: 70px; text-align: right; }
+  #summary .line.t b { color: #F2C879; }
+  #summary .line.n b { color: var(--mint); }
+  #summary .fine { margin-top: auto; font-size: 15px; opacity: .8; line-height: 1.45; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <header>
+    <h1>NudgeWell <span>· Deniz'in bir günü</span></h1>
+    <div class="chip label">Temsili, elle ayarlanmış model · dağıtılan modelle aynı yerel API</div>
+    <div class="chip mode" id="modeChip">Bağlanıyor…</div>
+  </header>
+
+  <section id="phoneCol">
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span id="sbClock">07:00</span><span>Salı</span></div>
+      <div class="bigclock" id="bigClock">07:00</div>
+      <div class="datestr">Uydurma bir hafta içi günü</div>
+      <div class="appcard" id="appCard" style="opacity:0">
+        <div class="name" id="appName">–</div>
+        <div class="mins" id="appMins">–</div>
+      </div>
+      <div class="quietdot" id="quietDot">NudgeWell arka planda, sessiz</div>
+      <div class="nudge" id="nudge">
+        <div class="brand">NudgeWell</div>
+        <div class="q">Hâlâ telefonda olmak istiyor musun?</div>
+        <div class="ctx" id="nudgeCtx">–</div>
+        <div class="btns">
+          <button class="yes" id="btnYes">Evet, devam</button>
+          <button class="no" id="btnNo">Hayır, bırakıyorum</button>
+        </div>
+        <div class="after" id="nudgeAfter">–</div>
+        <div class="foot" id="nudgeFoot">–</div>
+      </div>
+    </div></div>
+    <div class="caption" id="caption">Başlamak için <b>Oynat</b>.</div>
+  </section>
+
+  <main>
+    <div class="panel counters">
+      <div class="counter"><div class="k">NudgeWell soruları</div><div class="v" id="cAsked">0 / 3</div><div class="s">günde en fazla 3</div></div>
+      <div class="counter"><div class="k">Kendi sınırıyla bekletti</div><div class="v" id="cHeld">0</div><div class="s">en az 30 dk ara · günlük sınır</div></div>
+      <div class="counter timer"><div class="k">15 dk zamanlayıcı bölerdi</div><div class="v" id="cTimer">0</div><div class="s">yalnızca dakikaya bakar</div></div>
+    </div>
+
+    <div class="panel risk">
+      <div class="row"><div class="k">Boşluk riski (temsili model)</div><div class="d" id="riskTxt">–</div></div>
+      <div class="bar"><div class="fill" id="riskFill"></div><div class="cut" id="riskCut"></div><div class="cutlbl" id="riskCutLbl">eşik</div></div>
+      <div class="axis"><span>0</span><span>0,25</span><span>0,50</span><span>0,75</span><span>1</span></div>
+    </div>
+
+    <div class="panel lanes">
+      <div class="hours" id="hours"></div>
+      <div class="lane"><div class="lname">NudgeWell</div><div class="track" id="laneN"><div class="cursor" id="cursorN"></div></div></div>
+      <div class="lane"><div class="lname">15 dk zamanlayıcı</div><div class="track" id="laneT"><div class="cursor" id="cursorT"></div></div></div>
+      <div class="legend">
+        <span><i class="mark asked"></i>sordu</span>
+        <span><i class="mark cool"></i>bekletti: 30 dk ara</span>
+        <span><i class="mark cap"></i>bekletti: günlük sınır</span>
+        <span><i class="mark quiet"></i>sessiz</span>
+        <span><i class="mark fire"></i>zamanlayıcı bölerdi</span>
+      </div>
+    </div>
+
+    <div class="panel api" id="api">
+      <div class="h">Yerel API <span id="apiMeta">–</span></div>
+      <div id="apiBody">Henüz istek yok.</div>
+    </div>
+  </main>
+
+  <footer>
+    <button id="btnPlay">Oynat</button>
+    <button class="ghost" id="btnReset">Baştan</button>
+    <span class="hint">Boşluk: oynat / duraklat · R: baştan · 1 / 2: kart yanıtı</span>
+    <span class="about">Uydurma bir gün, temsili bir kullanıcı. Davranışı gösterir, kanıt değildir. Uygulama adı modele gönderilmez.</span>
+  </footer>
+
+  <div id="summary">
+    <h2>Günün sonu</h2>
+    <div class="line t"><b id="sTimer">0</b><span>kez bölerdi: 15 dakikalık zamanlayıcı, yalnızca dakikaya bakarak</span></div>
+    <div class="line n"><b id="sAsked">0</b><span>kez sordu: NudgeWell, en fazla 3 soru hakkıyla</span></div>
+    <div class="line n"><b id="sHeld">0</b><span>anda aday olduğu hâlde kendi sınırları nedeniyle sormadı</span></div>
+    <div class="fine">Bu uydurma bir gündür ve elle ayarlanmış temsili bir model kullanır: ürünün nasıl davrandığını gösterir, daha iyi hedeflediğini kanıtlamaz.
+      Gerçek karşılaştırma sonuç slaytındadır. Puanlar, dağıtılan modelle aynı yerel API'den gelir.</div>
+  </div>
+</div>
+
+<script src="day.js"></script>
+<script>
+(() => {
+  "use strict";
+  const DAY = window.NUDGEWELL_DAY;
+  const KEY = document.querySelector('meta[name="nudgewell-key"]').content;
+  const STEP_MS = 2600, CARD_MS = 3200, START_MIN = 7 * 60, END_MIN = 24 * 60;
+  const $ = (id) => document.getElementById(id);
+  const toMin = (t) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3));
+  const pct = (t) => ((toMin(t) - START_MIN) / (END_MIN - START_MIN)) * 100;
+  const fmt = (p) => p.toFixed(3).replace(".", ",");
+
+  // Fit the fixed stage to the window.
+  function fit() {
+    const s = Math.min(innerWidth / 1280, innerHeight / 720);
+    const stage = $("stage");
+    stage.style.transform = `scale(${s})`;
+    stage.style.left = `${(innerWidth - 1280 * s) / 2}px`;
+    stage.style.top = `${(innerHeight - 720 * s) / 2}px`;
+  }
+  addEventListener("resize", fit); fit();
+
+  for (let h = 8; h <= 24; h += 2) {
+    const span = document.createElement("span");
+    span.textContent = String(h % 24).padStart(2, "0") + ":00";
+    span.style.left = (((h * 60) - START_MIN) / (END_MIN - START_MIN)) * 100 + "%";
+    $("hours").appendChild(span);
+  }
+  $("riskCut").style.left = DAY.cutoff * 100 + "%";
+  $("riskCutLbl").style.left = DAY.cutoff * 100 + "%";
+  $("riskCutLbl").textContent = "eşik " + fmt(DAY.cutoff).replace(/0+$/, "");
+
+  let live = location.protocol.startsWith("http") && KEY !== "__NUDGEWELL_" + "KEY__";
+  // One timer, one pending action: play/pause never starts a second step while one is running.
+  let idx = -1, playing = false, waiting = false, busy = false, done = false;
+  let timer = null, pending = null, asked = 0, held = 0, fires = 0;
+  const sent = [];
+
+  function setMode(kind) {
+    const chip = $("modeChip");
+    chip.classList.toggle("recorded", kind !== "live");
+    chip.textContent = kind === "live" ? "Canlı yerel API" : kind === "fallback"
+      ? "Kayıtlı yanıtlar (API'ye ulaşılamadı)" : "Kayıtlı yanıtlar (çevrimdışı yedek)";
+  }
+
+  async function checkHealth() {
+    if (!live) { setMode("recorded"); return; }
+    try {
+      const r = await fetch("/health", { cache: "no-store" });
+      if (!r.ok) throw new Error();
+      setMode("live");
+    } catch { live = false; setMode("fallback"); }
+  }
+
+  async function scoreLive(c) {
+    const request = { local_hour: Number(c.time.slice(0, 2)), local_weekday: 1, elapsed_minutes: Number(c.elapsed_minutes) };
+    const headers = { "Content-Type": "application/json", "X-API-Key": KEY };
+    const t0 = performance.now();
+    const r = await fetch("/v1/predict", { method: "POST", headers, body: JSON.stringify(request) });
+    const response = await r.json();
+    const ms = performance.now() - t0;
+    if (!r.ok) throw new Error("predict " + r.status);
+    sent.push({ time: c.time, candidate: response.candidate_alert, elapsed: Number(c.elapsed_minutes) });
+    const p = await fetch("/showcase/policy", { method: "POST", headers, body: JSON.stringify({
+      times: sent.map(s => s.time), candidates: sent.map(s => s.candidate), elapsed_minutes: sent.map(s => s.elapsed) }) });
+    if (!p.ok) throw new Error("policy " + p.status);
+    const policy = await p.json();
+    return { request, response, ms, status: r.status, decision: policy.decisions[sent.length - 1],
+             timer_fires: policy.timer_fires[sent.length - 1] };
+  }
+
+  function showApi(res, c, recorded) {
+    const drift = !recorded && Math.abs(res.response.probability_high_gap - c.response.probability_high_gap) > 1e-9;
+    $("apiMeta").textContent = recorded ? "kayıtlı yanıt" : `${DAY.model_version} · ${res.ms.toFixed(1)} ms`;
+    $("apiBody").innerHTML =
+      `POST /v1/predict ${JSON.stringify(res.request)}<br>` +
+      `→ <span class="ok">${recorded ? "kayıt" : res.status}</span> {"probability_high_gap": ${res.response.probability_high_gap.toFixed(4)}, "candidate_alert": ${res.response.candidate_alert}}<br>` +
+      `POST /showcase/policy → <span class="ok">${res.decision}</span> (günde ${DAY.daily_cap}, ${DAY.cooldown_minutes} dk ara)` +
+      (drift ? `<br><span class="warn">Uyarı: canlı puan kayıtlı yedekten farklı.</span>` : "");
+  }
+
+  function mark(lane, cls, t) {
+    const m = document.createElement("i");
+    m.className = "mark " + cls; m.style.left = pct(t) + "%";
+    $(lane).appendChild(m);
+  }
+
+  const CAPTIONS = {
+    not_flagged: "<b>Sessiz.</b> Risk eşiğin altında.",
+    delivered: "<b>Sordu.</b> Risk eşiğin üstünde ve sınırlar uygun.",
+    cooldown: "<b>Sormadı.</b> Son sorudan bu yana 30 dakika geçmedi.",
+    daily_cap: "<b>Sormadı.</b> Bugünkü 3 soru hakkı doldu.",
+  };
+
+  async function step() {
+    if (done || waiting || busy) return;
+    busy = true;
+    try { await runStep(); } finally { busy = false; }
+  }
+
+  async function runStep() {
+    idx += 1;
+    if (idx >= DAY.checkins.length) { finish(); return; }
+    const c = DAY.checkins[idx];
+    $("bigClock").textContent = c.time; $("sbClock").textContent = c.time;
+    $("appCard").style.opacity = 1;
+    $("appName").textContent = c.app;
+    $("appMins").textContent = `Bu oturumda ${c.elapsed_minutes} dakikadır açık`;
+    $("cursorN").style.left = pct(c.time) + "%"; $("cursorT").style.left = pct(c.time) + "%";
+    $("caption").innerHTML = `${c.time} · ${c.app} · ${c.elapsed_minutes} dk: puanlanıyor…`;
+
+    let res = null, recorded = !live;
+    if (live) {
+      try { res = await scoreLive(c); }
+      catch { live = false; recorded = true; setMode("fallback"); }
+    }
+    if (recorded) res = { request: c.request, response: c.response, ms: 0, status: 200, decision: c.decision, timer_fires: c.timer_fires };
+    showApi(res, c, recorded);
+
+    const p = res.response.probability_high_gap;
+    $("riskFill").style.width = Math.min(100, p * 100) + "%";
+    $("riskFill").classList.toggle("over", res.response.candidate_alert);
+    $("riskTxt").textContent = `${fmt(p)} · ${res.response.candidate_alert ? "eşiğin üstünde" : "eşiğin altında"}`;
+
+    const kind = { not_flagged: "quiet", delivered: "asked", cooldown: "cool", daily_cap: "cap" }[res.decision];
+    mark("laneN", kind, c.time);
+    if (res.timer_fires) { fires += 1; mark("laneT", "fire", c.time); }
+    if (res.decision === "cooldown" || res.decision === "daily_cap") held += 1;
+    $("cTimer").textContent = fires; $("cHeld").textContent = held;
+    $("caption").innerHTML = `${c.time} · ${c.app} · ${c.elapsed_minutes} dk<br>${CAPTIONS[res.decision]}` +
+      (res.timer_fires ? " Zamanlayıcı bölerdi." : "");
+
+    if (res.decision === "delivered") {
+      asked += 1; $("cAsked").textContent = `${asked} / ${DAY.daily_cap}`;
+      showCard(c, asked === DAY.daily_cap);
+      if (asked === DAY.daily_cap) { waiting = true; pause(); $("nudge").classList.add("waiting"); return; }
+      schedule(CARD_MS, () => { hideCard(); schedule(900, step); });
+      return;
+    }
+    schedule(idx === DAY.checkins.length - 1 ? 4500 : STEP_MS, step);   // hold the last moment (the cap) longer
+  }
+
+  function showCard(c, last) {
+    const n = $("nudge");
+    n.classList.remove("answered", "waiting");
+    $("nudgeCtx").textContent = `${c.app} · ${c.elapsed_minutes} dakikadır açık`;
+    $("nudgeFoot").textContent = last ? `Bugünkü son soru (${DAY.daily_cap}/${DAY.daily_cap})` : `Bugünkü ${asked}. soru · en fazla ${DAY.daily_cap}`;
+    $("quietDot").style.opacity = 0;
+    n.classList.add("show");
+  }
+  function hideCard() { $("nudge").classList.remove("show", "waiting"); $("quietDot").style.opacity = .7; }
+
+  function answer(stop) {
+    const n = $("nudge");
+    if (!n.classList.contains("show") || n.classList.contains("answered")) return;
+    n.classList.add("answered"); n.classList.remove("waiting");
+    $("nudgeAfter").textContent = stop ? "Kendi listenden bir öneri: 5 dakikalık yürüyüş." : "Tamam, karar senin. Bugün başka sormayacak.";
+    if (waiting) {
+      // The final question resumes the day once the presenter has answered.
+      waiting = false; playing = true; $("btnPlay").textContent = "Duraklat";
+      schedule(2400, () => { hideCard(); schedule(900, step); });
+    }
+  }
+
+  function schedule(ms, fn) {
+    clearTimer();
+    timer = setTimeout(() => { timer = null; if (playing) fn(); else pending = fn; }, ms);
+  }
+  function clearTimer() { if (timer) { clearTimeout(timer); timer = null; } }
+
+  function play() {
+    if (done) return;
+    playing = true; $("btnPlay").textContent = "Duraklat";
+    if (waiting || busy || timer) return;          // the card, a request or a timer is already in charge
+    if (pending) { const f = pending; pending = null; f(); } else step();
+  }
+  function pause() { playing = false; if (!done) $("btnPlay").textContent = "Oynat"; }
+
+  function finish() {
+    done = true; playing = false; clearTimer(); pending = null;
+    $("sTimer").textContent = fires; $("sAsked").textContent = asked; $("sHeld").textContent = held;
+    $("summary").classList.add("show");
+    $("caption").innerHTML = "Günün sonu. <b>Baştan</b> ile yeniden oynatılır.";
+    $("btnPlay").textContent = "Bitti";
+  }
+
+  function reset() {
+    if (busy) return;                               // wait for the in-flight request
+    clearTimer(); pending = null;
+    idx = -1; playing = false; waiting = false; done = false; asked = 0; held = 0; fires = 0; sent.length = 0;
+    document.querySelectorAll(".track .mark").forEach(m => m.remove());
+    hideCard(); $("nudge").classList.remove("answered");
+    $("summary").classList.remove("show");
+    $("cAsked").textContent = `0 / ${DAY.daily_cap}`; $("cHeld").textContent = "0"; $("cTimer").textContent = "0";
+    $("riskFill").style.width = "0"; $("riskTxt").textContent = "–";
+    $("bigClock").textContent = "07:00"; $("sbClock").textContent = "07:00"; $("appCard").style.opacity = 0;
+    $("cursorN").style.left = "0"; $("cursorT").style.left = "0";
+    $("apiMeta").textContent = "–"; $("apiBody").textContent = "Henüz istek yok.";
+    $("caption").innerHTML = "Başlamak için <b>Oynat</b>.";
+    $("btnPlay").textContent = "Oynat";
+    live = location.protocol.startsWith("http") && KEY !== "__NUDGEWELL_" + "KEY__";
+    checkHealth();
+  }
+
+  // Blur after each click so a later Space press reaches only the keyboard handler (no double toggle).
+  const onClick = (id, fn) => $(id).addEventListener("click", (e) => { e.currentTarget.blur(); fn(); });
+  onClick("btnPlay", () => (playing ? pause() : play()));
+  onClick("btnReset", reset);
+  onClick("btnYes", () => answer(false));
+  onClick("btnNo", () => answer(true));
+  addEventListener("keydown", (e) => {
+    if (e.code === "Space") { e.preventDefault(); playing ? pause() : play(); }
+    else if (e.key === "r" || e.key === "R") reset();
+    else if (e.key === "1") answer(false);
+    else if (e.key === "2") answer(true);
+  });
+
+  checkHealth();
+})();
+</script>
+</body>
+</html>

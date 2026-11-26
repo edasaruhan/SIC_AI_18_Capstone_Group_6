@@ -1,0 +1,18 @@
+{
+  "about": "One fictional weekday for an illustrative user (Deniz). Every check-in is invented. The app name is shown on screen only and is never sent to the model.",
+  "date": "2026-12-01",
+  "local_weekday": 1,
+  "timer_minutes": 15,
+  "checkins": [
+    {"time": "07:40", "app": "Haberler", "elapsed_minutes": 6},
+    {"time": "09:15", "app": "E-posta", "elapsed_minutes": 9},
+    {"time": "12:50", "app": "YouTube", "elapsed_minutes": 18},
+    {"time": "16:30", "app": "WhatsApp", "elapsed_minutes": 4},
+    {"time": "20:30", "app": "Instagram", "elapsed_minutes": 22},
+    {"time": "20:50", "app": "Instagram", "elapsed_minutes": 18},
+    {"time": "21:40", "app": "YouTube", "elapsed_minutes": 25},
+    {"time": "22:30", "app": "WhatsApp", "elapsed_minutes": 3},
+    {"time": "23:10", "app": "Instagram", "elapsed_minutes": 25},
+    {"time": "23:55", "app": "Kısa videolar", "elapsed_minutes": 20}
+  ]
+}

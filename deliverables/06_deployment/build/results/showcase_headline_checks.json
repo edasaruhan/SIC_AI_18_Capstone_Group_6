@@ -1,0 +1,67 @@
+{
+ "stop_leaning": {
+  "n": 1489,
+  "over5": 718,
+  "over5_pct": 48.2
+ },
+ "continue_leaning_over5_pct": 50.9,
+ "answer1_over5_pct": 26.7,
+ "daily_all": {
+  "rows": 3772,
+  "positives": 484,
+  "prevalence_pct": 12.8,
+  "global": {
+   "precision_pct": 16.9,
+   "recall_pct": 22.3,
+   "alert_share_pct": 16.9
+  },
+  "personal_rate": {
+   "precision_pct": 32.9,
+   "recall_pct": 73.6,
+   "alert_share_pct": 28.7
+  },
+  "offset": {
+   "precision_pct": 33.6,
+   "recall_pct": 73.3,
+   "alert_share_pct": 28.0
+  },
+  "fixed_rule": {
+   "precision_pct": 20.4,
+   "recall_pct": 39.5,
+   "alert_share_pct": 24.8
+  }
+ },
+ "daily_without_most_extreme_person": {
+  "global": {
+   "precision_pct": 13.0
+  },
+  "personal_rate": {
+   "precision_pct": 24.9
+  },
+  "offset": {
+   "precision_pct": 25.5
+  },
+  "fixed_rule": {
+   "precision_pct": 16.3
+  },
+  "prevalence_pct": 10.1
+ },
+ "daily_per_person_median": {
+  "global": {
+   "median_person_precision_pct": 6.2,
+   "people": 36
+  },
+  "personal_rate": {
+   "median_person_precision_pct": 25.3,
+   "people": 14
+  },
+  "offset": {
+   "median_person_precision_pct": 18.8,
+   "people": 19
+  },
+  "fixed_rule": {
+   "median_person_precision_pct": 4.7,
+   "people": 37
+  }
+ }
+}
